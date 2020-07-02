@@ -53,7 +53,32 @@ class _AllDataa extends State<AllDataa> {
               child: Text('query', style: TextStyle(fontSize: 20),),
               onPressed: () {_querycountriesdatatable();},
             ),
-             
+             RaisedButton(
+              child: Text('query', style: TextStyle(fontSize: 20),),
+              onPressed: () {msdela();
+                _querylicenseclassdatatable();},
+            ),
+             RaisedButton(
+              child: Text('query', style: TextStyle(fontSize: 20),),
+              onPressed: () {msdela();
+                _querylicensecodesdatatable();},
+            ),
+            RaisedButton(
+              child: Text('query', style: TextStyle(fontSize: 20),),
+              onPressed: () {msdela();
+                _querylicensetitlesdatatable();},
+            ),
+             RaisedButton(
+              child: Text('query', style: TextStyle(fontSize: 20),),
+              onPressed: () {msdela();
+                _querylicensetypedatatable();},
+            ),
+             RaisedButton(
+              child: Text('query', style: TextStyle(fontSize: 20),),
+              onPressed: () {msdela();
+                _querystatedatatable();},
+            ),
+            //
             // RaisedButton(
             //   child: Text('query', style: TextStyle(fontSize: 20),),
             //   onPressed: () {_queryclassb();},
@@ -101,14 +126,50 @@ class _AllDataa extends State<AllDataa> {
        m= countriesdata[dat]['countryCode'];
        n= countriesdata[dat]['countryName'];
        b= countriesdata[dat]['countryPhone'];
-   _insertcountriesdatatable(a,m,n,b);
+       print("$a $m $n $b");
+  _insertcountriesdatatable(a,m,n,b);
+  }print('class');
+  msdela();
+     for(dat=0;dat<licenseclassdata.length;dat++){ 
+       a= licenseclassdata[dat]['id'];
+       m= licenseclassdata[dat]['className'];
+    print("$a $m ");
+   _insertlicenseclassdatatable(a,m);
   }
-    // for(dat=0;dat<licenseclassdata.length;dat++){ 
-    //  a= licenseclassdata[dat]['className'];
-    // e= licenseclassdata[dat]['id'];
-    // _insert(licenseclassdata[dat]['className'] , licenseclassdata[dat]['id']); 
-    // }}}
-   
+  msdela();print('code');
+   for(dat=0;dat<licensecodesdata.length;dat++){ 
+       a= licensecodesdata[dat]['id'];
+       m= licensecodesdata[dat]['code'];
+
+      print("$a $m ");
+  _insertlicensecodesdatatable(a,m);
+  }
+   msdela();
+   print('title');
+    for(dat=0;dat<licensetitlesdata.length;dat++){ 
+       a= licensetitlesdata[dat]['id'];
+       m= licensetitlesdata[dat]['title'];
+       
+    print("$a $m "); 
+   _insertlicensetitlesdatatable(a,m);
+  } 
+  msdela(); print('tpe');
+    for(dat=0;dat<licensetypedata.length;dat++){ 
+       a= licensetypedata[dat]['id'];
+       m= licensetypedata[dat]['typeName'].toString();
+      
+      print("$a $m $n $b");
+  _insertlicensetypedatatable(a,m);
+  }
+  msdela(); print("state");
+    for(dat=0;dat<statedata.length;dat++){ 
+       a= statedata[dat]['id'];
+       m= statedata[dat]['stateName'];
+        b= statedata[dat]['countryId'];
+        
+        print("$a $m $n \n");
+   _insertstatedatatable(a,m,b);
+  }msdela();
    }
    void _insertcountriesdatatable(int countryids,String countryCodes ,String countryNames ,int countryPhones ) async {
 
@@ -118,8 +179,57 @@ class _AllDataa extends State<AllDataa> {
       DatabaseHelper.countryName   : countryNames,
       DatabaseHelper.countryPhone   : countryPhones,
     };
-    final countryid = await dbHelper.insertcountriesdatatable(row);
-    print('inserted row id: $countryid');
+   // final countryid = await dbHelper.insertcountriesdatatable(row);
+    //print('inserted row id: $countryid');
+  }
+  void _insertlicenseclassdatatable(int countryids,String countryCodes ) async {
+      
+    Map<String, dynamic> row = {
+      DatabaseHelper.classNameid :countryids,
+      DatabaseHelper.className  : countryCodes,
+     };
+    final classNameida = await dbHelper.insertlicenseclassdatatable(row);
+    print('inserted row id: $classNameida');
+  }
+  void _insertlicensecodesdatatable(int countryids,String countryCodes ) async {
+
+    Map<String, dynamic> row = {
+      DatabaseHelper.codeid :countryids,
+      DatabaseHelper.code  : countryCodes,
+     };
+    final codeid = await dbHelper.insertlicensecodesdatatable(row);
+    print('inserted row id: $codeid');
+  }
+  void _insertlicensetitlesdatatable(int countryids,String countryCodes ) async {
+
+    Map<String, dynamic> row = {
+      DatabaseHelper.titleid :countryids,
+      DatabaseHelper.title  : countryCodes,
+     };
+    final titleid = await dbHelper.insertlicensetitlesdatatable(row);
+    print('inserted row id: $titleid');
+  }
+  void _insertlicensetypedatatable(int countryids,String countryCodes ) async {
+
+    Map<String, dynamic> row = {
+      DatabaseHelper.typeNameid :countryids,
+      DatabaseHelper.typeName  : countryCodes,
+     };
+    final typeNameid = await dbHelper.insertlicensetypedatatable(row);
+    print('inserted row id: $typeNameid');
+  }
+  void _insertstatedatatable(int countryids,String countryCodes,int countryid ) async {
+
+    Map<String, dynamic> row = {
+      DatabaseHelper.statecountryid :countryids,
+      DatabaseHelper.stateName  : countryCodes,
+       DatabaseHelper.countryId  : countryid,
+     };
+    final typeNameid = await dbHelper.insertstatedatatable(row);
+    print('inserted row id: $typeNameid');
+  }
+  void msdela(){
+   for(int dat=0;dat<1000;dat++){ }  
   }
   //  void _insertclassb(String name , int ids ) async {
 
@@ -140,10 +250,40 @@ class _AllDataa extends State<AllDataa> {
   void _querycountriesdatatable() async {
     final allRowsclassb = await dbHelper.querycountriesdatatable();
     print(allRowsclassb);
-   
+   print('\n');
     classdatamap(allRowsclassb);
   }
-
+  
+   void _querylicenseclassdatatable() async {
+    final allRowsclassb = await dbHelper.querylicenseclassdatatable();
+    print(allRowsclassb);
+    print('\n');
+// classdatamap(allRowsclassb);
+  }
+  void _querylicensecodesdatatable() async {
+    final allRowsclassb = await dbHelper.querylicensecodesdatatable();
+    print(allRowsclassb);
+    print('\n');
+// classdatamap(allRowsclassb);
+  }
+  void _querylicensetitlesdatatable() async {
+    final allRowsclassb = await dbHelper.querylicensetitlesdatatable();
+    print(allRowsclassb);
+    print('\n');
+// classdatamap(allRowsclassb);
+  }
+  void _querylicensetypedatatable() async {
+    final allRowsclassb = await dbHelper.querylicensetypedatatable();
+    print(allRowsclassb);
+    print('\n');
+// classdatamap(allRowsclassb);
+  }
+  void _querystatedatatable() async {
+    final allRowsclassb = await dbHelper.querystatedatatable();
+    print(allRowsclassb);
+    print('\n');
+// classdatamap(allRowsclassb);
+  }
   // void _update() async {
   //   // row to update
   //   Map<String, dynamic> row = {

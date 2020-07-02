@@ -96,7 +96,7 @@ static final typeNameid = 'id';
           CREATE TABLE $statedatatable (
             $statecountryid INTEGER PRIMARY KEY,
             $stateName TEXT NOT NULL,
-            $countryId TEXT NOT NULL
+            $countryId INTEGER NOT NULL
           )
           ''');
            
@@ -114,23 +114,23 @@ static final typeNameid = 'id';
     Database db = await instance.database;
     return await db.insert(countriesdatatable, row);
   }
- Future<int> insertlicenseclassdatatable(  Map<String, dynamic> row) async {
+ Future<int> insertlicenseclassdatatable(  Map<String, dynamic> rowclass) async {
     Database db = await instance.database;
     return await db.insert(licenseclassdatatable, rowclass);
   }
-   Future<int> insertlicensecodesdatatable(  Map<String, dynamic> row) async {
+   Future<int> insertlicensecodesdatatable(  Map<String, dynamic> rowclass) async {
     Database db = await instance.database;
     return await db.insert(licensecodesdatatable, rowclass);
   }
-  Future<int> insertlicensetitlesdatatable( Map<String, dynamic> row) async {
+  Future<int> insertlicensetitlesdatatable( Map<String, dynamic> rowclass) async {
     Database db = await instance.database;
     return await db.insert(licensetitlesdatatable, rowclass);
   }
-   Future<int> insertlicensetypedatatable(  Map<String, dynamic> row) async {
+   Future<int> insertlicensetypedatatable(  Map<String, dynamic> rowclass) async {
     Database db = await instance.database;
     return await db.insert(licensetypedatatable, rowclass);
   }
-   Future<int> insertstatedatatable( Map<String, dynamic> row) async {
+   Future<int> insertstatedatatable( Map<String, dynamic> rowclass) async {
     Database db = await instance.database;
     return await db.insert(statedatatable, rowclass);
   }

@@ -23,6 +23,7 @@ class _AllData extends State<AllData> {
 
   @override
   void initState() {
+    print(urls.length);
         for(int i=0; i<urls.length;i++){
      getCountries(urls[i]).then((data) {
       setState(() {
@@ -46,6 +47,7 @@ void assigndata(List dataitem ,int k){
    case 0: { 
     countriesdata = dataitem;
     print('\n');
+    print("countriesdata");
       print(countriesdata);
       print('\n');
       // statements; 
@@ -54,6 +56,7 @@ void assigndata(List dataitem ,int k){
   
    case 1: { 
      licenseclassdata=dataitem;
+    print('licenseclassdata');
     print(licenseclassdata);
     print('\n');
     countries=filteredCountries=licenseclassdata;
@@ -62,6 +65,7 @@ void assigndata(List dataitem ,int k){
    break; 
     case 2: { 
     licensecodesdata = dataitem;
+    print('licensecodesdata');
       print(licensecodesdata);
       print('\n');
       // statements; 
@@ -69,21 +73,21 @@ void assigndata(List dataitem ,int k){
    break; 
     case 3: { 
     licensetitlesdata = dataitem;
-      print(licensetitlesdata);
+      print('licensetitlesdata');print(licensetitlesdata);
       print('\n');
       // statements; 
    } 
    break; 
     case 4: { 
     licensetypedata = dataitem;
-      print(licensetypedata);
+      print('licensetypedata');print(licensetypedata);
       print('\n');
       // statements; 
    } 
    break; 
     case 5: { 
     statedata = dataitem;
-      print(statedata);
+      print('statedata');  print(statedata);
       print('\n');
       // statements; 
    } 
