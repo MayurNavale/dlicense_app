@@ -23,5 +23,11 @@
   'http://192.168.43.246:8080/dLicence/api/licensetype/v1',
   'http://192.168.43.246:8080/dLicence/api/states/v1'];
 
-
-
+ 
+  List<Map<String, dynamic>> countriesdatalist=[];
+  List<Map<String, dynamic>> licenseclassdatalist=[]; 
+  List<Map<String, dynamic>> licensecodesdatalist=[];
+  List<Map<String, dynamic>> licensetitlesdatalist=[];
+  List<Map<String, dynamic>> licensetypedatalist=[];
+  List<Map<String, dynamic>> statedatalist=[];
+ 

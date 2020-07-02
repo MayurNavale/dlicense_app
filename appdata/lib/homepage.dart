@@ -1,3 +1,4 @@
+import 'package:appdata/licencepage.dart';
 import 'package:flutter/material.dart';
 // change `flutter_database` to whatever your project name is
 import 'database_helper.dart';
@@ -6,7 +7,7 @@ import 'ipdata.dart';
 import 'dbdispla.dart';
 import 'package:http/http.dart' as http;
 
-import 'package:dio/dio.dart';
+import 'licencepage.dart';
 
 
 class AllDataa extends StatefulWidget {
@@ -51,34 +52,10 @@ class _AllDataa extends State<AllDataa> {
             
             RaisedButton(
               child: Text('query', style: TextStyle(fontSize: 20),),
-              onPressed: () {_querycountriesdatatable();},
+              onPressed: () {_queryall();},
             ),
-             RaisedButton(
-              child: Text('query', style: TextStyle(fontSize: 20),),
-              onPressed: () {msdela();
-                _querylicenseclassdatatable();},
-            ),
-             RaisedButton(
-              child: Text('query', style: TextStyle(fontSize: 20),),
-              onPressed: () {msdela();
-                _querylicensecodesdatatable();},
-            ),
-            RaisedButton(
-              child: Text('query', style: TextStyle(fontSize: 20),),
-              onPressed: () {msdela();
-                _querylicensetitlesdatatable();},
-            ),
-             RaisedButton(
-              child: Text('query', style: TextStyle(fontSize: 20),),
-              onPressed: () {msdela();
-                _querylicensetypedatatable();},
-            ),
-             RaisedButton(
-              child: Text('query', style: TextStyle(fontSize: 20),),
-              onPressed: () {msdela();
-                _querystatedatatable();},
-            ),
-            //
+            
+           
             // RaisedButton(
             //   child: Text('query', style: TextStyle(fontSize: 20),),
             //   onPressed: () {_queryclassb();},
@@ -91,13 +68,13 @@ class _AllDataa extends State<AllDataa> {
             //   child: Text('delete', style: TextStyle(fontSize: 20),),
             //   onPressed: () {_delete();},
             // ),
-            // RaisedButton(
-            //   child: Text('ipdata', style: TextStyle(fontSize: 20),),
-            //   onPressed: () { Navigator.push(
-            //     context,
-            //     MaterialPageRoute(builder: (context) => AllData()),
-            //   );},
-            // ),
+            RaisedButton(
+              child: Text('license page', style: TextStyle(fontSize: 20),),
+              onPressed: () { Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => Licencepage()),
+              );},
+            ),
             RaisedButton(
               child: Text('ipdata', style: TextStyle(fontSize: 20),),
               onPressed: () { Navigator.push(
@@ -179,8 +156,8 @@ class _AllDataa extends State<AllDataa> {
       DatabaseHelper.countryName   : countryNames,
       DatabaseHelper.countryPhone   : countryPhones,
     };
-   // final countryid = await dbHelper.insertcountriesdatatable(row);
-    //print('inserted row id: $countryid');
+   final countryid = await dbHelper.insertcountriesdatatable(row);
+    print('inserted row id: $countryid');
   }
   void _insertlicenseclassdatatable(int countryids,String countryCodes ) async {
       
@@ -242,45 +219,54 @@ class _AllDataa extends State<AllDataa> {
   //   print('inserted row id: $id');
   // }
 
-  // void _query() async {
-  //   final allRows = await dbHelper.querycountriesdatatable();
-  //   print('query all rows:');
-  //   allRows.forEach((row) => print(row));
-  // }
+  void _queryall() {
+                _querycountriesdatatable();msdela();
+                _querylicenseclassdatatable();msdela();
+                _querylicensecodesdatatable();msdela();
+                _querylicensetitlesdatatable();msdela();
+                _querylicensetypedatatable();msdela();
+                _querystatedatatable();msdela();
+  }
   void _querycountriesdatatable() async {
     final allRowsclassb = await dbHelper.querycountriesdatatable();
-    print(allRowsclassb);
+    countriesdatalist=allRowsclassb;
+    print(countriesdatalist);
    print('\n');
-    classdatamap(allRowsclassb);
+    classdatamap(countriesdatalist);
   }
   
    void _querylicenseclassdatatable() async {
     final allRowsclassb = await dbHelper.querylicenseclassdatatable();
-    print(allRowsclassb);
+   licenseclassdatalist=allRowsclassb;
+    print(licenseclassdatalist);
     print('\n');
 // classdatamap(allRowsclassb);
   }
   void _querylicensecodesdatatable() async {
     final allRowsclassb = await dbHelper.querylicensecodesdatatable();
-    print(allRowsclassb);
+    licensecodesdatalist=allRowsclassb;
+    print(licensecodesdatalist);
     print('\n');
 // classdatamap(allRowsclassb);
   }
   void _querylicensetitlesdatatable() async {
     final allRowsclassb = await dbHelper.querylicensetitlesdatatable();
-    print(allRowsclassb);
+    licensetitlesdatalist=allRowsclassb;
+    print(licensetitlesdatalist);
     print('\n');
 // classdatamap(allRowsclassb);
   }
   void _querylicensetypedatatable() async {
     final allRowsclassb = await dbHelper.querylicensetypedatatable();
-    print(allRowsclassb);
+    licensetypedatalist=allRowsclassb;
+    print(licensetypedatalist);
     print('\n');
 // classdatamap(allRowsclassb);
   }
   void _querystatedatatable() async {
     final allRowsclassb = await dbHelper.querystatedatatable();
-    print(allRowsclassb);
+   statedatalist=allRowsclassb;
+    print(statedatalist);
     print('\n');
 // classdatamap(allRowsclassb);
   }
