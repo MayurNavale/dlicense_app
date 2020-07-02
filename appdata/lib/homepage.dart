@@ -51,28 +51,28 @@ class _AllDataa extends State<AllDataa> {
             
             RaisedButton(
               child: Text('query', style: TextStyle(fontSize: 20),),
-              onPressed: () {_query();},
+              onPressed: () {_querycountriesdatatable();},
             ),
              
-            RaisedButton(
-              child: Text('query', style: TextStyle(fontSize: 20),),
-              onPressed: () {_queryclassb();},
-            ),
-            RaisedButton(
-              child: Text('update', style: TextStyle(fontSize: 20),),
-              onPressed: () {_update();},
-            ),
-            RaisedButton(
-              child: Text('delete', style: TextStyle(fontSize: 20),),
-              onPressed: () {_delete();},
-            ),
-            RaisedButton(
-              child: Text('ipdata', style: TextStyle(fontSize: 20),),
-              onPressed: () { Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => AllData()),
-              );},
-            ),
+            // RaisedButton(
+            //   child: Text('query', style: TextStyle(fontSize: 20),),
+            //   onPressed: () {_queryclassb();},
+            // ),
+            // RaisedButton(
+            //   child: Text('update', style: TextStyle(fontSize: 20),),
+            //   onPressed: () {_update();},
+            // ),
+            // RaisedButton(
+            //   child: Text('delete', style: TextStyle(fontSize: 20),),
+            //   onPressed: () {_delete();},
+            // ),
+            // RaisedButton(
+            //   child: Text('ipdata', style: TextStyle(fontSize: 20),),
+            //   onPressed: () { Navigator.push(
+            //     context,
+            //     MaterialPageRoute(builder: (context) => AllData()),
+            //   );},
+            // ),
             RaisedButton(
               child: Text('ipdata', style: TextStyle(fontSize: 20),),
               onPressed: () { Navigator.push(
@@ -91,71 +91,76 @@ class _AllDataa extends State<AllDataa> {
   // Button onPressed methods
   void adddatabase(){
    int count=countriesdata.length;
-   if(count>0){
   print(count);
-  int dat,c,e;
-    String a;
-    
-    for(dat=0;dat<count;dat++){ 
-     a= countriesdata[dat]['countryName'];
-    c= countriesdata[dat]['id'];
-   _insertclassb(a ,c);
+  int dat,a,b,c,d;
+  String m,n,s;
+  
+   
+    for(dat=0;dat<countriesdata.length;dat++){ 
+       a= countriesdata[dat]['id'];
+       m= countriesdata[dat]['countryCode'];
+       n= countriesdata[dat]['countryName'];
+       b= countriesdata[dat]['countryPhone'];
+   _insertcountriesdatatable(a,m,n,b);
   }
-    for(dat=0;dat<licenseclassdata.length;dat++){ 
-     a= licenseclassdata[dat]['className'];
-    e= licenseclassdata[dat]['id'];
-    _insert(a ,e); 
-    }}}
-  void _insert(String name , int ids ) async {
+    // for(dat=0;dat<licenseclassdata.length;dat++){ 
+    //  a= licenseclassdata[dat]['className'];
+    // e= licenseclassdata[dat]['id'];
+    // _insert(licenseclassdata[dat]['className'] , licenseclassdata[dat]['id']); 
+    // }}}
+   
+   }
+   void _insertcountriesdatatable(int countryids,String countryCodes ,String countryNames ,int countryPhones ) async {
 
     Map<String, dynamic> row = {
-      DatabaseHelper.columnName :name,
-      DatabaseHelper.columnAge  : ids,
-      DatabaseHelper.columnId   : ids,
+      DatabaseHelper.countryid :countryids,
+      DatabaseHelper.countryCode  : countryCodes,
+      DatabaseHelper.countryName   : countryNames,
+      DatabaseHelper.countryPhone   : countryPhones,
     };
-    final id = await dbHelper.insert(row);
-    print('inserted row id: $id');
+    final countryid = await dbHelper.insertcountriesdatatable(row);
+    print('inserted row id: $countryid');
   }
-   void _insertclassb(String name , int ids ) async {
+  //  void _insertclassb(String name , int ids ) async {
 
-    Map<String, dynamic> rowclassb = {
-      DatabaseHelper.columnNameb :name,
-      DatabaseHelper.columnAgeb  : ids,
-      DatabaseHelper.columnIdb   : ids,
-    };
-    final id = await dbHelper.insertclassb(rowclassb);
-    print('inserted row id: $id');
-  }
+  //   Map<String, dynamic> rowclassb = {
+  //     DatabaseHelper.columnNameb :name,
+  //     DatabaseHelper.columnAgeb  : ids,
+  //     DatabaseHelper.columnIdb   : ids,
+  //   };
+  //   final id = await dbHelper.insertclassb(rowclassb);
+  //   print('inserted row id: $id');
+  // }
 
-  void _query() async {
-    final allRows = await dbHelper.queryAllRows();
-    print('query all rows:');
-    allRows.forEach((row) => print(row));
-  }
-  void _queryclassb() async {
-    final allRowsclassb = await dbHelper.queryAllRowsclassb();
-    print('query all rows:');
+  // void _query() async {
+  //   final allRows = await dbHelper.querycountriesdatatable();
+  //   print('query all rows:');
+  //   allRows.forEach((row) => print(row));
+  // }
+  void _querycountriesdatatable() async {
+    final allRowsclassb = await dbHelper.querycountriesdatatable();
+    print(allRowsclassb);
    
     classdatamap(allRowsclassb);
   }
 
-  void _update() async {
-    // row to update
-    Map<String, dynamic> row = {
-      DatabaseHelper.columnId   : 1,
-      DatabaseHelper.columnName : 'Mary',
-      DatabaseHelper.columnAge  : 32
-    };
-    final rowsAffected = await dbHelper.update(row);
-    print('updated $rowsAffected row(s)');
-  }
+  // void _update() async {
+  //   // row to update
+  //   Map<String, dynamic> row = {
+  //     DatabaseHelper.columnId   : 1,
+  //     DatabaseHelper.columnName : 'Mary',
+  //     DatabaseHelper.columnAge  : 32
+  //   };
+  //   final rowsAffected = await dbHelper.update(row);
+  //   print('updated $rowsAffected row(s)');
+  // }
 
-  void _delete() async {
-    // Assuming that the number of rows is the id for the last row.
-    final id = await dbHelper.queryRowCount();
-    final rowsDeleted = await dbHelper.delete(id);
-    print('deleted $rowsDeleted row(s): row $id');
-  }
+  // void _delete() async {
+  //   // Assuming that the number of rows is the id for the last row.
+  //   final id = await dbHelper.queryRowCount();
+  //   final rowsDeleted = await dbHelper.delete(id);
+  //   print('deleted $rowsDeleted row(s): row $id');
+  // }
 
 
  

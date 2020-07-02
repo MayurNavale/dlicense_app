@@ -45,7 +45,7 @@ Widget _instructorsOptions() {
       
           items: planetB.map((item) {
             return new DropdownMenuItem(
-              child: new Text(item['className']),
+              child: new Text(item['countryCode']),
               value: item['id'].toString(),
             );
           }).toList(),
