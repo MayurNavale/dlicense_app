@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 // change `flutter_database` to whatever your project name is
 import 'database_helper.dart';
 import 'model.dart';
-import 'ipdata.dart';
+//import 'ipdata.dart';
 import 'dbdispla.dart';
-import 'package:http/http.dart' as http;
+//import 'package:http/http.dart' as http;
 
 import 'licencepage.dart';
 
@@ -232,7 +232,9 @@ class _AllDataa extends State<AllDataa> {
     countriesdatalist=allRowsclassb;
     print(countriesdatalist);
    print('\n');
-    classdatamap(countriesdatalist);
+    
+
+    
   }
   
    void _querylicenseclassdatatable() async {

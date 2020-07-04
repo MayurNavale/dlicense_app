@@ -1,4 +1,8 @@
+import 'dart:async';
+import 'dart:convert';
+import 'package:async/async.dart';
 
+import 'package:http/http.dart' as http;
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'model.dart';
@@ -10,11 +14,10 @@ class AllData extends StatefulWidget {
 List asdfg=[];
 
 class _AllData extends State<AllData> {
- 
 
   //List planetList = ["planet", "Venus", "Earth"];
   bool isSearching = false;
-  
+ 
  List countries = [];
   getCountries(url) async {
     var response = await Dio().get('$url');
