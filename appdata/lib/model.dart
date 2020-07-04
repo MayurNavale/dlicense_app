@@ -1,9 +1,6 @@
-//import 'dart:convert';
-//import 'model.dart';
-import 'licencepage.dart';
-import 'dart:async';
+
 import 'dart:convert';
-import 'package:async/async.dart';
+import 'showselecteddata.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
   List countriesdata = [];
@@ -40,11 +37,14 @@ import 'package:http/http.dart' as http;
 
 
     int licenceNumber;
+     int licenceCodeOptionsid; 
+
     bool ir = false;
     bool co_Pilot = false;
     bool additionalratingcoPilot=false;
     bool additionalratingIR=false;
-     String dt_irtest;
+
+    String dt_irtest;
     String licence_Number;
     String countryCodes;
     String _class;
@@ -54,8 +54,9 @@ import 'package:http/http.dart' as http;
     String ratingcertificateendorsement;
     String additionalratingtpyeOptionData;
     String instructorremarksandRestrictions;
+   
     var contries;
-    var licenceCodeOptions;int licenceCodeOptionsid;
+    var licenceCodeOptions;
     var titleOfLicenceOptions;
     var dateofratingtest;
     var dateOfInitialIssue;
@@ -85,40 +86,25 @@ class _ClassModalState extends State<ClassModal> {
         ),
         body: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            RaisedButton(
-              child: Text(
-                'insert',
-                style: TextStyle(fontSize: 20),
-              ),
-              onPressed: () {},
-            ),
+            children: <Widget>[
+                RaisedButton(
+                  child: Text('showvalue',style: TextStyle(fontSize: 20),),
+                  onPressed: () {Navigator.push
+                  (context, MaterialPageRoute(builder: (context) => ShowSelectedData()),
+              );},
+                ),
 
-            RaisedButton(
-              child: Text(
-                'query',
-                style: TextStyle(fontSize: 20),
-              ),
-              onPressed: () {
-                a = 'd';
-                shoe();
-              },
-            ),
-//                    Text(
-//                     _notes[].title,
-//                     style: TextStyle(
-//                       fontSize: 22,
-//                       fontWeight: FontWeight.bold
-//                     ),
-//                   ),
-//                   Text(
-//                     _notes[].text,
-//                     style: TextStyle(
-//                       color: Colors.grey.shade600
-//                     ),
-//                   ),
-          ],
-        ));
+                RaisedButton(
+                  child: Text('query', style: TextStyle(fontSize: 20),),
+                  onPressed: () {
+                    a = 'd';
+                    shoe();
+                  },
+                ),
+//                 
+               ],
+           )
+      );
   }
 }
 
@@ -233,8 +219,8 @@ class Personnel {
       };
 }
 
-
-
+String dt='2019-07-19'.toString();
+ String userid='123467891234678912346789123467891234'.toString();
 int a =2;
 int b = 3;
 bool v = true;
@@ -254,7 +240,7 @@ shoe() {
     // a)
     // ];
 //   List<Personnel> personnel = [Personnel(1, m, n, s)];
-      ////
+      //// {int id;      String idUser;   String personnelType;      String remarks;}
 //   Licence licence = Licence(
 //       m,                          //String additionalRemarks;
         // licenceCodeOptions,      // int codeId;
@@ -281,10 +267,10 @@ shoe() {
   //=alldetail;
 
   List<LicenseDetails> licenseDetails = [LicenseDetails(v, a, v, a, v, a)];
-  List<Personnel> personnel = [Personnel(a,  m,  n,  n)];
+  List<Personnel> personnel = [Personnel(a,  userid,  n,  n)];
 
   Licence licence = Licence(
-      m, 121, m, n, s, m, a, b, a, b, licenseDetails, a, personnel, m, n, a, 142);
+      m, 121, dt, dt, dt, dt, a, b, a, b, licenseDetails, a, personnel, m, n, a, 142);
   String jsonTutorial = jsonEncode(licence);
   print(jsonTutorial);
 
@@ -295,7 +281,7 @@ shoe() {
  
 
     var url = 'http://192.168.43.246:8080/dLicence/api/license/v1';
-    http.post(url, body: data)
+    http.post(url, headers: {"Content-Type": "application/json"}, body: data)
         .then((response) {
       print("Response status: ${response.statusCode}");
       print("Response body: ${response.body}");

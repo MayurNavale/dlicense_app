@@ -1,8 +1,4 @@
-import 'dart:async';
-import 'dart:convert';
-import 'package:async/async.dart';
 
-import 'package:http/http.dart' as http;
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'model.dart';
@@ -148,7 +144,7 @@ void assigndata(List dataitem ,int k){
                     onTap: () {
                     Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => AllDataa()),
+                MaterialPageRoute(builder: (context) => Homepage()),
               );
                     },
                     child: Card(
