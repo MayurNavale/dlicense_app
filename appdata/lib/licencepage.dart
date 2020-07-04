@@ -1,9 +1,9 @@
 
-
+import 'uplodedata.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 //import 'ratingCertificateEndorsementOptions.dart';
-
+import 'model.dart';
 
 class SecondRoute extends StatelessWidget {
   @override
@@ -72,39 +72,14 @@ class Licencepage extends StatefulWidget {
   @override
   _Licencepage createState() => new _Licencepage();
 }
+Color c1 = const Color(0xCFCFCF);
+DateTime _dateTime;
 
+ 
 bool additionalratingIR=false;
 // stores ExpansionPanel state information
-Color c1 = const Color(0xCFCFCF);
-var dateOfInitialIssue;
-var dateofIRtest;
-String contries;
-String licenceCodeOptions;
-String titleOfLicenceOptions;
-var dateofratingtest;
 
-String licence_Number;
-String countryCodes;
-//ring examinerscertificatenumber;
-String _class;
-String tpyeOptionData;
-bool ir = false;
-bool co_Pilot = false;
-bool additionalratingcoPilot=false;
-String licenceNumber;
-String classOptions;
-var additionalLicenceNumber;
-var validuntil;
-var examinerscertificatenumber;
-var instructorsOptions;
-var remarksandRestrictions;
-String examinarRemarksandRestrictions;
-var examiners;
-String ratingcertificateendorsement;
-String addtiionalratingclassOptions;
-String additionalratingtpyeOptionData;
-String instructorremarksandRestrictions;
-DateTime _dateTime;
+
 
 class MyItem {
   MyItem({this.isExpanded: false, this.header, this.ir, this.co_Pilot});
@@ -113,6 +88,7 @@ class MyItem {
   final String header;
   bool ir = false;
   bool co_Pilot = false;
+  
 }
 
 class _Licencepage extends State<Licencepage> {
@@ -122,14 +98,7 @@ class _Licencepage extends State<Licencepage> {
   List<MyItem> _rating = <MyItem>[
     new MyItem(header: ' Rating certificate endorsement')
   ];
-  List<String> _classoptiondata =
-  <String>[
-    'SEP (land)',
-    'SEP (sea)',
-    'MEP (land)',
-    'MEP (sea)',
-  ];
-  @override
+
   @override
   Widget build(BuildContext context) {
 
@@ -207,23 +176,13 @@ class _Licencepage extends State<Licencepage> {
                         isExpanded: item.isExpanded,
                         body: Container(
                           height: 260.0,
-                          decoration: new BoxDecoration(
-                            color: Colors.white,
-                          ),
-                          child: Column(
+                            child: Column(
                             children: [
-                              Expanded(
-                                child: _addtiionalratingclassOptions(),
-                              ),Expanded(child:_additionalratingtpyeOptionData()),
-                              Expanded(
-                                child: _additionalratingIR(),
-                              ),
-                              Expanded(
-                                child: _additionalratingcoPilot(),
-                              ),
-                              Expanded(
-                                child: _remarksandRestrictions(),
-                              ),
+                              Expanded( child: _addtiionalratingclassOptions(), ),
+                              Expanded(child:_additionalratingtpyeOptionData()),
+                              Expanded( child: _additionalratingIR(), ),
+                              Expanded( child: _additionalratingcoPilot(), ),
+                              Expanded( child: _remarksandRestrictions(), ),
                             ],
                           ),
                         ),
@@ -335,16 +294,16 @@ class _Licencepage extends State<Licencepage> {
                         ),
                       );
                     }).toList(),
-                  ),  FlatButton(
+                  ),  
+                  FlatButton(
                     color:Colors.yellow,
                     child: Text('Save'),
                     textColor:Colors.black,
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) =>SecondRoute()),
-                      );
-                    },
+                    onPressed: () { Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => ClassModal()),
+              );}
+                 
 
                   ),
                 ],
@@ -353,6 +312,7 @@ class _Licencepage extends State<Licencepage> {
           ),)
     );
   }
+
   Widget _ratingcertificateendorsement() {
     return ListTile(
 
@@ -367,19 +327,18 @@ class _Licencepage extends State<Licencepage> {
         onChanged: (String newValue) {
           setState(() {
             ratingcertificateendorsement = newValue;
+            print('  $ratingcertificateendorsement');
           });
         },
-        items: <String>[
-          'LAPL(A)',
-          'LAPL(H)',
-      
-        ].map<DropdownMenuItem<String>>((String value) {
-          return DropdownMenuItem<String>(
-            value: value,
-            child: Text(value),
-          );
+         items: licensetitlesdatalist.map((item) {
+            return new DropdownMenuItem(
+              child: new Text(item['title']),
+              value: item['id'].toString(),
+              
+            );
         }).toList(),
         value: ratingcertificateendorsement,
+        
       ),
     );
   }
@@ -400,12 +359,13 @@ class _Licencepage extends State<Licencepage> {
         onChanged: (String newValue) {
           setState(() {
             classOptions = newValue;
+            print('classOptions  $classOptions');
           });
         },
-        items:_classoptiondata.map<DropdownMenuItem<String>>((String value) {
-          return DropdownMenuItem<String>(
-            value: value,
-            child: Text(value),
+        items:licenseclassdatalist.map((item) {
+            return new DropdownMenuItem(
+              child: new Text(item['className']),
+              value: item['id'].toString(),
           );
         }).toList(),
         value: classOptions,
@@ -429,12 +389,13 @@ class _Licencepage extends State<Licencepage> {
         onChanged: (String newValue) {
           setState(() {
             addtiionalratingclassOptions = newValue;
+            print('addtiionalratingclassOptions$addtiionalratingclassOptions');
           });
         },
-        items:_classoptiondata.map<DropdownMenuItem<String>>((String value) {
-          return DropdownMenuItem<String>(
-            value: value,
-            child: Text(value),
+        items:licenseclassdatalist.map((item) {
+            return new DropdownMenuItem(
+              child: new Text(item['className']),
+              value: item['id'].toString(),
           );
         }).toList(),
         value: addtiionalratingclassOptions,
@@ -512,18 +473,14 @@ class _Licencepage extends State<Licencepage> {
         onChanged: (String newValue) {
           setState(() {
             examiners = newValue;
+            print(' examiners  $examiners');
           });
         },
-        items: <String>[
-          'SEP (land)',
-          'SEP (sea)',
-          'MEP (land)',
-          'MEP (sea)',
-        ].map<DropdownMenuItem<String>>((String value) {
-          return DropdownMenuItem<String>(
-            value: value,
-            child: Text(value),
-          );
+        items: licenseclassdatalist.map((item) {
+            return new DropdownMenuItem(
+              child: new Text(item['className']),
+              value: item['id'].toString(),
+            );
         }).toList(),
         value: examiners,
       ),
@@ -585,16 +542,13 @@ class _Licencepage extends State<Licencepage> {
           onChanged: (String newValue) {
             setState(() {
               contries = newValue;
+              print('contries  $contries');
             });
           },
-          items: <String>[
-          'LAPL(A)',
-          'LAPL(H)',
-      
-        ].map<DropdownMenuItem<String>>((String value) {
-            return DropdownMenuItem<String>(
-              value: value,
-              child: Text(value),
+          items: countriesdatalist.map((item) {
+            return new DropdownMenuItem(
+              child: new Text(item['countryCode']),
+              value: item['id'].toString(),
             );
           }).toList(),
           value: contries,
@@ -617,15 +571,15 @@ class _Licencepage extends State<Licencepage> {
         onChanged: (String newValue) {
           setState(() {
             licenceCodeOptions = newValue;
-          });
+       
+          print('licenceCodeOptions $licenceCodeOptions');});
         },
-        items: <String>[
-          'AD.FCL.'
-        ].map<DropdownMenuItem<String>>((String value) {
-          return DropdownMenuItem<String>(
-            value: value,
-            child: Text(value),
-          );
+        items: licensecodesdatalist.map((item) {
+            return new DropdownMenuItem(
+              child: new Text(item['code']),
+              value: item['id'].toString(),
+            
+            );
         }).toList(),
         value: licenceCodeOptions,
       ),
@@ -689,17 +643,13 @@ class _Licencepage extends State<Licencepage> {
         onChanged: (String newValue) {
           setState(() {
             titleOfLicenceOptions = newValue;
-          });
+          print('titleOfLicenceOptions$titleOfLicenceOptions');});
         },
-        items: <String>[
-          'LAPL(A)',
-          'LAPL(H)',
-      
-        ].map<DropdownMenuItem<String>>((String value) {
-          return DropdownMenuItem<String>(
-            value: value,
-            child: Text(value),
-          );
+        items: licensetitlesdatalist.map((item) {
+            return new DropdownMenuItem(
+              child: new Text(item['title']),
+              value: item['id'].toString(),
+            );
         }).toList(),
         value: titleOfLicenceOptions,
       ),
@@ -789,6 +739,7 @@ class _Licencepage extends State<Licencepage> {
                   setState(() {
 
                     dateofIRtest = new DateFormat.yMMMMd().format(date);
+                  dt_irtest=dateofIRtest.toString();
                   });
                 });
               },
@@ -845,18 +796,14 @@ class _Licencepage extends State<Licencepage> {
         ),
         onChanged: (String newValue) {
           setState(() {
-            countryCodes = newValue;
+            countryCodes = newValue;print('countryCodes$countryCodes');
           });
         },
-        items:  <String>[
-          'LAPL(A)',
-          'LAPL(H)',
-      
-        ].map<DropdownMenuItem<String>>((String value) {
-          return DropdownMenuItem<String>(
-            value: value,
-            child: Text(value),
-          );
+        items:countriesdatalist.map((item) {
+            return new DropdownMenuItem(
+              child: new Text(item['countryName']),
+              value: item['id'].toString(),
+            );
         }).toList(),
         value: countryCodes,
       ),
@@ -878,18 +825,14 @@ class _Licencepage extends State<Licencepage> {
         ),
         onChanged: (String newValue) {
           setState(() {
-            tpyeOptionData = newValue;
+            tpyeOptionData = newValue;print('tpyeOptionData $tpyeOptionData');
           });
         },
-        items: <String>[
-          'LAPL(A)',
-          'LAPL(H)',
-      
-        ].map<DropdownMenuItem<String>>((String value) {
-          return DropdownMenuItem<String>(
-            value: value,
-            child: Text(value),
-          );
+        items: licensetypedatalist.map((item) {
+            return new DropdownMenuItem(
+              child: new Text(item['typeName']),
+              value: item['id'].toString(),
+            );
         }).toList(),
         value: tpyeOptionData,
       ),
@@ -911,17 +854,13 @@ class _Licencepage extends State<Licencepage> {
         onChanged: (String newValue) {
           setState(() {
             additionalratingtpyeOptionData = newValue;
-          });
+     print('additionalratingtpyeOptionData $additionalratingtpyeOptionData'); });
         },
-        items: <String>[
-          'LAPL(A)',
-          'LAPL(H)',
-      
-        ].map<DropdownMenuItem<String>>((String value) {
-          return DropdownMenuItem<String>(
-            value: value,
-            child: Text(value),
-          );
+        items:licensetypedatalist.map((item) {
+            return new DropdownMenuItem(
+              child: new Text(item['typeName']),
+              value: item['id'].toString(),
+            );
         }).toList(),
         value: additionalratingtpyeOptionData,
       ),
@@ -944,11 +883,29 @@ class _Licencepage extends State<Licencepage> {
         onChanged: (String newValue) {
           setState(() {
             instructorsOptions = newValue;
-          });
+         print('instructorsOptions $instructorsOptions'); });
         },
         items: <String>[
-          'FI(A)',
-          'FTI',
+           'FE(A)',
+    'FE(H)',
+    'FE(As)',
+    'FE(S)',
+    'FE(B)',
+    'TRE(A)',
+    'TRE(PL)',
+    'TRE(H)',
+    'CRE',
+    'IRE(A)',
+    'IRE(H)',
+    'IRE(As)',
+    'SFE(A)',
+    'SFE(PL)',
+    'SFE(H)',
+    'FIE(A)',
+    'FIE(H)',
+    'FIE(As)',
+    'FIE(S)',
+    'FIE(B)'
         ].map<DropdownMenuItem<String>>((String value) {
           return DropdownMenuItem<String>(
             value: value,

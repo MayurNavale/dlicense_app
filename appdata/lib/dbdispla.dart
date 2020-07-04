@@ -1,4 +1,4 @@
-import 'dart:ffi';
+//import 'dart:ffi';
 
 import 'package:flutter/material.dart';
 import 'model.dart';
@@ -43,7 +43,7 @@ Widget _instructorsOptions() {
           });
         },
       
-          items: planetB.map((item) {
+          items: countriesdatalist.map((item) {
             return new DropdownMenuItem(
               child: new Text(item['countryCode']),
               value: item['id'].toString(),
@@ -55,7 +55,3 @@ Widget _instructorsOptions() {
     );
   }
 }
-
-classdatamap( List<Map<String, dynamic>> planet){
-  planetB=planet;
- }
