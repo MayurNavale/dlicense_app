@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 // change `flutter_database` to whatever your project name is
-import 'ipdata.dart';
+import 'apidata.dart';
 import 'homepage.dart';
 void  main() => runApp(MyApp());
 class MyApp extends StatelessWidget {
@@ -11,7 +11,8 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: AllDataa(),
+     // home: AllDataa(),
+     home:Homepage(),
     );
   }
 }

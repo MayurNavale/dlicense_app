@@ -4,106 +4,28 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 //import 'ratingCertificateEndorsementOptions.dart';
 import 'model.dart';
-
-class SecondRoute extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text("Selected option"),
-      ),
-      body: Container(
-        padding: new EdgeInsets.all(10.0),
-
-        child: ListView(
-          children:[
-            Text('State of issue: $contries'),
-            Text('Licence code : $licenceCodeOptions'),
-            Text('Licence numbe:  $licence_Number'),
-            Text('Title of licence: $titleOfLicenceOptions'),
-            Text('Date of Initial Issue:  $dateOfInitialIssue'),
-            Text('Issued By(Countr code: $countryCodes'),
-           // Text(_dateTime == null ? 'Nothing has been picked yet' : _dateTime.toString()),
-            Text('Date of rating test:  $dateofratingtest'),
-            Text('Date of IR test:  $dateofIRtest'),
-            Text('Valid until  :  $validuntil'),
-            Text('Examiners certificate number : $examinerscertificatenumber'),
-            Text('Class:$classOptions'),
-            Text('Type :$tpyeOptionData'),
-            Text('IR :$ir'),Text('Co-Pilot :$co_Pilot'),
-            Text('--------------------'),
-            Text('Additional Ratings'),
-            Text('Class :$addtiionalratingclassOptions'),
-            Text('Type:$additionalratingtpyeOptionData'),
-            Text('IR :$additionalratingIR'),
-            Text('Co-Pilot :$additionalratingcoPilot'),
-            Text('Remarks and Restrictions :$remarksandRestrictions'),
-            Text('-----------------'),
-            Text('Instructor'),
-            Text('Instructor :$instructorsOptions'),
-            Text('Remarks and Restrictions :$instructorremarksandRestrictions'),
-            Text('---------------'),
-            Text('Examiners :'),Text('Examiners :$examiners'),Text('Remarks and Restrictions :$examinarRemarksandRestrictions'),
-            Text('---------------'),
-            Text('Rating certificate endorsement :$ratingcertificateendorsement'),
-
-
-
-            FlatButton(
-              color:Colors.yellow,
-              child: Text('Done'),
-              textColor:Colors.black,
-              onPressed: () {
-
-              },
-
-            ),
-
-
-          ],
-        ),
-      ),
-
-    );
-  }
-}
-
-class Licencepage extends StatefulWidget {
-  @override
-  _Licencepage createState() => new _Licencepage();
-}
-Color c1 = const Color(0xCFCFCF);
-DateTime _dateTime;
-
- 
-bool additionalratingIR=false;
-// stores ExpansionPanel state information
-
-
-
-class MyItem {
-  MyItem({this.isExpanded: false, this.header, this.ir, this.co_Pilot});
-
+ class MyItem {
   bool isExpanded;
   final String header;
   bool ir = false;
   bool co_Pilot = false;
-  
-}
-
+  MyItem({this.isExpanded: false, this.header, this.ir, this.co_Pilot});
+  }
+class Licencepage extends StatefulWidget {
+  @override
+  _Licencepage createState() => new _Licencepage();
+  }
+  Color c1 = const Color(0xCFCFCF);
+  DateTime _dateTime;
+  bool additionalratingIR=false;
+ 
 class _Licencepage extends State<Licencepage> {
   List<MyItem> _items = <MyItem>[new MyItem(header: ' Additional Ratings')];
   List<MyItem> _insts = <MyItem>[new MyItem(header: ' Instructors')];
   List<MyItem> _examiner = <MyItem>[new MyItem(header: ' Examiners')];
-  List<MyItem> _rating = <MyItem>[
-    new MyItem(header: ' Rating certificate endorsement')
-  ];
-
+  List<MyItem> _rating = <MyItem>[new MyItem(header: ' Rating certificate endorsement')];
   @override
   Widget build(BuildContext context) {
-
-
-
     return Scaffold(
         appBar: AppBar(
           title: Text('Licence'),
@@ -113,50 +35,22 @@ class _Licencepage extends State<Licencepage> {
           child: LayoutBuilder(
             builder: (BuildContext context, BoxConstraints viewportConstraints) {
               return ListView(
-
-                padding: new EdgeInsets.all(2.0),
-                children: [
-                  Container(
-                    child: _contries(),
-                  ),
-                  Container(
-                    child: _licenceCodeOptions(),
-                  ),
-                  Container(
-                    child: _licenceNumber(),
-                  ),
-                  Container(
-                    child: _titleOfLicenceOptions(),
-                  ),
-                  Container(
-                    child: _dateOfInitialIssue(),
-                  ),
-                  Container(
-                    child: _countryCodes(),
-                  ),
-                  Container(
-                    child: _dateofratingtest(),
-                  ),
-                  Container(
-                    child: _dateofIRtest(),
-                  ),
-                  Container(
-                    child: _validuntil(),
-                  ),
-                  Container(
-                    child: _examinerscertificatenumber(),
-                  ),
-                  Container(child: _classOptions(),
-                  ),
-                  Container(
-                    child: _tpyeOptionData(),
-                  ),
-                  Container(
-                    child: _ir(),
-                  ),
-                  Container(
-                    child: _coPilot(),
-                  ),
+                 padding: new EdgeInsets.all(2.0),
+                 children: [
+                   _contries(), 
+                   _licenceCodeOptions(),
+                   _licenceNumber(),
+                   _titleOfLicenceOptions(),
+                   _dateOfInitialIssue(),
+                   _countryCodes(),
+                   _dateofratingtest(),
+                   _dateofIRtest(),
+                   _validuntil(),
+                   _examinerscertificatenumber(),
+                   _classOptions(),
+                   _tpyeOptionData(),
+                   _ir(),
+                   _coPilot(),
                   ExpansionPanelList(
                     expansionCallback: (int index, bool isExpanded) {
                       setState(() {
@@ -191,10 +85,7 @@ class _Licencepage extends State<Licencepage> {
                   ),
                   ExpansionPanelList(
                     expansionCallback: (int index, bool isExpanded) {
-                      setState(() {
-
-                        _insts[index].isExpanded = !_insts[index].isExpanded;
-                      });
+                      setState(() { _insts[index].isExpanded = !_insts[index].isExpanded;});
                     },
                     children: _insts.map((MyItem item) {
                       return new ExpansionPanel(
@@ -214,12 +105,8 @@ class _Licencepage extends State<Licencepage> {
                           ),
                           child: Column(
                             children: [
-                              Expanded(
-                                child: _instructorsOptions(),
-                              ),
-                              Expanded(
-                                child: _instructorremarksandRestrictions(),
-                              ),
+                              Expanded(child: _instructorsOptions(), ),
+                              Expanded(child: _instructorremarksandRestrictions(), ),
                             ],
                           ),
                         ),
@@ -250,12 +137,8 @@ class _Licencepage extends State<Licencepage> {
                           ),
                           child: Column(
                             children: [
-                              Expanded(
-                                child: _examiners(),
-                              ),
-                              Expanded(
-                                child: _examinarRemarksandRestrictions(),
-                              ),
+                              Expanded( child: _examiners(), ),
+                              Expanded( child: _examinarRemarksandRestrictions(), ),
                             ],
                           ),
                         ),
@@ -286,9 +169,7 @@ class _Licencepage extends State<Licencepage> {
                           ),
                           child: Column(
                             children: [
-                              Expanded(
-                                child: _ratingcertificateendorsement(),
-                              ),
+                              Expanded(child: _ratingcertificateendorsement(),  ),
                             ],
                           ),
                         ),
@@ -300,11 +181,8 @@ class _Licencepage extends State<Licencepage> {
                     child: Text('Save'),
                     textColor:Colors.black,
                     onPressed: () { Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => ClassModal()),
-              );}
-                 
-
+                context,MaterialPageRoute(builder: (context) => ClassModal()),
+                  );} 
                   ),
                 ],
               );
@@ -320,10 +198,7 @@ class _Licencepage extends State<Licencepage> {
       title: DropdownButton<String>(
         hint: Text('Rating certificate endorsementr:'),
         style: TextStyle(color: Colors.deepPurple),
-        underline: Container(
-          height: 2,
-          color: Colors.deepPurpleAccent,
-        ),
+        underline: Container(height: 2, color: Colors.deepPurpleAccent, ),
         onChanged: (String newValue) {
           setState(() {
             ratingcertificateendorsement = newValue;
@@ -333,13 +208,10 @@ class _Licencepage extends State<Licencepage> {
          items: licensetitlesdatalist.map((item) {
             return new DropdownMenuItem(
               child: new Text(item['title']),
-              value: item['id'].toString(),
-              
-            );
+              value: item['id'].toString(),);
         }).toList(),
         value: ratingcertificateendorsement,
-        
-      ),
+         ),
     );
   }
   Widget _classOptions() {
@@ -405,38 +277,26 @@ class _Licencepage extends State<Licencepage> {
   Widget _ir() {
     return ListTile(
       leading: Checkbox(
-        //checkColor :Colors.deepPurpleAccent,
         hoverColor: Colors.deepPurpleAccent,
         value: ir,
-        onChanged: (bool newValue) {
-          setState(() { ir = newValue;});
-        },
+        onChanged: (bool newValue) { setState(() { ir = newValue;}); },
       ),
       title: Text('IR'),
     );}
   Widget _additionalratingIR() {
     return ListTile(
-      leading: Checkbox(
-        //checkColor :Colors.deepPurpleAccent,
+        leading: Checkbox(
         hoverColor: Colors.deepPurpleAccent,
         value: additionalratingIR,
-        onChanged: (bool newValue) {
-          setState(() { additionalratingIR = newValue;});
-        },
+        onChanged: (bool newValue) {setState(() { additionalratingIR = newValue;});},
       ),
       title: Text('IR'),
     );}
   Widget _coPilot(){
     return ListTile(
-      leading: Checkbox(
-        //checkColor :Colors.deepPurpleAccent,
-        hoverColor: Colors.deepPurpleAccent,
+        leading: Checkbox(hoverColor: Colors.deepPurpleAccent,
         value: co_Pilot,
-        onChanged: (bool newValue) {
-          setState(() {
-            co_Pilot = newValue;
-          });
-        },
+        onChanged: (bool newValue) { setState(() { co_Pilot = newValue; }); },
       ),
       title: Text('Co_Pilot'),
     );
@@ -444,7 +304,6 @@ class _Licencepage extends State<Licencepage> {
   Widget _additionalratingcoPilot(){
     return ListTile(
       leading: Checkbox(
-        //checkColor :Colors.deepPurpleAccent,
         hoverColor: Colors.deepPurpleAccent,
         value: additionalratingcoPilot,
         onChanged: (bool newValue) {
@@ -458,18 +317,15 @@ class _Licencepage extends State<Licencepage> {
   }
   Widget _examiners() {
     return ListTile(
-      trailing: Icon(Icons.delete),
-      leading: Text('Examiners'),
-      title: DropdownButton<String>(
+        trailing: Icon(Icons.delete),
+        leading: Text('Examiners'),
+        title: DropdownButton<String>(
         hint: Text('Options'),
         icon: Icon(IconData(58131, fontFamily: 'MaterialIcons')),
         iconSize: 24,
         elevation: 16,
         style: TextStyle(color: Colors.deepPurple),
-        underline: Container(
-          height: 2,
-          color: Colors.deepPurpleAccent,
-        ),
+        underline: Container( height: 2, color: Colors.deepPurpleAccent, ),
         onChanged: (String newValue) {
           setState(() {
             examiners = newValue;
@@ -598,7 +454,6 @@ class _Licencepage extends State<Licencepage> {
           },
         ));
   }
-
   Widget _licenceNumber() {
     return ListTile(
         //autofocus: true,
@@ -612,7 +467,6 @@ class _Licencepage extends State<Licencepage> {
           },
         ));
   }
-
   Widget _examinerscertificatenumber() {
     return ListTile(
         //autofocus: true,
@@ -626,7 +480,6 @@ class _Licencepage extends State<Licencepage> {
           },
         ));
   }
-
   Widget _titleOfLicenceOptions() {
     return ListTile(
       leading: Text('Title of licence  :'),
@@ -655,7 +508,6 @@ class _Licencepage extends State<Licencepage> {
       ),
     );
   }
-
   Widget _dateOfInitialIssue() {
     return ListTile(
       leading: Text('Date of initial issue : '),
@@ -687,7 +539,6 @@ class _Licencepage extends State<Licencepage> {
       ),
     );
   }
-
   Widget _dateofratingtest() {
     return ListTile(
       leading: Text('date Of Rating Test'),
@@ -717,7 +568,6 @@ class _Licencepage extends State<Licencepage> {
       ),
     );
   }
-
   Widget _dateofIRtest() {
     return ListTile(
       leading: Text('Date of IR Test : '),
@@ -749,7 +599,6 @@ class _Licencepage extends State<Licencepage> {
       ),
     );
   }
-
   Widget _validuntil() {
     return ListTile(
       leading: Text('Date of initial issue : '),
@@ -780,7 +629,6 @@ class _Licencepage extends State<Licencepage> {
       ),
     );
   }
-
   Widget _countryCodes() {
     return ListTile(
       leading: Text('Issued by :   '),
@@ -809,7 +657,6 @@ class _Licencepage extends State<Licencepage> {
       ),
     );
   }
-
   Widget _tpyeOptionData() {
     return ListTile(
       leading: Text('Type'),
@@ -836,8 +683,7 @@ class _Licencepage extends State<Licencepage> {
         }).toList(),
         value: tpyeOptionData,
       ),
-    );
-  }
+    );}
   Widget _additionalratingtpyeOptionData() {
     return ListTile(
       leading: Text('Type'),
@@ -864,9 +710,7 @@ class _Licencepage extends State<Licencepage> {
         }).toList(),
         value: additionalratingtpyeOptionData,
       ),
-    );
-  }
-
+    );}
   Widget _instructorsOptions() {
     return ListTile(
       leading: Text('Instructors :'),
@@ -914,11 +758,7 @@ class _Licencepage extends State<Licencepage> {
         }).toList(),
         value: instructorsOptions,
       ),
-    );
-  }
-
-
-
+    );}
 
 
 }

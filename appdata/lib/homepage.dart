@@ -8,14 +8,13 @@ import 'dbdispla.dart';
 //import 'package:http/http.dart' as http;
 
 import 'licencepage.dart';
-
-
-class AllDataa extends StatefulWidget {
+class Homepage extends StatefulWidget {
   @override
-  _AllDataa createState() => _AllDataa();
+  _HomepageState createState() => _HomepageState();
 }
 
-class _AllDataa extends State<AllDataa> {
+class _HomepageState extends State<Homepage> {
+
 
 
   // reference to our single class that manages the database
@@ -80,7 +79,8 @@ class _AllDataa extends State<AllDataa> {
               onPressed: () { Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) => HomePage()),
-              );},
+              );
+              },
             ),
            
           ],
