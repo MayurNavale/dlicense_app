@@ -3,13 +3,18 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'model.dart';
 import 'homepage.dart';
-class AllData extends StatefulWidget {
+class Apidata extends StatefulWidget {
   @override
-  _AllData createState() => _AllData();
+  _ApidataState createState() => _ApidataState();
 }
+
+class _ApidataState extends State<Apidata> {
+  @override
+ 
+
 List asdfg=[];
 
-class _AllData extends State<AllData> {
+
 
   //List planetList = ["planet", "Venus", "Earth"];
   bool isSearching = false;

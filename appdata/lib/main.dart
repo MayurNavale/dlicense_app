@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-// change `flutter_database` to whatever your project name is
 import 'apidata.dart';
 import 'homepage.dart';
 void  main() => runApp(MyApp());

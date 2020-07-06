@@ -686,17 +686,14 @@ class _Licencepage extends State<Licencepage> {
     );}
   Widget _additionalratingtpyeOptionData() {
     return ListTile(
-      leading: Text('Type'),
-      title: DropdownButton<String>(
+        leading: Text('Type'),
+        title: DropdownButton<String>(
         hint: Text('Type'),
         icon: Icon(IconData(58131, fontFamily: 'MaterialIcons')),
         iconSize: 24,
         elevation: 16,
         style: TextStyle(color: Colors.deepPurple),
-        underline: Container(
-          height: 2,
-          color: Colors.deepPurpleAccent,
-        ),
+        underline: Container( height: 2,color: Colors.deepPurpleAccent, ),
         onChanged: (String newValue) {
           setState(() {
             additionalratingtpyeOptionData = newValue;
@@ -713,43 +710,40 @@ class _Licencepage extends State<Licencepage> {
     );}
   Widget _instructorsOptions() {
     return ListTile(
-      leading: Text('Instructors :'),
-      title: DropdownButton<String>(
+        leading: Text('Instructors :'),
+        title: DropdownButton<String>(
         hint: Text('Type'),
         icon: Icon(IconData(58131, fontFamily: 'MaterialIcons')),
         iconSize: 24,
         elevation: 16,
         style: TextStyle(color: Colors.deepPurple),
-        underline: Container(
-          height: 2,
-          color: Colors.deepPurpleAccent,
-        ),
+        underline: Container(height: 2, color: Colors.deepPurpleAccent,),
         onChanged: (String newValue) {
-          setState(() {
+           setState(() {
             instructorsOptions = newValue;
-         print('instructorsOptions $instructorsOptions'); });
-        },
+            print('instructorsOptions $instructorsOptions'); });
+           },
         items: <String>[
            'FE(A)',
-    'FE(H)',
-    'FE(As)',
-    'FE(S)',
-    'FE(B)',
-    'TRE(A)',
-    'TRE(PL)',
-    'TRE(H)',
-    'CRE',
-    'IRE(A)',
-    'IRE(H)',
-    'IRE(As)',
-    'SFE(A)',
-    'SFE(PL)',
-    'SFE(H)',
-    'FIE(A)',
-    'FIE(H)',
-    'FIE(As)',
-    'FIE(S)',
-    'FIE(B)'
+            'FE(H)',
+            'FE(As)',
+            'FE(S)',
+            'FE(B)',
+            'TRE(A)',
+            'TRE(PL)',
+            'TRE(H)',
+            'CRE',
+            'IRE(A)',
+            'IRE(H)',
+            'IRE(As)',
+            'SFE(A)',
+            'SFE(PL)',
+            'SFE(H)',
+            'FIE(A)',
+            'FIE(H)',
+            'FIE(As)',
+            'FIE(S)',
+            'FIE(B)'
         ].map<DropdownMenuItem<String>>((String value) {
           return DropdownMenuItem<String>(
             value: value,
@@ -758,7 +752,8 @@ class _Licencepage extends State<Licencepage> {
         }).toList(),
         value: instructorsOptions,
       ),
-    );}
+    );
+  }
 
 
 }
