@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'apidata.dart';
+import 'checkDBandAPIautomatic.dart';
 import 'homepage.dart';
 void  main() => runApp(MyApp());
 class MyApp extends StatelessWidget {
@@ -12,6 +13,7 @@ class MyApp extends StatelessWidget {
       ),
      // home: AllDataa(),
      home:Homepage(),
+    // home:SplashScreen(),
     );
   }
 }

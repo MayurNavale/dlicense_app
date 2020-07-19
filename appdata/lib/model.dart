@@ -43,6 +43,7 @@ import 'package:http/http.dart' as http;
     bool co_Pilot = false;
     bool additionalratingcoPilot=false;
     bool additionalratingIR=false;
+    bool loaded=false;
 
     String dt_irtest;
     String licence_Number;

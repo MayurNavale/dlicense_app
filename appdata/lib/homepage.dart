@@ -1,25 +1,57 @@
 import 'package:appdata/licencepage.dart';
 import 'package:flutter/material.dart';
 // change `flutter_database` to whatever your project name is
-import 'database_helper.dart';
+import 'splashscreen.dart';
 import 'model.dart';
-//import 'ipdata.dart';
+import 'checkDBandAPIautomatic.dart';
 import 'dbdispla.dart';
+//import 'licencepage.dart';   
+import 'package:appdata/licencePage/licencdhomepage.dart';
+//imer timer;
 //import 'package:http/http.dart' as http;
 
-import 'licencepage.dart';
+
 class Homepage extends StatefulWidget {
   @override
   _HomepageState createState() => _HomepageState();
 }
 
 class _HomepageState extends State<Homepage> {
+  
 
 
+  // @override
+  // void initState() {
+  //   print(urls.length);
+     
+  //    getCountries() {
+  //     setState(() {
+       
+  //     });super.initState();
+  
 
   // reference to our single class that manages the database
   final dbHelper = DatabaseHelper.instance;
- 
+  @override
+  void initState() {
+    super.initState();
+    print('home page');
+    checkloaded();
+  }
+ void checkloaded() async {
+  Future.delayed(const Duration(milliseconds: 3000), () {
+ adddatabase();
+});
+  Future.delayed(const Duration(milliseconds: 1000));
+ _queryall();
+ Future.delayed(const Duration(milliseconds: 3000));
+//   if(statedatalist.length>0){
+//   Navigator.push(context,MaterialPageRoute(builder: (context) =>Licencepage()), );
+//     print('\n');
+// // classdatamap(allRowsclassb);
+//   }
+ }
+  
   
   String classOptions;
    List classdata = [];
@@ -68,12 +100,21 @@ class _HomepageState extends State<Homepage> {
             //   onPressed: () {_delete();},
             // ),
             RaisedButton(
-              child: Text('license page', style: TextStyle(fontSize: 20),),
-              onPressed: () { Navigator.push(
+              child: Text('new license page', style: TextStyle(fontSize: 20),),
+              onPressed: () { 
+                Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => Licencepage()),
-              );},
+                MaterialPageRoute(builder: (context) => Licencepagehome()),
+              );
+              },
             ),
+            // RaisedButton(
+            //   child: Text('new license page', style: TextStyle(fontSize: 20),),
+            //   onPressed: () { Navigator.push(
+            //     context,
+            //     MaterialPageRoute(builder: (context) => Licencepage()),
+            //   );},
+            // ),
             RaisedButton(
               child: Text('ipdata', style: TextStyle(fontSize: 20),),
               onPressed: () { Navigator.push(
@@ -94,7 +135,7 @@ class _HomepageState extends State<Homepage> {
   void adddatabase(){
    int count=countriesdata.length;
   print(count);
-  int dat,a,b,c,d;
+  int dat,a,b;
   String m,n,s;
   
    
@@ -204,6 +245,7 @@ class _HomepageState extends State<Homepage> {
      };
     final typeNameid = await dbHelper.insertstatedatatable(row);
     print('inserted row id: $typeNameid');
+    loaded=true;
   }
   void msdela(){
    for(int dat=0;dat<1000;dat++){ }  

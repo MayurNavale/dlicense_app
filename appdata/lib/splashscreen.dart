@@ -47,16 +47,16 @@ static final typeNameid = 'id';
   DatabaseHelper._privateConstructor();
   static final DatabaseHelper instance = DatabaseHelper._privateConstructor();
 
-  // only have a single app-wide reference to the database
+ 
   static Database _database;
   Future<Database> get database async {
-    if (_database != null) return _database;
-    // lazily instantiate the db the first time it is accessed
+    if (_database != null) 
+    return _database;
     _database = await _initDatabase();
     return _database;
   }
   
-  // this opens the database (and creates it if it doesn't exist)
+ 
   _initDatabase() async {
     Directory documentsDirectory = await getApplicationDocumentsDirectory();
     String path = join(documentsDirectory.path, _databasec);
@@ -110,9 +110,9 @@ static final typeNameid = 'id';
   // Inserts a row in the database where each key in the Map is a column name
   // and the value is the column value. The return value is the id of the
   // inserted row.
-  Future<int> insertcountriesdatatable(  Map<String, dynamic> row) async {
+  Future<int> insertcountriesdatatable(  Map<String, dynamic> rowclass) async {
     Database db = await instance.database;
-    return await db.insert(countriesdatatable, row);
+    return await db.insert(countriesdatatable, rowclass);
   }
  Future<int> insertlicenseclassdatatable(  Map<String, dynamic> rowclass) async {
     Database db = await instance.database;
