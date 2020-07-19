@@ -3,13 +3,18 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'model.dart';
 import 'homepage.dart';
-class AllData extends StatefulWidget {
+import 'licencepage.dart';
+class Apidata extends StatefulWidget {
   @override
-  _AllData createState() => _AllData();
+  _ApidataState createState() => _ApidataState();
 }
-List asdfg=[];
 
-class _AllData extends State<AllData> {
+class _ApidataState extends State<Apidata> {
+ 
+
+//List asdfg=[];
+
+
 
   //List planetList = ["planet", "Venus", "Earth"];
   bool isSearching = false;
@@ -28,19 +33,32 @@ class _AllData extends State<AllData> {
       setState(() {
         apidata =  data;
         assigndata(apidata,i);
+         Future.delayed(const Duration(milliseconds: 60));
       });
     });
     super.initState();
+  //  if(statedata.length>3)gonext();
   }
-  }
-  void _filterCountries(value) {
-    setState(() {
-      filteredCountries = countries
-.where((country) =>
-              country['className'].toLowerCase().contains(value.toLowerCase()))
-          .toList();
-    });
-  }
+  // Navigator.push(
+  //               context,
+  //               MaterialPageRoute(builder: (context) =>Licencepage()),
+  //             );
+   }
+//    void gonext(){
+//      print(statedata.length);
+//        //  Future.delayed(const Duration(milliseconds: 8000));
+//     print('acces api');
+  
+//     Navigator.push(context,MaterialPageRoute(builder: (context) =>Homepage()),);
+//  }
+//   void _filterCountries(value) {
+//     setState(() {
+//       filteredCountries = countries
+// .where((country) =>
+//               country['className'].toLowerCase().contains(value.toLowerCase()))
+//           .toList();
+//     });
+//   }
 void assigndata(List dataitem ,int k){
    switch(k) { 
    case 0: { 
@@ -58,7 +76,7 @@ void assigndata(List dataitem ,int k){
     print('licenseclassdata');
     print(licenseclassdata);
     print('\n');
-    countries=filteredCountries=licenseclassdata;
+    
       //statements; 
    } 
    break; 
@@ -86,8 +104,8 @@ void assigndata(List dataitem ,int k){
    break; 
     case 5: { 
     statedata = dataitem;
-      print('statedata');  print(statedata);
-      print('\n');
+      print('statedata');  print(statedata);print(statedata.length);
+
       // statements; 
    } 
    break; 
@@ -96,73 +114,30 @@ void assigndata(List dataitem ,int k){
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.pink,
-        title: !isSearching
-            ? Text('All Countries')
-            : TextField(
-                onChanged: (value) {
-                  _filterCountries(value);
-                },
-                style: TextStyle(color: Colors.white),
-                decoration: InputDecoration(
-                    icon: Icon(
-                      Icons.search,
-                      color: Colors.white,
-                    ),
-                    hintText: "Search Country Here",
-                    hintStyle: TextStyle(color: Colors.white)),
-              ),
-        actions: <Widget>[
-          isSearching
-              ? IconButton(
-                  icon: Icon(Icons.cancel),
-                  onPressed: () {
-                    setState(() {
-                      this.isSearching = false;
-                      filteredCountries = countries;
-                    });
-                  },
-                )
-              : IconButton(
-                  icon: Icon(Icons.search),
-                  onPressed: () {
-                    setState(() {
-                      this.isSearching = true;
-                    });
-                  },
-                )
-        ],
-      ),
+      backgroundColor: Color(0xffffff),
       body: Container(
         padding: EdgeInsets.all(10),
-        child: filteredCountries.length > 0
-            ? ListView.builder(
-                itemCount: filteredCountries.length,
-                itemBuilder: (BuildContext context, int index) {
-                  return GestureDetector(
-                    onTap: () {
-                    Navigator.push(
+        child:Center(
+        child: Row(
+           children: <Widget>[
+            RaisedButton(
+              child: Text('ipdata', style: TextStyle(fontSize: 20),),
+              onPressed: () { Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) => Homepage()),
               );
-                    },
-                    child: Card(
-                      elevation: 10,
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(
-                            vertical: 10, horizontal: 8),
-                        child: Text(
-                         filteredCountries[index]['className'],
-                          style: TextStyle(fontSize: 18),
-                        ),
-                      ),
+              },
+            ),
+                  Text(
+                    "initializing",
+                    style: TextStyle(
+                      fontSize: 40.0,
+                      color:Colors.white,
+                      fontWeight:FontWeight.w800,
+                      fontFamily: "Cursive",
                     ),
-                  );
-                })
-            : Center(
-                child: CircularProgressIndicator(),
-              ),
+                  ),])
+        ),  
       ),
     );
   }

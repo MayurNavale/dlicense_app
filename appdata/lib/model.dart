@@ -43,6 +43,7 @@ import 'package:http/http.dart' as http;
     bool co_Pilot = false;
     bool additionalratingcoPilot=false;
     bool additionalratingIR=false;
+    bool loaded=false;
 
     String dt_irtest;
     String licence_Number;
@@ -121,7 +122,7 @@ class Licence {
   int issuedBy;
   List<LicenseDetails> licenseDetails;
   int licenseNumber;
-  List<Personnel> personnel;
+ // List<Personnel> personnel;
   String ratingCertId;
   String remarks;
   int stateId;
@@ -139,7 +140,7 @@ class Licence {
       this.issuedBy,
       this.licenseDetails,
       this.licenseNumber,
-      this.personnel,
+     // this.personnel,
       this.ratingCertId,
       this.remarks,
       this.stateId,
@@ -149,9 +150,9 @@ class Licence {
         ? this.licenseDetails.map((i) => i.toJson()).toList()
         : null;
 
-    List<Map> personnel = this.personnel != null
-        ? this.personnel.map((i) => i.toJson()).toList()
-        : null;
+    // List<Map> personnel = this.personnel != null
+    //     ? this.personnel.map((i) => i.toJson()).toList()
+    //     : null;
 
     return {
       "additionalRemarks": additionalRemarks,
@@ -166,7 +167,7 @@ class Licence {
       "issuedBy": issuedBy,
       'licenseDetails': licenseDetails,
       "licenseNumber": licenseNumber,
-      'personnel': personnel,
+    // "personnel" : personnel,
       "ratingCertId": ratingCertId,
       "remarks": remarks,
       "stateId": stateId,
@@ -220,9 +221,9 @@ class Personnel {
 }
 
 String dt='2019-07-19'.toString();
- String userid='123467891234678912346789123467891234'.toString();
+ String userid='123e4567-e89b-12d3-a456-426655440000';
 int a =2;
-int b = 3;
+int b = 2;
 bool v = true;
 String m = 'rowdata';
 String n = 'rowDataB';
@@ -266,11 +267,11 @@ shoe() {
 
   //=alldetail;
 
-  List<LicenseDetails> licenseDetails = [LicenseDetails(v, a, v, a, v, a)];
-  List<Personnel> personnel = [Personnel(a,  userid,  n,  n)];
+  List<LicenseDetails> licenseDetails = [LicenseDetails(v, a, v, null, v, a)];
+  //List<Personnel> personnel = [Personnel(34,  userid,  n,  n)];
 
   Licence licence = Licence(
-      m, 121, dt, dt, dt, dt, a, b, a, b, licenseDetails, a, personnel, m, n, a, 142);
+      m, 1, dt, dt, dt, dt, a, b, a, b, licenseDetails, a, m, n, a, 2);
   String jsonTutorial = jsonEncode(licence);
   print(jsonTutorial);
 
