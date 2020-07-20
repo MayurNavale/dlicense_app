@@ -2,10 +2,10 @@
 
 
 import 'package:intl/intl.dart';
-import 'package:appdata/licencePage/model.dart';
+import 'package:appdata/src/models/masterdata.dart';
 import 'package:flutter/material.dart';
 import 'model.dart';
-import 'package:appdata/model.dart';
+
 
 class Licencepagehome extends StatefulWidget {
   @override
@@ -473,15 +473,18 @@ var initialDate =convertToDate(initialDateString) ?? now;
    _formKey.currentState.reset();
 }
   void _validateInputs() {
-  if (_formKey.currentState.validate()) {
-//    If all data are correct then save data to out variables
-    _formKey.currentState.save();
-    postdata(  saveLicenseData,licenseDetail);
-  } else {
-//    If all data are not valid then start auto validation.
-    setState(() {
-      _autoValidate = true;
-    });
-  }
+    print(licensecodesdatalist);
+    print(countriesdatalist);
+    print(airlinedatalist);
+//   if (_formKey.currentState.validate()) {
+// //    If all data are correct then save data to out variables
+//     _formKey.currentState.save();
+//     postdata(  saveLicenseData,licenseDetail);
+//   } else {
+// //    If all data are not valid then start auto validation.
+//     setState(() {
+//       _autoValidate = true;
+//     });
+//   }
 }
 }

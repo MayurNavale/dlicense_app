@@ -162,6 +162,9 @@ void postdata(
  String jsons = welcomeToJson(saveLicenseData);
  print( jsons);
  sendRequest( jsons) ;
+ for(int r=0;r<1231;r++){}
+  print( jsons);
+  
 }
 
 sendRequest( String data) async {
@@ -175,6 +178,18 @@ sendRequest( String data) async {
       print("Response body: ${response.body}");
     });  
   }
+
+
+
+
+  ///////////////////
+
+  
+
+ ////////////////////////////////////////////////////////////////////////
+
+///////////////
+
 
 
 
