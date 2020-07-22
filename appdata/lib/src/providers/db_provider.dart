@@ -186,6 +186,7 @@ return res;
     
      airlinedatalist = await db.rawQuery("SELECT * FROM AIRLINEDATATABLE");
  print(airlinedatalist);
+ if(airlinedatalist.length>0){hasdata=1;}else{hasdata=0;}
  airlinedatalist=airlinedatalist;
  countriesdatalist = await db.rawQuery("SELECT * FROM COUNTRY");
  print(countriesdatalist);
@@ -213,9 +214,11 @@ niveauleveldatalist = await db.rawQuery("SELECT * FROM NIVEAULEVEL");
  print(schooldatalist);
   statedatalist = await db.rawQuery("SELECT * FROM STATEDATATABLE");
   print(statedatalist);
+ 
+ print(hasdata);
     List<Stateclass> list =
         statedatalist.isNotEmpty ? statedatalist.map((c) => Stateclass.fromJson(c)).toList() : [];
-
+ //if(list.length>0){hasdata=6;}
     return list;
   
   

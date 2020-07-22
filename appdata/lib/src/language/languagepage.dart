@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 //import 'package:flutter/material.dart';
 import 'package:appdata/src/models/masterdata.dart';
 
-DateTime _dateTime;
+// DateTime _dateTime;
     String dt_irtest;
    
     var contries;
@@ -26,7 +26,7 @@ class Licencepage extends StatefulWidget {
   }
 class _Licencepage extends State<Licencepage> {
   LanguagePost language=new LanguagePost();
-  TextEditingController _datecontroller = new TextEditingController(); TextEditingController datecontroller = new TextEditingController();
+ // TextEditingController _datecontroller = new TextEditingController(); TextEditingController datecontroller = new TextEditingController();
   TextEditingController ba= new TextEditingController();
    final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   bool _autoValidate = false;

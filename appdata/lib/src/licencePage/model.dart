@@ -1,12 +1,12 @@
-import 'package:flutter/material.dart';
+
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
-Welcome welcomeFromJson(String str) => Welcome.fromJson(json.decode(str));
-String welcomeToJson(Welcome data) => json.encode(data.toJson());
+Languageclass LanguageclassFromJson(String str) => Languageclass.fromJson(json.decode(str));
+String LanguageclassToJson(Languageclass data) => json.encode(data.toJson());
 
-class Welcome {
-    Welcome({
+class Languageclass {
+    Languageclass({
            this.additionalRemarks,
         this.codeId,
         this.countryId,
@@ -43,7 +43,7 @@ class Welcome {
     int stateId;
     int titleId;
 
-    factory Welcome.fromJson(Map<String, dynamic> json) => Welcome(
+    factory Languageclass.fromJson(Map<String, dynamic> json) => Languageclass(
          additionalRemarks: json["additionalRemarks"] == null ? null : json["additionalRemarks"],
         codeId: json["codeId"] == null ? null : json["codeId"],
         countryId: json["countryId"] == null ? null : json["countryId"],
@@ -153,13 +153,13 @@ class Personneldata {
 
 
 void postdata(
- Welcome saveLicenseData,
+ Languageclass saveLicenseData,
  LicenseDetail licenseDetail,
  //Personneldata personal
  ){
  //saveLicenseData.personnel = <Personneldata>[personal];
  saveLicenseData.licenseDetails = <LicenseDetail>[licenseDetail];
- String jsons = welcomeToJson(saveLicenseData);
+ String jsons = LanguageclassToJson(saveLicenseData);
  print( jsons);
  sendRequest( jsons) ;
  for(int r=0;r<1231;r++){}
@@ -178,7 +178,6 @@ sendRequest( String data) async {
       print("Response body: ${response.body}");
     });  
   }
-
 
 
 

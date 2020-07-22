@@ -1,7 +1,6 @@
 
 
-import 'dart:convert';
-//import 'model.dart';
+
 import 'modal.dart';
 import 'package:flutter/material.dart';
 //import 'package:flutter/material.dart';
@@ -39,16 +38,7 @@ class _LogBookPage extends State<LogBookPage> {
     bool visibilityTag = false;
   bool visibilityObs = false;
 Logbook logbookdata=new Logbook();
-  void _changed(bool visibility, String field) {
-    setState(() {
-      if (field == "tag"){
-        visibilityTag = visibility;
-      }
-      if (field == "obs"){
-        visibilityObs = visibility;
-      }
-    });
-  }
+
 
  String a;
  bool checkboxValue=false;

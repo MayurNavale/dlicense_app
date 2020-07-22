@@ -1,7 +1,5 @@
 
 
-import 'dart:convert';
-//import 'model.dart';
 import 'modal.dart';
 import 'package:flutter/material.dart';
 //import 'package:flutter/material.dart';
@@ -33,7 +31,7 @@ class _MedicalPage extends State<MedicalPage> {
   String levelvalueanswer;
   String fromjsondata;
   
-  final TextEditingController _controller = new TextEditingController();
+ 
   Future<void> _selectDate(BuildContext context,var a,TextEditingController datecontroller ) async {
       showDatePicker(
                      context: context,

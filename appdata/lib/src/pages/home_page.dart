@@ -1,10 +1,9 @@
 
-import 'package:appdata/src/pages/signinPage.dart';
 import 'package:appdata/src/providers/db_provider.dart';
 import 'package:appdata/src/providers/employee_api_provider.dart';
+import 'package:async/async.dart';
 import 'package:flutter/material.dart';
-import 'package:appdata/src/userregisterpage/registeruserpage.dart';
-import 'package:appdata/src/licencePage/licencdhomepage.dart';
+import 'package:appdata/src/models/masterdata.dart';
 import 'navdrawar.dart';
 class HomePage extends StatefulWidget {
   const HomePage({Key key}) : super(key: key);
@@ -15,7 +14,29 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   var isLoading = false;
+  @override
+  void initState() {
+   
+    super.initState();
+   
+  
+  checkapi();
+  }
 
+ checkapi()async{
+    await Future.delayed(const Duration(seconds: 2));
+ if(hasdata==0){_loadFromApi();
+//  if(isLoading=false)
+//  {
+//  DBProvider.db.getAlldata();
+//  }
+// Here you can write your code
+ }
+ 
+ }
+   
+  
+ 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -58,7 +79,8 @@ body: isLoading
           ? Center(
               child: CircularProgressIndicator(),
             )
-          : _buildEmployeeListView(),
+          //Container(),
+           :_buildEmployeeListView(),
     );
   }
 
@@ -71,35 +93,35 @@ body: isLoading
     await apiProvider.stateapimasterdata();
 
     // wait for 2 seconds to simulate loading of data
-    await Future.delayed(const Duration(seconds: 2));
+    await Future.delayed(const Duration(milliseconds: 600));
    await apiProvider.airlineapimasterdata();
-    await Future.delayed(const Duration(seconds: 2));
+    await Future.delayed(const Duration(milliseconds: 600));
     await apiProvider.countryNameapimasterdata();
-    await Future.delayed(const Duration(seconds: 2));
+    await Future.delayed(const Duration(milliseconds: 600));
     await apiProvider.doctorNameapimasterdata();
-    await Future.delayed(const Duration(seconds: 2));
+    await Future.delayed(const Duration(milliseconds: 600));
     await apiProvider.institutionNameapimasterdata();
-    await Future.delayed(const Duration(seconds: 2));
+    await Future.delayed(const Duration(milliseconds: 600));
     await apiProvider.languageapimasterdata();
-    await Future.delayed(const Duration(seconds: 2));
+    await Future.delayed(const Duration(milliseconds: 600));
     await apiProvider.classNameapimasterdata();
-    await Future.delayed(const Duration(seconds: 2));
+    await Future.delayed(const Duration(milliseconds: 600));
     await apiProvider.codeapimasterdata();
-    await Future.delayed(const Duration(seconds: 2));
+    await Future.delayed(const Duration(milliseconds: 600));
     await apiProvider.titleapimasterdata();
-    await Future.delayed(const Duration(seconds: 2));
+    await Future.delayed(const Duration(milliseconds: 600));
     await apiProvider.typeNameapimasterdata();
-    await Future.delayed(const Duration(seconds: 2));
+    await Future.delayed(const Duration(milliseconds: 600));
     await apiProvider.limitationINTmedicalapimasterdata();
-    await Future.delayed(const Duration(seconds: 2));
+    await Future.delayed(const Duration(milliseconds: 600));
     // await apiProvider.limitationsMedicalapimasterdata();
     // await Future.delayed(const Duration(seconds: 2));
     await apiProvider.ministryNameapimasterdata();
-    await Future.delayed(const Duration(seconds: 2));
+    await Future.delayed(const Duration(milliseconds: 600));
     await apiProvider.niveaulevelapimasterdata();
-    await Future.delayed(const Duration(seconds: 2));
+    await Future.delayed(const Duration(milliseconds: 600));
     await apiProvider.schoolNameapimasterdata();
-    await Future.delayed(const Duration(seconds: 2));
+    await Future.delayed(const Duration(milliseconds: 600));
     
     setState(() {
       isLoading = false;
@@ -132,25 +154,13 @@ body: isLoading
             child: CircularProgressIndicator(),
           );
         } else {
-          return ListView.separated(
-            separatorBuilder: (context, index) => Divider(
-              color: Colors.black12,
-            ),
-            itemCount: snapshot.data.length,
-            itemBuilder: (BuildContext context, int index) {
-              return ListTile(
-                leading: Text(
-                  "${index + 1}",
-                  style: TextStyle(fontSize: 20.0),
-                ),
-                title: Text(
-                    "Name: ${snapshot.data[index].stateName} ${snapshot.data[index].stateName} "),
-                subtitle: Text('EMAIL: ${snapshot.data[index].stateName}'),
-              );
-            },
-          );
+          return ListView(
+            children: <Widget>[Center(child:Text('Welcome to digital World'))],
+                             );
+            
         }
       },
     );
   }
+
 }

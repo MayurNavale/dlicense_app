@@ -1,9 +1,9 @@
 
 import 'dart:convert';
+import 'package:appdata/src/pages/home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:appdata/src/userregisterpage/registeruserpage.dart';
-import 'package:appdata/src/userregisterpage/model.dart';
+
 class LogInPage extends StatefulWidget {
 
   @override
@@ -87,7 +87,7 @@ final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
                 ),
   RaisedButton(
        color:Colors.indigo[400],
-          onPressed: _validateInputs,
+          onPressed: _onSuccessResponse,//_validateInputs,
           child: new Text('Sign In'),
          
             ),
@@ -170,26 +170,30 @@ var url = 'http://192.168.43.246:8080/dLicence/api/validateUser';
       if (statusCode < 200 || statusCode > 400 || json == null) {
       //  _onFailureResponse(new Exception("Error while fetching data"));
       } else {
-        //Parsing json response to particular Object.
-        print(json.decode(res));
-         Map data=json.decode(res);
-        final userdata=UserClass.fromJson(data);
-        // Unable to cast json here...
-UserClass userdataofclass=UserClass.fromJson(data);
-      //  UserClass
-      print('userdataofclass $userdataofclass');
-      print(userdata.firstName);
-      _onSuccessResponse(userdataofclass);
+        // print(json.decode(res));
+        // Map data=json.decode(res);
+        // final userdata=UserClass.fromJson(data);
+        // UserClass userdataofclass=UserClass.fromJson(data);
+        // print(userdata.firstName);
+        // _onSuccessResponse(userdataofclass);
+        _onSuccessResponse();
       }
     });
 
    
   }
   
-_onSuccessResponse(UserClass userdataofclass){
+// _onSuccessResponse(UserClass userdataofclass){
+//     Navigator.push(
+//                 context,
+//                 MaterialPageRoute(builder: (context) => RegisterUser(userdataofclass)));
+              
+//   }
+  
+_onSuccessResponse(){
     Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => RegisterUser(userdataofclass)));
+                MaterialPageRoute(builder: (context) =>HomePage()));
               
   }
  ////////////////////////////////////////////////////////////////////////
