@@ -21,6 +21,7 @@ environment:
   sdk: ">=2.7.0 <3.0.0"
 
 dependencies:
+  datetime_picker_formfield:
   path_provider: ^1.6.11
   path:
   sqflite: ^1.3.1

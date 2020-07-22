@@ -1,7 +1,6 @@
+import 'package:appdata/src/pages/signinPage.dart';
 import 'package:flutter/material.dart';
-import 'apidata.dart';
-import 'checkDBandAPIautomatic.dart';
-import 'homepage.dart';
+//import 'package:appdata/src/pages/home_page.dart';
 void  main() => runApp(MyApp());
 class MyApp extends StatelessWidget {
   @override
@@ -12,8 +11,8 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
      // home: AllDataa(),
-     home:Homepage(),
-    // home:SplashScreen(),
+     //home:HomePage(),
+    home:LogInPage(),
     );
   }
 }
