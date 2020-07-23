@@ -27,6 +27,42 @@ import 'dart:convert';
 ];
 
 
+  List<Map<String, dynamic>> countriesalreadlist=[
+  {
+    "id": 1,
+    "countryName": " AF",
+    "countryCode": "Afghanistan",
+    "countryPhone": 93
+  },
+  {
+    "id": 2,
+    "countryName": "AL",
+    "countryCode": "Albania",
+    "countryPhone": 355
+  },
+  {
+    "id": 3,
+    "countryName": "AG",
+    "countryCode": "Algeria",
+    "countryPhone": 213
+  },
+  
+];
+
+  List<Map<String, dynamic>> statuslist=[
+  {
+    "id": 1,
+    "Name": " Marrid",
+    
+  },
+  {
+    "id": 2,
+    "Name": "Singal",
+    
+  },
+ 
+  
+];
 UserClass userClassFromJson(String str) => UserClass.fromJson(json.decode(str));
 
 String userClassToJson(UserClass data) => json.encode(data.toJson());

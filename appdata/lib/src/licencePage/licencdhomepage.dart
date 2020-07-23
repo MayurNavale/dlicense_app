@@ -92,12 +92,12 @@ class _LicencepagehomeState extends State<Licencepagehome> {
    Widget formUI() {
        return  Column(
       children: <Widget>[
-           _contries(), 
-           _licenceCodeOptions(),
-           _licenceNumber(),
-           _dateOfInitialIssue(),
-           _countryCodes(),
-           _dateofratingtest(),
+          // _contries(), 
+          //  _licenceCodeOptions(),
+          //  _licenceNumber(),
+          //  _dateOfInitialIssue(),
+          //  _countryCodes(),
+          //  _dateofratingtest(),
            _dateofIRtest(),
            _validuntil(),
            _examinerscertificatenumber(),
@@ -397,24 +397,25 @@ class _LicencepagehomeState extends State<Licencepagehome> {
           }).toList(),
         );}
   
-//   /////////////////////////
+///////////////////////////
     Widget _tpyeOptionData() { 
       return DropdownButtonFormField<String>(
       decoration: InputDecoration(
-     labelText:' Type * ',
+      labelText:' Type * ',
       hintText:'Select Type',
        ),
               value: tpyeOptionData,
               onChanged: (String newValue) =>setState(() => tpyeOptionData = newValue),
               validator: (value) => value == null ? 'field required' : null,
-          onSaved: (val) =>  licenseDetail.typeId=int.parse(val),
+             onSaved: (val) =>  licenseDetail.typeId=int.parse(val),
               items: licensetypedatalist.map((item) {
             return new DropdownMenuItem(
               child: new Text(item['typeName']),
               value: item['id'].toString(),
             );
           }).toList(),
-        );}
+        );
+        }
   
  
 //  /////////
