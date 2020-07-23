@@ -110,7 +110,7 @@ Widget _nationality() {
               onChanged: (String newValue) =>setState(() => nationality = newValue),
               validator: (value) => value == null ? 'field required' : null,
                onSaved: (val) =>  saveUserData.nationality=val,
-              items: countriesdatalist.map((item) {
+              items: countriesalreadlist.map((item) {
             return new DropdownMenuItem(
               child: new Text(item['countryCode']),
               value: item['countryCode'].toString(),
@@ -129,7 +129,7 @@ Widget _placeOfBirth() {
               onChanged: (String newValue) =>setState(() => placeOfBirth = newValue),
               validator: (value) => value == null ? 'field required' : null,
                onSaved: (val) =>  saveUserData.placeOfBirth=val,
-              items: countriesdatalist.map((item) {
+              items: countriesalreadlist.map((item) {
             return new DropdownMenuItem(
               child: new Text(item['countryCode']),
               value: item['countryCode'].toString(),
@@ -149,7 +149,7 @@ Widget _placeOfBirth() {
               onChanged: (String newValue) =>setState(() => postalcode = newValue),
               validator: (value) => value == null ? 'field required' : null,
           //     onSaved: (val) =>  saveUserData..limitationId=int.parse(val),
-              items: countriesdatalist.map((item) {
+              items: countriesalreadlist.map((item) {
             return new DropdownMenuItem(
               child: new Text(item['countryPhone'].toString()),
               value: item['id'].toString(),
@@ -169,7 +169,7 @@ Widget _placeOfBirth() {
               onChanged: (String newValue) =>setState(() => city = newValue),
               validator: (value) => value == null ? 'field required' : null,
           // onSaved: (val) =>  saveUserData..=val,
-              items: countriesdatalist.map((item) {
+              items: countriesalreadlist.map((item) {
             return new DropdownMenuItem(
               child: new Text(item['countryCode']),
               value: item['countryCode'].toString(),
