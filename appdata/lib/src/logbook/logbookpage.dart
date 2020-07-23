@@ -73,33 +73,26 @@ Logbook logbookdata=new Logbook();
    Widget formUI() {
        return  Column(
       children:[
-      _totalTimeSinglePilot(),
-   _totalTimeMultiPilot(),
-  _totalTimeFlights(),
-   _totalTimeairborne(),       
-   _totalLandingDay(),
-   _totalLandingNight(),
-   _totalTakeoffDay(),
-  _totalTakeoffNight(),
-   _totalTimePic(),
-       _totalTimeSolo(),
-   _totalTimeSpic(),
-   _totalTimePicus(),
-   _totalTimeCoPilot(),
-   _totalTimeDual(),
-   _totalTimeFI(),
-   _totalTimeFE(),
-
-   _totalTimeNight(),
-   _totalTimeIFR(),
-   _totalTimeFSTD(),
-        Text('\n Attach 3 last pages of logbook *'),
- 
-      //   _licenceNumber(),
-       
-      //    _comments(),
-//       
-        showdata()
+          _totalTimeSinglePilot(),
+          _totalTimeMultiPilot(),
+          _totalTimeFlights(),
+          _totalTimeairborne(),       
+          _totalLandingDay(),
+          _totalLandingNight(),
+          _totalTakeoffDay(),
+          _totalTakeoffNight(),
+          _totalTimePic(),
+          _totalTimeSolo(),
+          _totalTimeSpic(),
+          _totalTimePicus(),
+          _totalTimeCoPilot(),
+          _totalTimeDual(),
+          _totalTimeFI(),
+          _totalTimeFE(),
+          _totalTimeNight(),
+          _totalTimeIFR(),
+          _totalTimeFSTD(),
+          showdata()
         
         
         

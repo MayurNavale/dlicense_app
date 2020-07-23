@@ -63,7 +63,7 @@ class _LogInPageState extends State<LogInPage> {
         RaisedButton(
           color:Colors.pink,
           onPressed:  () { Navigator.push( context,
-                MaterialPageRoute(builder: (context) =>RegisterUser()));   },
+                          MaterialPageRoute(builder: (context) =>RegisterUser()));   },
           child: new Text('Register'), ),
         SizedBox(width: 10,),
         RaisedButton(
