@@ -183,7 +183,6 @@ return res;
 
   Future<List<Stateclass>> getAlldata() async {
     final db = await database;
-    
      airlinedatalist = await db.rawQuery("SELECT * FROM AIRLINEDATATABLE");
  print(airlinedatalist);
  if(airlinedatalist.length>0){hasdata=1;}else{hasdata=0;}
@@ -218,7 +217,6 @@ niveauleveldatalist = await db.rawQuery("SELECT * FROM NIVEAULEVEL");
  print(hasdata);
     List<Stateclass> list =
         statedatalist.isNotEmpty ? statedatalist.map((c) => Stateclass.fromJson(c)).toList() : [];
- //if(list.length>0){hasdata=6;}
     return list;
   
   

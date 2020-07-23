@@ -2,11 +2,11 @@
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
-Languageclass LanguageclassFromJson(String str) => Languageclass.fromJson(json.decode(str));
-String LanguageclassToJson(Languageclass data) => json.encode(data.toJson());
+Licenceclass LicenceclassFromJson(String str) => Licenceclass.fromJson(json.decode(str));
+String LicenceclassToJson(Licenceclass data) => json.encode(data.toJson());
 
-class Languageclass {
-    Languageclass({
+class Licenceclass {
+    Licenceclass({
            this.additionalRemarks,
         this.codeId,
         this.countryId,
@@ -43,7 +43,7 @@ class Languageclass {
     int stateId;
     int titleId;
 
-    factory Languageclass.fromJson(Map<String, dynamic> json) => Languageclass(
+    factory Licenceclass.fromJson(Map<String, dynamic> json) => Licenceclass(
          additionalRemarks: json["additionalRemarks"] == null ? null : json["additionalRemarks"],
         codeId: json["codeId"] == null ? null : json["codeId"],
         countryId: json["countryId"] == null ? null : json["countryId"],
@@ -153,17 +153,16 @@ class Personneldata {
 
 
 void postdata(
- Languageclass saveLicenseData,
+ Licenceclass saveLicenseData,
  LicenseDetail licenseDetail,
  //Personneldata personal
  ){
  //saveLicenseData.personnel = <Personneldata>[personal];
  saveLicenseData.licenseDetails = <LicenseDetail>[licenseDetail];
- String jsons = LanguageclassToJson(saveLicenseData);
+ String jsons = LicenceclassToJson(saveLicenseData);
  print( jsons);
  sendRequest( jsons) ;
- for(int r=0;r<1231;r++){}
-  print( jsons);
+
   
 }
 

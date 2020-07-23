@@ -1,99 +1,78 @@
 
 import 'dart:convert';
 import 'package:appdata/src/pages/home_page.dart';
+import 'package:appdata/src/userregisterpage/registeruserpage.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 class LogInPage extends StatefulWidget {
-
-  @override
+ @override
   _LogInPageState createState() => _LogInPageState();
 }
 class _LogInPageState extends State<LogInPage> {
-final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
- bool _autoValidate = false;
-  var email = new TextEditingController(); 
- Signinuser user = new Signinuser();
+        final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+        bool _autoValidate = false;
+        var email = new TextEditingController(); 
+        Signinuser user = new Signinuser();
   @override
   Widget build(BuildContext context) {
     return new MaterialApp(
-        debugShowCheckedModeBanner: false,
+      debugShowCheckedModeBanner: false,
       home: new Scaffold(
-        
-        appBar: new AppBar(
-          
-          title: new Text('Sign In'),
-        ),
-        body: new SingleChildScrollView(
+      appBar: new AppBar(title: new Text('Sign In'), ),
+      body: new SingleChildScrollView(
           child: new Container(
             margin: new EdgeInsets.all(15.0),
             child: new Form(
               key: _formKey,
-              
               autovalidate: _autoValidate,
-              
-        
-            child:  formUI(),
-     
+              child:  formUI(),     
             ),
-         
-        ),
+          ),
       ),
-        ),
+     ),
     );
   }
    Widget formUI() {
        return Center(
-         child:Column(
-      children:[
+         child:Column( children:[
             new TextFormField(
-          decoration: const InputDecoration(labelText: 'Email'),
-          keyboardType: TextInputType.emailAddress,
-          validator: validateEmail,
-          onSaved: (String val)  =>user.email=val.toString(),
-        ),
+                decoration: const InputDecoration(labelText: 'Email'),
+                keyboardType: TextInputType.emailAddress,
+                validator: validateEmail,
+                onSaved: (String val)  =>user.email=val.toString(),
+            ),
             new TextFormField(
-          decoration: const InputDecoration(labelText: 'Passward'),
-          keyboardType: TextInputType.text,
-          validator: validatepsw,
-          onSaved: (String val)  =>user.password=val.toString()
-        ),
-         
-      showdata(),
- ]
-           ),
-         );
-  
-        }
+                decoration: const InputDecoration(labelText: 'Passward'),
+                keyboardType: TextInputType.text,
+                validator: validatepsw,
+                onSaved: (String val)  =>user.password=val.toString()
+            ),
+           showdata(),
+          ]
+         ),
+       );
+    }
   
   ///////////////
     
     
   Widget showdata(){
     return Row(children: <Widget>[
-          Expanded(
-            
-              child: Container(
-             
-                height: 100,
-              ),),
-     RaisedButton(
-       color:Colors.pink,
-          onPressed:reset,
-          child: new Text('reset'),
-          ),
-         Container(
-               width: 10,
-                ),
-  RaisedButton(
-       color:Colors.indigo[400],
+         SizedBox(height: 100,width: 40,),
+        RaisedButton(
+          color:Colors.pink,
+          onPressed:  () { Navigator.push( context,
+                MaterialPageRoute(builder: (context) =>RegisterUser()));   },
+          child: new Text('Register'), ),
+        SizedBox(width: 10,),
+        RaisedButton(
+          color:Colors.indigo[400],
           onPressed: _onSuccessResponse,//_validateInputs,
           child: new Text('Sign In'),
-         
-            ),
-      
-            ]
-        );
+        ),
+      ]
+    );
   }
   ////////////////////////////////////////
   //validation
@@ -129,12 +108,10 @@ final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
       
        
   
-   void reset() {
+ 
 
-   _formKey.currentState.reset();
-     
-}
-  void _validateInputs() {
+
+void _validateInputs() {
   if (_formKey.currentState.validate()) {
 //    If all data are correct then save data to out variables
     _formKey.currentState.save();

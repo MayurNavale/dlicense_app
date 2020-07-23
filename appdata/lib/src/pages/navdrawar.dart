@@ -41,7 +41,7 @@ class NavDrawer extends StatelessWidget {
         trailing: Icon(Icons.arrow_forward),
         onTap:() { Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => RegisterUser(UserClass()),
+                MaterialPageRoute(builder: (context) => RegisterUser(),
         ));} ,
       ),
       ListTile(
