@@ -2,35 +2,6 @@ import 'dart:convert';
 
 ////////////////////////////////
 
-Map<String, dynamic> jsonstring={"address":"qewafdfdgtutfghfxcv","dateOfBirth":"2020-07-01 00:00:00.000",
-                 "displayName":null,"email":"maurnavale96@gmail.com","firstName":"fdfds",
-                 "id":null,"lastName":"hjk","nationality":"Albania","passportPhoto":null,"password":null,"placeOfBirth":"Albania",
-                 "status":null,"telephoneNumber":1111111111};
-
-  List<Map<String, dynamic>> countriesdatalist=[
-  {
-    "id": 1,
-    "countryName": " AF",
-    "countryCode": "Afghanistan",
-    "countryPhone": 93
-  },
-  {
-    "id": 2,
-    "countryName": "AL",
-    "countryCode": "Albania",
-    "countryPhone": 355
-  },
-  {
-    "id": 3,
-    "countryName": "AG",
-    "countryCode": "Algeria",
-    "countryPhone": 213
-  },
-  
-];
-
-
-
 //_onSuccessResponse(UserClass user){}
 
 

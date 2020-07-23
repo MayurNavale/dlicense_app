@@ -23,8 +23,8 @@ class _LicencepagehomeState extends State<Licencepagehome> {
                       var myFormadme = DateFormat('dd-MM-yyyy');
                       String languageString;
                       //final TextEditingController _controller = new TextEditingController();
-                      Languageclass saveLicenseData=new Languageclass();
-                       Languageclass apiuserdata=new Languageclass();
+                     // Licenceclass apiLicencddata=new Licenceclass();
+                       Licenceclass apiLicencddata=new Licenceclass();
                       LicenseDetail licenseDetail=new LicenseDetail(); 
                      // Personneldata personal=new Personneldata();
                       final dtirtest = new TextEditingController();
@@ -34,7 +34,7 @@ class _LicencepagehomeState extends State<Licencepagehome> {
                       String a;
                       bool checkboxValue=false;
                       String licencenumber='';
-                       Future<Languageclass>futurelanguageclass;
+                       Future<Licenceclass>futureLicenceclass;
                       // Future<Album> futureAlbum;
                        Future<void> _selectDate(BuildContext context,var a,TextEditingController datecontroller ) async {
                   showDatePicker(
@@ -52,27 +52,23 @@ class _LicencepagehomeState extends State<Licencepagehome> {
   @override
   void initState() {
     super.initState();
-    futurelanguageclass = getlicencddata();
-     print(apiuserdata.licenseNumber);
+    futureLicenceclass = getlicencddata();
+     print(apiLicencddata.licenseNumber);
   }
 
   @override
   Widget build(BuildContext context) {
     return new MaterialApp(
-        debugShowCheckedModeBanner: false,
+      debugShowCheckedModeBanner: false,
       home: new Scaffold(
-        
-        appBar: new AppBar(
-          
-          title: new Text('    Language'),
-        ),
-        body: Center(
-          child: FutureBuilder<Languageclass>(
-            future: futurelanguageclass,
+      appBar: new AppBar(title: new Text('    Language'), ),
+      body: Center(
+          child: FutureBuilder<Licenceclass>(
+            future: futureLicenceclass,
             builder: (context, snapshot) {
               if (snapshot.hasData) {
                 return   SingleChildScrollView(
-          child: new Container(
+           child: new Container(
             margin: new EdgeInsets.all(15.0),
             child: new Form(
               key: _formKey,
@@ -81,44 +77,37 @@ class _LicencepagehomeState extends State<Licencepagehome> {
             ),
           ),
         );
-       
-              } else if (snapshot.hasError) {
-                return Text("${snapshot.error}");
-              }
-
-              // By default, show a loading spinner.
-              return CircularProgressIndicator();
-            },
-          ),
-        ),
+      } else if (snapshot.hasError) { return Text("${snapshot.error}");  }
+       // By default, show a loading spinner.
+        return CircularProgressIndicator();
+        },
       ),
-      );
-    
-  }
+   ),
+  ),
+ );
+ }
+
+
+ /////////////////
    Widget formUI() {
        return  Column(
       children: <Widget>[
-            _contries(), 
-         _licenceCodeOptions(),
-          _licenceNumber(),
-         _dateOfInitialIssue(),
-          _countryCodes(),
-          _dateofratingtest(),
+           _contries(), 
+           _licenceCodeOptions(),
+           _licenceNumber(),
+           _dateOfInitialIssue(),
+           _countryCodes(),
+           _dateofratingtest(),
            _dateofIRtest(),
            _validuntil(),
            _examinerscertificatenumber(),
            _classOptions(),
            _tpyeOptionData(),
            _ir(),
-          _co_Pilot(),
-                  
+           _co_Pilot(),
+           showdata()
         
-        showdata()
-        
-        
-        
-   
-      ]
+         ]
      );
      
    }
@@ -132,7 +121,7 @@ class _LicencepagehomeState extends State<Licencepagehome> {
     //           value: contries.toString(),
     //           onChanged: (String newValue) =>setState(() => contries = newValue),
     //           validator: (value) => value == null ? 'field required' : null,
-    //            onSaved: (val) =>  apiuserdata.countryId=int.parse(val),
+    //            onSaved: (val) =>  apiLicencddata.countryId=int.parse(val),
     //           items: countriesdatalist.map((item) {
     //         return new DropdownMenuItem(
     //           child: new Text(item['countryCode']),
@@ -149,7 +138,7 @@ class _LicencepagehomeState extends State<Licencepagehome> {
               value: contries,
               onChanged: (String newValue) =>setState(() => contries = newValue),
               validator: (value) => value == null ? 'field required' : null,
-               onSaved: (val) =>  saveLicenseData.countryId=int.parse(val),
+               onSaved: (val) =>  apiLicencddata.countryId=int.parse(val),
               items: countriesdatalist.map((item) {
             return new DropdownMenuItem(
               child: new Text(item['countryCode']),
@@ -169,11 +158,11 @@ class _LicencepagehomeState extends State<Licencepagehome> {
               value: licenceCodeOptions,
               onChanged: (String newValue) =>setState(() => licenceCodeOptions = newValue),
               validator: (value) => value == null ? 'field required' : null,
-               onSaved: (val) { saveLicenseData.codeId=int.parse(val);
-               saveLicenseData.stateId=int.parse(val);
-               saveLicenseData.titleId=int.parse(val);
-               saveLicenseData.ratingCertId=val.toString();
-               saveLicenseData.examinerId=int.parse(val);},
+               onSaved: (val) { apiLicencddata.codeId=int.parse(val);
+              //  apiLicencddata.stateId=int.parse(val);
+              //  apiLicencddata.titleId=int.parse(val);
+              //  apiLicencddata.ratingCertId=val.toString();
+               apiLicencddata.examinerId=int.parse(val);},
               items: licensecodesdatalist.map((item) {
             return new DropdownMenuItem(
               child: new Text(item['code']),
@@ -188,7 +177,7 @@ class _LicencepagehomeState extends State<Licencepagehome> {
           decoration: const InputDecoration(labelText: 'Certificate Number'),
           keyboardType: TextInputType.phone,
           validator: licenceNumber,
-          onSaved: (val) =>  saveLicenseData.licenseNumber=int.parse(val),
+          onSaved: (val) =>  apiLicencddata.licenseNumber=int.parse(val),
         );
 }
   
@@ -218,7 +207,7 @@ class _LicencepagehomeState extends State<Licencepagehome> {
             keyboardType: TextInputType.datetime,
             // validator: (val) =>
             //  isValidDob(val) ? null : 'Not a valid date',
-            onSaved: (val) =>saveLicenseData.dtIssue =dateOfInitialIssue.toString(),
+            onSaved: (val) =>apiLicencddata.dtIssue =dateOfInitialIssue.toString(),
           )),
           new IconButton(
             icon: const Icon(Icons.calendar_today),
@@ -254,7 +243,7 @@ class _LicencepagehomeState extends State<Licencepagehome> {
               value: countryCodes,
               onChanged: (String newValue) =>setState(() => countryCodes = newValue),
               validator: (value) => value == null ? 'field required' : null,
-           onSaved: (val) =>  saveLicenseData.codeId=int.parse(val),
+           onSaved: (val) =>  apiLicencddata.codeId=int.parse(val),
               items: countriesdatalist.map((item) {
             return new DropdownMenuItem(
               child: new Text(item['countryName']),
@@ -275,7 +264,7 @@ class _LicencepagehomeState extends State<Licencepagehome> {
             keyboardType: TextInputType.datetime,
         //  validator: (val) =>
         //      isValidDob(val) ? null : 'Not a valid date',
-            onSaved: (val) =>saveLicenseData.dtRatingtest=dateofratingtest.toString(),//convertToDate(val).toString(),
+            onSaved: (val) =>apiLicencddata.dtRatingtest=dateofratingtest.toString(),//convertToDate(val).toString(),
           )),
           new IconButton(
             icon: const Icon(Icons.calendar_today),
@@ -314,7 +303,7 @@ class _LicencepagehomeState extends State<Licencepagehome> {
             keyboardType: TextInputType.datetime,
         //  validator: (val) =>
         //      isValidDob(val) ? null : 'Not a valid date',
-            onSaved: (val) =>saveLicenseData.dtIrtest=dateofIRtest.toString(),//convertToDate(val).toString(),
+            onSaved: (val) =>apiLicencddata.dtIrtest=dateofIRtest.toString(),//convertToDate(val).toString(),
           )),
           new IconButton(
             icon: const Icon(Icons.calendar_today),
@@ -351,7 +340,7 @@ class _LicencepagehomeState extends State<Licencepagehome> {
             keyboardType: TextInputType.datetime,
         //  validator: (val) =>
         //      isValidDob(val) ? null : 'Not a valid date',
-            onSaved: (val) =>saveLicenseData.dtValidity=validuntil.toString(),//convertToDate(val).toString(),
+            onSaved: (val) =>apiLicencddata.dtValidity=validuntil.toString(),//convertToDate(val).toString(),
           )),
           new IconButton(
             icon: const Icon(Icons.calendar_today),
@@ -384,7 +373,7 @@ class _LicencepagehomeState extends State<Licencepagehome> {
            labelText: 'Examiners certificate number '),
           keyboardType: TextInputType.phone,
           validator: licenceNumber,
-          onSaved: (val) =>  saveLicenseData.examinerNumber=int.parse(val),
+          onSaved: (val) =>  apiLicencddata.examinerNumber=int.parse(val),
         );
 }
   
@@ -469,56 +458,39 @@ class _LicencepagehomeState extends State<Licencepagehome> {
   
   Widget showdata(){
     return Row(children: <Widget>[
-      SizedBox(
-        height: 39,
-               width: 3,
-               
+      SizedBox(  height: 39, width: 3, ),
+      RaisedButton(
+              color:Colors.pink,
+              onPressed:getlicencddata,
+              child: new Text('get'),
               ),
-          RaisedButton(
-       color:Colors.pink,
-          onPressed:getlicencddata,
-          child: new Text('get'),
-          ),
-         SizedBox(
-               width: 3,
-               
-              ),
-     RaisedButton(
+      SizedBox( width: 3, ),
+      RaisedButton(
        color:Colors.pink,
           onPressed:reset,
           child: new Text('Reset'),
           ),
-         SizedBox(
-               width: 3,
-               
-              ),
-  RaisedButton(
-       color:Colors.indigo[400],
+         SizedBox( width: 3, ),
+      RaisedButton(
+         color:Colors.indigo[400],
           onPressed: _validateInputs,
           child: new Text('Save'),
-         
-            )
-            ]
-        );
+          )
+      ]
+     );
   }
   
   ////////////////////////////////////////
   //validation
   ////////////////////////////
-  
-  String licenceNumber(String value) {
-
-  if(value == null) 
-    return null;
- 
+String licenceNumber(String value) {
+  if(value == null)  return null;
   final n = num.tryParse(value);
-  if(n == null) 
-  return '"$value" is not a valid number';
- 
+  if(n == null)  return '"$value" is not a valid number';
   return null;
 }
   
-  bool isValidDob(String dob) {
+ bool isValidDob(String dob) {
     if (dob.isEmpty) return true;
     var d = convertToDate(dob);
     return d != null && d.isBefore(new DateTime.now());
@@ -541,13 +513,11 @@ class _LicencepagehomeState extends State<Licencepagehome> {
    _formKey.currentState.reset();
 }
   void _validateInputs() {
-    // print(licensecodesdatalist);
-    // print(countriesdatalist);
-    // print(airlinedatalist);
+   
   if (_formKey.currentState.validate()) {
 //    If all data are correct then save data to out variables
     _formKey.currentState.save();
-    postdata(  saveLicenseData,licenseDetail);
+    postdata(  apiLicencddata,licenseDetail);
   } else {
 //    If all data are not valid then start auto validation.
     setState(() {
@@ -557,19 +527,14 @@ class _LicencepagehomeState extends State<Licencepagehome> {
 }
 
  
-    Future<Languageclass> getlicencddata() async {
+    Future<Licenceclass> getlicencddata() async {
   final response = await http.get('http://192.168.43.246:8080/dLicence/api/license/v1/226');
 
   if (response.statusCode == 200) {
-    // If the server did return a 200 OK response,
-    // then parse the JSON.
-    //  Album.fromJson(json.decode(response.body));
-
-    
-    print(json.decode(response.body));
-     Languageclass apidata =Languageclass.fromJson(json.decode(response.body));
-       _onSuccessResponse(apidata);
-     return Languageclass.fromJson(json.decode(response.body));
+      print(json.decode(response.body));
+       apiLicencddata =Licenceclass.fromJson(json.decode(response.body));
+       //_onSuccessResponse();
+     return Licenceclass.fromJson(json.decode(response.body));
     
   } else {
     // If the server did not return a 200 OK response,
@@ -577,13 +542,6 @@ class _LicencepagehomeState extends State<Licencepagehome> {
     throw Exception('Failed to load album');
   }
 
-  
-    //    Response response = await Dio().get("http://192.168.43.246:8080/dLicence/api/license/v1/193");
-
-    //  (response.data as List).map((data) {
-    //   print('Inserting $data');
-    //   apiuserdata=Languageclass.fromJson(data);
-    // }).toList();
   }
     // Response response = await Dio().get("http://192.168.43.246:8080/dLicence/api/license/v1/193");
    
@@ -595,31 +553,33 @@ class _LicencepagehomeState extends State<Licencepagehome> {
     //   } else { }
     //     print(json.decode(res));
     //     //String data=json.decode(res);
-    //     apiuserdata=LanguageclassFromJson(res);
+    //     apiLicencddata=LicenceclassFromJson(res);
     //     //
-    //   // apiuserdata=Languageclass.fromJson(data);
-    //     // Languageclass userdataofclass=Languageclass.fromJson(data);
-    //     print(Languageclass);
+    //   // apiLicencddata=Licenceclass.fromJson(data);
+    //     // Licenceclass userdataofclass=Licenceclass.fromJson(data);
+    //     print(Licenceclass);
     //       setState(() {
-    //  print(apiuserdata.licenseNumber);
-    //   licencenumber=apiuserdata.licenseNumber.toString();
+    //  print(apiLicencddata.licenseNumber);
+    //   licencenumber=apiLicencddata.licenseNumber.toString();
     // }); 
-    void   _onSuccessResponse( apiuserdata){
-     levelvalue(apiuserdata.countryId,1);
-    // levelvalue(apiuserdata.codeId,2);
-     print(apiuserdata.examinerId);
-      print(apiuserdata.countryId);
+
+
+
+
+    void   _onSuccessResponse( ){
+     levelvalue(apiLicencddata.countryId,1);
+    // levelvalue(apiLicencddata.codeId,2);
+     print(apiLicencddata.examinerId);
+      print(apiLicencddata.countryId);
      print(contries);
-     //contries=countriesdatalist[apiuserdata.countryId]['countryCode'];
-      licencenumber=apiuserdata.licenseNumber.toString();
-    //  licencenumber=apiuserdata.
-     // licencenumber=apiuserdata.licenseNumber.toString();
+     //contries=countriesdatalist[apiLicencddata.countryId]['countryCode'];
+      licencenumber=apiLicencddata.licenseNumber.toString();
+    //  licencenumber=apiLicencddata.
+     // licencenumber=apiLicencddata.licenseNumber.toString();
     }
-      //  _onSuccessResponse();
-   //String levelvalue(int a,int casevalue){
-      
+     
   
-  levelvalue(int a,int casevalue){
+levelvalue(int a,int casevalue){
  switch( casevalue){
    case 1: { 
     //  levelvalueAns(a);
