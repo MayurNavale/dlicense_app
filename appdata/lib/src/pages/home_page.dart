@@ -122,7 +122,9 @@ body: isLoading
     await Future.delayed(const Duration(milliseconds: 600));
     await apiProvider.schoolNameapimasterdata();
     await Future.delayed(const Duration(milliseconds: 600));
-    
+    await apiProvider.examinerapimasterdata(); await Future.delayed(const Duration(milliseconds: 600));
+    await apiProvider.endorsementapimasterdata(); await Future.delayed(const Duration(milliseconds: 600));
+    await apiProvider.instructorapimasterdata();  await Future.delayed(const Duration(milliseconds: 600));
     setState(() {
       isLoading = false;
     });

@@ -305,7 +305,65 @@ class School {
         "schoolName": schoolName,
     };
 }
+class Examiner {
+    Examiner({
+        this.examinerType,
+        this.id,
+    });
 
+    String examinerType;
+    int id;
+
+    factory Examiner.fromJson(Map<String, dynamic> json) => Examiner(
+        examinerType: json["examinerType"],
+        id: json["id"],
+    );
+
+    Map<String, dynamic> toJson() => {
+        "examinerType": examinerType,
+        "id": id,
+    };
+}
+class Endorsement {
+    Endorsement({
+        this.endorsementType,
+        this.id,
+    });
+
+    String endorsementType;
+    int id;
+
+    factory Endorsement.fromJson(Map<String, dynamic> json) => Endorsement(
+        endorsementType: json["endorsementType"],
+        id: json["id"],
+    );
+
+    Map<String, dynamic> toJson() => {
+        "endorsementType": endorsementType,
+        "id": id,
+    };
+}
+
+
+class Instructor {
+    Instructor({
+        this.id,
+        this.instructorType,
+    });
+
+    int id;
+    String instructorType;
+
+    factory Instructor.fromJson(Map<String, dynamic> json) => Instructor(
+        id: json["id"],
+        instructorType: json["instructorType"],
+    );
+
+    Map<String, dynamic> toJson() => {
+        "id": id,
+        "instructorType": instructorType,
+    };
+}
 
 
 
@@ -335,7 +393,7 @@ class School {
   'http://192.168.43.246:8080/dLicence/api/states/v1'];
 
  
-List<Map<String, dynamic>> countriesdatalist=[];
+  List<Map<String, dynamic>> countriesdatalist=[];
   List<Map<String, dynamic>> licenseclassdatalist=[]; 
   List<Map<String, dynamic>> licensecodesdatalist=[];
   List<Map<String, dynamic>> licensetitlesdatalist=[];
@@ -343,14 +401,16 @@ List<Map<String, dynamic>> countriesdatalist=[];
   List<Map<String, dynamic>> licensetypedatalist=[];
   List<Map<String, dynamic>> statedatalist=[];
   List<Map<String, dynamic>> airlinedatalist=[];
-   List<Map<String, dynamic>> institutiondatalist=[];
-     List<Map<String, dynamic>> languagedatalist=[];
-      List<Map<String, dynamic>> limitationdatalist=[];
+  List<Map<String, dynamic>> institutiondatalist=[];    
+  List<Map<String, dynamic>> languagedatalist=[];
+  List<Map<String, dynamic>> limitationdatalist=[];
   List<Map<String, dynamic>> ministrydatalist=[];
   List<Map<String, dynamic>> niveauleveldatalist=[];
- List<Map<String, dynamic>> schooldatalist=[];
- List<Map<String, dynamic>> doctordatalist=[];
-
+  List<Map<String, dynamic>> schooldatalist=[];
+  List<Map<String, dynamic>> doctordatalist=[];
+  List<Map<String, dynamic>> examinerdatalist=[];
+  List<Map<String, dynamic>> endorsementdatalist=[];
+  List<Map<String, dynamic>> instructordatalist=[];
     int licenceNumber;
      int licenceCodeOptionsid; 
 

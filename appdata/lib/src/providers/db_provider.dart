@@ -24,7 +24,7 @@ class DBProvider {
   // Create the database and the Employee table
   initDB() async {
     Directory documentsDirectory = await getApplicationDocumentsDirectory();
-    final path = join(documentsDirectory.path, 'dlicencedatabse_manager.db');
+    final path = join(documentsDirectory.path, 'dlicence_Databse_table.db');
 
     return await openDatabase(path, version: 1, onOpen: (db) {},
         onCreate: (Database db, int version) async {
@@ -88,6 +88,18 @@ class DBProvider {
           'id INTEGER PRIMARY KEY,'
           'schoolName TEXT'
           ')');
+           await db.execute('CREATE TABLE Examiner('
+          'id INTEGER PRIMARY KEY,'
+          'examinerType TEXT'
+          ')');
+          await db.execute('CREATE TABLE Endorsement('
+          'id INTEGER PRIMARY KEY,'
+          'endorsementType TEXT'
+          ')');
+          await db.execute('CREATE TABLE Instructor('
+          'id INTEGER PRIMARY KEY,'
+          'instructorType TEXT'
+          ')');
 
     });
   }
@@ -145,19 +157,33 @@ return res;
     //  final db = await database;
     // final res = await db.insert('Medicaltype', newstatedata.toJson());
     // return res;}
-       ministryNamedb(Ministry newstatedata) async {
+ ministryNamedb(Ministry newstatedata) async {
      final db = await database;
     final res = await db.insert('Ministry', newstatedata.toJson());
     return res;}
     
-       niveauleveldb(Niveaulevel newstatedata) async {
+ niveauleveldb(Niveaulevel newstatedata) async {
      final db = await database;
     final res = await db.insert('Niveaulevel', newstatedata.toJson());
     return res;}
-      schoolNamedb(School newstatedata) async {
+schoolNamedb(School newstatedata) async {
      final db = await database;
     final res = await db.insert('School', newstatedata.toJson());
     return res;}
+ examinerTypesdb(Examiner newstatedata) async {
+     final db = await database;
+     final res = await db.insert('Examiner', newstatedata.toJson());
+    return res;}
+endorsementTypesdb(Endorsement newdata) async {
+     final db = await database;
+     final res = await db.insert('Endorsement', newdata.toJson());
+     return res;}
+      instructorTypessdb(Instructor newstatedata) async {
+     final db = await database;
+     final res = await db.insert('Instructor', newstatedata.toJson());
+    return res;}
+
+
 
   // Delete all employees
   Future<int> deleteAllEmployees() async {
@@ -175,6 +201,9 @@ return res;
    final resai = await db.rawDelete('DELETE FROM Limitation');
    final resau = await db.rawDelete('DELETE FROM Ministry');
    final resafgh = await db.rawDelete('DELETE FROM Niveaulevel');
+   final resasd = await db.rawDelete('DELETE FROM Examiner');
+   final resasds = await db.rawDelete('DELETE FROM Endorsement');
+      final resasdh = await db.rawDelete('DELETE FROM Instructor');
     final res = await db.rawDelete('DELETE FROM School');
    
     return res;
@@ -183,34 +212,38 @@ return res;
 
   Future<List<Stateclass>> getAlldata() async {
     final db = await database;
-     airlinedatalist = await db.rawQuery("SELECT * FROM AIRLINEDATATABLE");
- print(airlinedatalist);
- if(airlinedatalist.length>0){hasdata=1;}else{hasdata=0;}
- airlinedatalist=airlinedatalist;
- countriesdatalist = await db.rawQuery("SELECT * FROM COUNTRY");
- print(countriesdatalist);
-     doctordatalist = await db.rawQuery("SELECT * FROM DOCTOR");
- print(doctordatalist);
+  airlinedatalist = await db.rawQuery("SELECT * FROM AIRLINEDATATABLE");
+  print(airlinedatalist);
+  if(airlinedatalist.length>0){hasdata=1;}else{hasdata=0;}
+  countriesdatalist = await db.rawQuery("SELECT * FROM COUNTRY");
+  print(countriesdatalist);  
+  doctordatalist = await db.rawQuery("SELECT * FROM DOCTOR");
+  print(doctordatalist);
   institutiondatalist = await db.rawQuery("SELECT * FROM INSTITUTION");
- print(institutiondatalist);
- languagedatalist = await db.rawQuery("SELECT * FROM LANGUAGE");
- print(languagedatalist);
- licenseclassdatalist = await db.rawQuery("SELECT * FROM CLASS");
- print(licenseclassdatalist);
- licensecodesdatalist = await db.rawQuery("SELECT * FROM CODE");
- print(licensecodesdatalist);
+  print(institutiondatalist);
+  languagedatalist = await db.rawQuery("SELECT * FROM LANGUAGE");
+  print(languagedatalist);
+  licenseclassdatalist = await db.rawQuery("SELECT * FROM CLASS");
+  print(licenseclassdatalist);
+  licensecodesdatalist = await db.rawQuery("SELECT * FROM CODE");
+  print(licensecodesdatalist);
   licensetypedatalist = await db.rawQuery("SELECT * FROM TYPE");
- print(licensetypedatalist);
- licensetitlesdatalist = await db.rawQuery("SELECT * FROM TITLECLASS");
- print(licensetitlesdatalist);
+  print(licensetypedatalist);
+  licensetitlesdatalist = await db.rawQuery("SELECT * FROM TITLECLASS");
+  print(licensetitlesdatalist);
   limitationdatalist = await db.rawQuery("SELECT * FROM LIMITATION");
- print(limitationdatalist);
+  print(limitationdatalist);
   ministrydatalist = await db.rawQuery("SELECT * FROM MINISTRY");
- print(ministrydatalist);
-niveauleveldatalist = await db.rawQuery("SELECT * FROM NIVEAULEVEL");
- print(niveauleveldatalist);
+  print(ministrydatalist);
+  niveauleveldatalist = await db.rawQuery("SELECT * FROM NIVEAULEVEL");
+  print(niveauleveldatalist);
   schooldatalist = await db.rawQuery("SELECT * FROM SCHOOL");
- print(schooldatalist);
+  print(schooldatalist);
+  examinerdatalist = await db.rawQuery("SELECT * FROM EXAMINER");
+  print(examinerdatalist);
+  endorsementdatalist = await db.rawQuery("SELECT * FROM ENDORSEMENT");
+  print(endorsementdatalist);
+  instructordatalist = await db.rawQuery("SELECT * FROM INSTRUCTOR"); print(instructordatalist);
   statedatalist = await db.rawQuery("SELECT * FROM STATEDATATABLE");
   print(statedatalist);
  

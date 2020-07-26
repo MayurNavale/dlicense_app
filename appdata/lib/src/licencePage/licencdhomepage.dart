@@ -52,8 +52,8 @@ class _LicencepagehomeState extends State<Licencepagehome> {
   @override
   void initState() {
     super.initState();
-    futureLicenceclass = getlicencddata();
-     print(apiLicencddata.licenseNumber);
+  //futureLicenceclass = getlicencddata();
+ print(apiLicencddata.licenseNumber);
   }
 
   @override
@@ -61,7 +61,7 @@ class _LicencepagehomeState extends State<Licencepagehome> {
     return new MaterialApp(
       debugShowCheckedModeBanner: false,
       home: new Scaffold(
-      appBar: new AppBar(title: new Text('    Language'), ),
+      appBar: new AppBar(title: new Text('    Licence'), ),
       body: Center(
           child: FutureBuilder<Licenceclass>(
             future: futureLicenceclass,
@@ -462,7 +462,7 @@ class _LicencepagehomeState extends State<Licencepagehome> {
       SizedBox(  height: 39, width: 3, ),
       RaisedButton(
               color:Colors.pink,
-              onPressed:getlicencddata,
+              onPressed:(){},//,
               child: new Text('get'),
               ),
       SizedBox( width: 3, ),

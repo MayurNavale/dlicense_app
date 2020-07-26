@@ -107,6 +107,24 @@ class EmployeeApiProvider {
     return (response.data as List).map((data) {
       print('Inserting $data');
       DBProvider.db.schoolNamedb(School.fromJson(data));
-    }).toList();
-  }
+    }).toList();}
+Future<List<Examiner>> examinerapimasterdata() async {
+    Response response =await Dio().get("http://192.168.43.246:8080/dLicence/api/examinerTypes/v1");
+    return (response.data as List).map((data) {
+      print('Inserting $data');
+      DBProvider.db.examinerTypesdb(Examiner.fromJson(data));
+    }).toList(); }
+    Future<List<Endorsement>> endorsementapimasterdata() async {
+    Response response =await Dio().get("http://192.168.43.246:8080/dLicence/api/endorsementTypes/v1");
+    return (response.data as List).map((data) {
+      print('Inserting $data');
+      DBProvider.db.endorsementTypesdb(Endorsement.fromJson(data));
+    }).toList(); }
+Future<List<Instructor>> instructorapimasterdata() async {
+    Response response =await Dio().get("http://192.168.43.246:8080/dLicence/api/instructorTypes/v1");
+    return (response.data as List).map((data) {
+      print('Inserting $data');
+      DBProvider.db.instructorTypessdb(Instructor.fromJson(data));
+    }).toList(); }
+
 }
