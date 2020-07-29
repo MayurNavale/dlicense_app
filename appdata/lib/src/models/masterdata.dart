@@ -430,9 +430,9 @@ class Instructor {
     String additionalratingtpyeOptionData;
     String instructorremarksandRestrictions;
    
-    var contries='';
-    var licenceCodeOptions='';
-    var titleOfLicenceOptions='';
+    var contries;
+    var licenceCodeOptions;
+    var titleOfLicenceOptions;
     var dateofratingtest;
     var dateOfInitialIssue;
     var dateofIRtest;

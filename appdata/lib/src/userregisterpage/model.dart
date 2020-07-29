@@ -109,3 +109,4 @@ class UserClass {
         "telephoneNumber": telephoneNumber,
     };
 }
+

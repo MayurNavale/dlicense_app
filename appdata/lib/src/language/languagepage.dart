@@ -2,9 +2,10 @@
 //import 'model.dart';
 import 'modal.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 //import 'package:flutter/material.dart';
 import 'package:appdata/src/models/masterdata.dart';
-
+import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
 // DateTime _dateTime;
     String dt_irtest;
    
@@ -40,6 +41,9 @@ String niveaulevel;
   String levelvaluedata="";
   var fourear;
   var sixear;
+   var saveFormat = DateFormat('yyyy-MM-dd'); 
+                      var showformmat = DateFormat('dd-MM-yyyy');
+                       final dateFormat = DateFormat("dd-MM-yyyy");
   final TextEditingController _controller = new TextEditingController();
   Future<void> _selectDate(BuildContext context,var a,TextEditingController datecontroller ) async {
    showDatePicker(
@@ -87,8 +91,7 @@ String niveaulevel;
     );
   }
   Widget formUI() {
-    
-    return new Column(
+   return new Column(
       children: <Widget>[
        
         _certificateNo(),
@@ -160,6 +163,28 @@ void reset() {
   
    
    Widget _checkDate() {
+  //     return DateTimeField(
+  //           //  dateOnly: true,
+  //           decoration: InputDecoration( labelText: 'Check Date',
+  //           suffixIcon : Icon(Icons.calendar_today),),
+  //          // hintText: '$dateOfInitialIssue'),
+  //           format: dateFormat,
+  //           initialValue:DateTime.parse(language.checkDate),
+  //           onShowPicker: (context, currentValue) {
+  //                         return showDatePicker(
+  //                         context: context,
+  //                         firstDate: DateTime(1900),
+  //                         initialDate:  DateTime.now(),
+  //                         lastDate: DateTime(2100));
+  //                   },
+  //           validator: (val) {if (val != null) {return null; } else {return 'Date Field is Empty'; }},
+  //           onChanged: (dt) { setState(() => validuntil = dt);
+  //                       print('Selected date: $dateofratingtest');},
+  //           onSaved: (value) {language.checkDate= saveFormat.format(value);value.toString();
+  //             debugPrint(value.toString());},
+  //     );
+  //   //
+  // }
    return TextField(
       controller: _controller,
       onTap : ()=> _selectDate(context,expirydateofthiscertificate,_controller),
@@ -172,7 +197,7 @@ void reset() {
      hintText: ' $expirydateofthiscertificate',
   ),
 );}
-  ///////////////////////
+//   ///////////////////////
   
   Widget _certificateNo() {
    return    TextFormField(
