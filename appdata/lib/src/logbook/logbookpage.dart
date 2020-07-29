@@ -1,8 +1,9 @@
 
 
-
+import 'dart:convert';
 import 'modal.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 //import 'package:flutter/material.dart';
 
 
@@ -14,32 +15,20 @@ class _LogBookPage extends State<LogBookPage> {
  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
  bool _autoValidate = false;
  String languageString;
-  TextEditingController totalLandingDay = new TextEditingController();
-    TextEditingController totalLandingNight = new TextEditingController();
-   TextEditingController totalTakeoffDay = new TextEditingController();
-    TextEditingController totalTakeoffNight = new TextEditingController();
-    TextEditingController totalTimeCoPilot = new TextEditingController();
-    TextEditingController totalTimeDual = new TextEditingController();
-    TextEditingController totalTimeFE = new TextEditingController();
-    TextEditingController totalTimeFI = new TextEditingController();
-    TextEditingController totalTimeFSTD = new TextEditingController();
-    TextEditingController totalTimeFlights = new TextEditingController();
-    TextEditingController totalTimeIFR = new TextEditingController();
-    TextEditingController totalTimeMultiPilot = new TextEditingController();
-    TextEditingController totalTimeNight = new TextEditingController();
-   TextEditingController totalTimePic = new TextEditingController();
-   TextEditingController totalTimePicus = new TextEditingController();
-   TextEditingController totalTimeSinglePilot = new TextEditingController();
-   TextEditingController totalTimeairborne = new TextEditingController();
-    TextEditingController totalTimeSolo = new TextEditingController();
-   TextEditingController totalTimeSpic = new TextEditingController();
-
+ Logbook logbookdata=new Logbook();
+   final totalLandingNight = new TextEditingController(text:'');
 
     bool visibilityTag = false;
   bool visibilityObs = false;
-Logbook logbookdata=new Logbook();
 
 
+  Future<int> futurelogbookclass;
+  @override
+  void initState() {
+    super.initState();
+  futurelogbookclass = getlicencddata();
+ //print(apiLicencddata.licenseNumber);
+  }
  String a;
  bool checkboxValue=false;
   @override
@@ -52,22 +41,29 @@ Logbook logbookdata=new Logbook();
           
           title: new Text('    Logbook   '),
         ),
-        body: new SingleChildScrollView(
-          child: new Container(
+        body: Center(
+          child: FutureBuilder<int>(
+            future: futurelogbookclass,
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                return   SingleChildScrollView(
+           child: new Container(
             margin: new EdgeInsets.all(15.0),
             child: new Form(
               key: _formKey,
-              
               autovalidate: _autoValidate,
-              
-        
-            child:  formUI(),
-     
+              child:formUI(),
             ),
-         
-        ),
+          ),
+        );
+      } else if (snapshot.hasError) { return Text("${snapshot.error}");  }
+       // By default, show a loading spinner.
+        return CircularProgressIndicator();
+        },
       ),
-        ),
+   ),
+       
+      ),   
     );
   }
    Widget formUI() {
@@ -109,9 +105,10 @@ Logbook logbookdata=new Logbook();
   
     Widget _totalTimeSinglePilot() { 
       return TextFormField(
+          initialValue:logbookdata.totalTimeSinglePilot.toString(),
           decoration: const InputDecoration(labelText: 'Total time single pilot *'),
           keyboardType: TextInputType.phone,
-         controller:totalTimeSinglePilot,
+       //  controller:totalTimeSinglePilot,
          validator: validNumber,
           onSaved: (val) => logbookdata.totalTimeSinglePilot=int.parse(val),
         );
@@ -122,20 +119,22 @@ Logbook logbookdata=new Logbook();
   
       Widget _totalTimeMultiPilot () { 
       return TextFormField(
-          decoration: const InputDecoration(labelText: 'Total time multi pilot *'),
-          keyboardType: TextInputType.phone,
-         controller:totalTimeMultiPilot,
+        initialValue:logbookdata.totalTimeMultiPilot.toString(),
+        decoration: const InputDecoration(labelText: 'Total time multi pilot *'),
+        keyboardType: TextInputType.phone,
+        // controller:totalTimeMultiPilot,
          validator: validNumber,
-          onSaved: (val) => logbookdata.totalTimeMultiPilot=int.parse(val),
+         onSaved: (val) => logbookdata.totalTimeMultiPilot=int.parse(val),
         );
 }
   
   ///////////////
-        Widget _totalTimeFlights() { 
-      return TextFormField(
+    Widget _totalTimeFlights() { 
+       return TextFormField(
+        initialValue:logbookdata.totalTimeFlights.toString(),
           decoration: const InputDecoration(labelText: 'Total time of flight *'),
           keyboardType: TextInputType.phone,
-         controller:totalTimeFlights,
+        // controller:totalTimeFlights,
          validator: validNumber,
           onSaved: (val) => logbookdata.totalTimeFlights=int.parse(val),
         );
@@ -144,9 +143,10 @@ Logbook logbookdata=new Logbook();
   ///////////////
         Widget _totalTimeairborne() { 
       return TextFormField(
+         initialValue:logbookdata.totalTimeairborne.toString(),
           decoration: const InputDecoration(labelText: 'Total time airborne *'),
           keyboardType: TextInputType.phone,
-         controller:totalTimeairborne,
+        // controller:totalTimeairborne,
          validator: validNumber,
           onSaved: (val) => logbookdata.totalTimeairborne=int.parse(val),
         );
@@ -155,9 +155,10 @@ Logbook logbookdata=new Logbook();
   ///////////////
         Widget _totalLandingDay() { 
       return TextFormField(
+         initialValue:logbookdata.totalLandingDay.toString(),
           decoration: const InputDecoration(labelText: 'Total landings day *'),
           keyboardType: TextInputType.phone,
-         controller:totalLandingDay,
+        // controller:totalLandingDay,
          validator: validNumber,
           onSaved: (val) => logbookdata.totalLandingDay=int.parse(val),
         );
@@ -166,9 +167,10 @@ Logbook logbookdata=new Logbook();
   ///////////////
         Widget _totalLandingNight() { 
       return TextFormField(
+        initialValue:logbookdata.totalLandingNight.toString(),
           decoration: const InputDecoration(labelText: 'Total Landing Night *'),
           keyboardType: TextInputType.phone,
-         controller:totalLandingNight,
+        controller:totalLandingNight,
          validator: validNumber,
           onSaved: (val) => logbookdata.totalLandingNight=int.parse(val),
         );
@@ -177,9 +179,10 @@ Logbook logbookdata=new Logbook();
   ///////////////
         Widget _totalTakeoffDay() { 
       return TextFormField(
+         initialValue:logbookdata.totalTakeoffDay.toString(),
           decoration: const InputDecoration(labelText: 'Total Take off Day *'),
           keyboardType: TextInputType.phone,
-         controller:totalTakeoffDay,
+         //controller:totalTakeoffDay,
          validator: validNumber,
           onSaved: (val) => logbookdata.totalTakeoffDay=int.parse(val),
         );
@@ -187,9 +190,10 @@ Logbook logbookdata=new Logbook();
   /////////////  ///////////////
         Widget _totalTakeoffNight() { 
       return TextFormField(
+         initialValue:logbookdata.totalTakeoffNight.toString(),
           decoration: const InputDecoration(labelText: 'Total Take off Night *'),
           keyboardType: TextInputType.phone,
-         controller:totalTakeoffNight,
+        // controller:totalTakeoffNight,
          validator: validNumber,
           onSaved: (val) => logbookdata.totalTakeoffNight=int.parse(val),
         );
@@ -198,9 +202,10 @@ Logbook logbookdata=new Logbook();
   ///////////////
         Widget _totalTimePic() { 
       return TextFormField(
+         initialValue:logbookdata.totalTimePic.toString()==null?'':logbookdata.totalTimePic.toString(),
           decoration: const InputDecoration(labelText: 'Total Time Single PIC*'),
           keyboardType: TextInputType.phone,
-         controller:totalTimePic,
+       //  controller:totalTimePic,
          validator: validNumber,
           onSaved: (val) => logbookdata.totalTimePic=int.parse(val),
         );
@@ -208,9 +213,10 @@ Logbook logbookdata=new Logbook();
     ///////////////
         Widget _totalTimeSolo() { 
       return TextFormField(
+         initialValue:logbookdata.totalTimeSolo.toString(),
           decoration: const InputDecoration(labelText: 'Total Time SOLO *'),
           keyboardType: TextInputType.phone,
-         controller:totalTimeSolo,
+    //     controller:totalTimeSolo,
          validator: validNumber,
           onSaved: (val) => logbookdata.totalTimeSolo=int.parse(val),
         );
@@ -218,9 +224,10 @@ Logbook logbookdata=new Logbook();
   ///////////////
         Widget  _totalTimeSpic(){ 
       return TextFormField(
+         initialValue:logbookdata.totalTimeSpic.toString(),
           decoration: const InputDecoration(labelText: 'Total Time SPIC *'),
           keyboardType: TextInputType.phone,
-         controller:totalTimeSpic,
+        // controller:totalTimeSpic,
          validator: validNumber,
           onSaved: (val) => logbookdata.totalTimeSpic=int.parse(val),
         );
@@ -229,9 +236,10 @@ Logbook logbookdata=new Logbook();
   ///////////////
         Widget  _totalTimePicus () { 
       return TextFormField(
+         initialValue:logbookdata.totalTimePicus.toString(),
           decoration: const InputDecoration(labelText: 'Total Time PICUS *'),
           keyboardType: TextInputType.phone,
-         controller:totalTimePicus,
+       //  controller:totalTimePicus,
          validator: validNumber,
           onSaved: (val) => logbookdata.totalTimePicus=int.parse(val),
         );
@@ -240,9 +248,10 @@ Logbook logbookdata=new Logbook();
   ///////////////
         Widget  _totalTimeCoPilot() { 
       return TextFormField(
+         initialValue:logbookdata.totalTimeCoPilot.toString(),
           decoration: const InputDecoration(labelText: 'Total Time CO-PILOT *'),
           keyboardType: TextInputType.phone,
-         controller:totalTimeCoPilot,
+       //  controller:totalTimeCoPilot,
          validator: validNumber,
           onSaved: (val) => logbookdata.totalTimeCoPilot=int.parse(val),
         );
@@ -251,9 +260,10 @@ Logbook logbookdata=new Logbook();
   ///////////////
         Widget  _totalTimeDual() { 
       return TextFormField(
+         initialValue:logbookdata.totalTimeDual.toString(),
           decoration: const InputDecoration(labelText: 'Total Time DUAL *'),
           keyboardType: TextInputType.phone,
-         controller:totalTimeDual,
+      //   controller:totalTimeDual,
          validator: validNumber,
           onSaved: (val) => logbookdata.totalTimeDual=int.parse(val),
         );
@@ -262,10 +272,11 @@ Logbook logbookdata=new Logbook();
   ///////////////
         Widget _totalTimeFI() { 
       return TextFormField(
+         initialValue:logbookdata.totalTimeFi.toString(),
           decoration: const InputDecoration(labelText: 'Total Time FI *'),
           keyboardType: TextInputType.phone,
-         controller:totalTimeFI,
-         validator: validNumber,
+        // controller:totalTimeFI,
+        validator: validNumber,
           onSaved: (val) => logbookdata.totalTimeFi=int.parse(val),
         );
 }
@@ -273,9 +284,10 @@ Logbook logbookdata=new Logbook();
   ///////////////
         Widget  _totalTimeFE() { 
       return TextFormField(
+         initialValue:logbookdata.totalTimeFe.toString(),
           decoration: const InputDecoration(labelText: ' Total Time FE *'),
           keyboardType: TextInputType.phone,
-         controller:totalTimeFE,
+        // controller:totalTimeFE,
          validator: validNumber,
           onSaved: (val) => logbookdata.totalTimeFe=int.parse(val),
         );
@@ -284,9 +296,10 @@ Logbook logbookdata=new Logbook();
   ///////////////
         Widget  _totalTimeNight() { 
       return TextFormField(
+         initialValue:logbookdata.totalTimeNight.toString(),
           decoration: const InputDecoration(labelText: 'Total Time NIGHT *'),
           keyboardType: TextInputType.phone,
-         controller:totalTimeNight,
+       //  controller:totalTimeNight,
          validator: validNumber,
           onSaved: (val) => logbookdata.totalTimeNight=int.parse(val),
         );
@@ -295,9 +308,10 @@ Logbook logbookdata=new Logbook();
   ///////////////
         Widget _totalTimeIFR(){ 
       return TextFormField(
+         initialValue:logbookdata.totalTimeIfr.toString(),
           decoration: const InputDecoration(labelText: 'Total Time IFR *'),
           keyboardType: TextInputType.phone,
-         controller:totalTimeIFR,
+         //controller:totalTimeIFR,
          validator: validNumber,
           onSaved: (val) => logbookdata.totalTimeIfr=int.parse(val),
         );
@@ -307,9 +321,10 @@ Logbook logbookdata=new Logbook();
   ///////////////
         Widget  _totalTimeFSTD() { 
       return TextFormField(
+         initialValue:logbookdata.totalTimeFstd.toString(),
           decoration: const InputDecoration(labelText: 'Total Time FSTD *'),
           keyboardType: TextInputType.phone,
-         controller:totalTimeFSTD,
+       //  controller:totalTimeFSTD,
          validator: validNumber,
           onSaved: (val) => logbookdata.totalTimeFstd=int.parse(val),
         );
@@ -372,7 +387,7 @@ Logbook logbookdata=new Logbook();
   if (_formKey.currentState.validate()) {
 //    If all data are correct then save data to out variables
     _formKey.currentState.save();
-    shoe( logbookdata                 );
+    shoe(                  );
 
   } else {
 //    If all data are not valid then start auto validation.
@@ -382,25 +397,65 @@ Logbook logbookdata=new Logbook();
   }
 }
    
+
+shoe(){
+
+ String json = logbookToJson(logbookdata);
+ print( json);
+sendRequest(json);
+}
+////////////////////
+/////get
+/////////////////
+
+     Future<int> getlicencddata() async {
+  final response = await http.get('http://192.168.43.246:8080/dLicence/api/license/v1/129/logBookdata');
+
+  if (response.statusCode == 200) {
+      print(json.decode(response.body));
+       logbookdata =Logbook.fromJson(json.decode(response.body));
+       //_onSuccessResponse();
+     return 1;
+    
+  } else {
+    return 1;
+    // If th
+//     String emptjson = logbookToJson(logbookdata);
+//  print( emptjson);
+//      return Logbook.fromJson(json.decode(emptjson));//e server did not return a 200 OK response,
+    // then throw an exception.
+   // throw Exception('check network connecion');
+  }
+
+     }
+///////////////////////////////
+// /post
+  
+sendRequest( String data) async {
+  
+var url = 'http://192.168.43.246:8080/dLicence/api/license/v1/129/logBookdata';
+    http.post(url, headers: {"Content-Type": "application/json"}, body: data)
+        .then((response) {
+      print("Response status: ${response.statusCode}");
+    //  print("Response body: ${response.body}");
+    final String res = response.body;
+      final int statusCode = response.statusCode;
+
+      if (statusCode < 200 || statusCode > 400 || json == null) {
+        throw Exception("Error while fetching data");
+      } else {
+         print(json.decode(res));
+        // Map data=json.decode(res);
+        // final userdata=UserClass.fromJson(data);
+        // UserClass userdataofclass=UserClass.fromJson(data);
+        // print(userdata.firstName);
+        // _onSuccessResponse(userdataofclass);
+      //  _onSuccessResponse();
+      }
+    });
+
+   
+  }
  ////////////////////////////////////////////////////////////////////////
 }
-///////////////
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+/////////////

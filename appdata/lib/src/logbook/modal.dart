@@ -107,13 +107,4 @@ class Logbook {
 }
 
 
-shoe(
- Logbook logbookData){
-// LicenseDetail licenseDetail,
-//Personnel personal){
-// saveLicenseData.personnel = <Personnel>[personal];
-// saveLicenseData.licenseDetails = <LicenseDetail>[licenseDetail];
- String json = logbookToJson(logbookData);
- print( json);
-
-}
+//http://localhost:8080/dLicence/api/license/v1/97/logBookdata
