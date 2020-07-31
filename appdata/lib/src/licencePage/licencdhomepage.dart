@@ -30,7 +30,12 @@ class _LicencepagehomeState extends State<Licencepagehome> {
                       LicenseDetail licenseDetail=new LicenseDetail(); 
                       //final TextEditingController _controller = new TextEditingController();
                      // Licenceclass apiLicencddata=new Licenceclass(); UserClass userdata = UserClass.fromJson(jsonstring);
-                      
+                        List<Examinerapi> examinerapiplist=[];
+                        List examinerdatafrompage;
+                        List<Instructorapi> instructorapiplist=[];
+                        List instructordatafrompage;  
+                        List<EndorsementAPI> endorsementApipList=[];
+                        List endorsementDataFromPage;
                      // Personneldata personal=new Personneldata();
                       final dtirtest = new TextEditingController();
                       final dtissue = new TextEditingController();  
@@ -122,26 +127,31 @@ class _LicencepagehomeState extends State<Licencepagehome> {
            _co_Pilot(),
            _additionalDetails(),
            FlatButton(
-             color: Colors.grey[300],
-              child: Text('Instructor'),
-              onPressed: () async {
-              String instructorjson = await Navigator.push( context, MaterialPageRoute( builder: (context) =>Instructorpage(), ), );
-                print(instructorjson); if (instructorjson != null) {
-                instructordatafrompage = jsonDecode(instructorjson) as List; }
-                print(instructordatafrompage);
-                 }),
-         FlatButton(
-              color: Colors.grey[300],
-              child: Text('Examiner'),
-              onPressed: () async {
-              String a = await Navigator.push( context, MaterialPageRoute( builder: (context) =>ExaminarPage(), ), );
-                print(a); },  ), 
-        FlatButton(
+                color: Colors.grey[300],
+                child: Text('Instructor'),
+                onPressed: () async {
+                String inst = await Navigator.push( 
+                context, MaterialPageRoute( builder: (context) =>Instructorpage(instructorapiplist), ), );
+                if (inst != null) {
+                   instructordatafrompage = jsonDecode(inst) as List;
+                   instructorapiplist = instructordatafrompage.map((i)=>Instructorapi.fromJson(i)).toList();} }),
+          FlatButton(
+               child: Text('Examiner'),
+               onPressed: () async {
+               String a = await Navigator.push( context, MaterialPageRoute( builder: (context) =>ExaminarPage (examinerapiplist), ),);
+               if (a != null) {
+                examinerdatafrompage = jsonDecode(a) as List;
+                examinerapiplist = examinerdatafrompage.map((i)=>Examinerapi.fromJson(i)).toList();
+              print(examinerapiplist);}}),
+          FlatButton(
               color: Colors.grey[300],
               child: Text('Endorsement'),
               onPressed: () async {
-              String a = await Navigator.push( context, MaterialPageRoute( builder: (context) =>EndorsementPage(), ), );
-                print(a); },  ),
+              String endor = await Navigator.push( context, MaterialPageRoute( builder: (context) =>EndorsementPage(endorsementApipList), ), );
+                if (endor != null) {
+                endorsementDataFromPage = jsonDecode(endor) as List;
+                endorsementApipList = endorsementDataFromPage.map((i)=>EndorsementAPI.fromJson(i)).toList();
+              print(endorsementApipList);} },  ),
            showdata()
         
          ]
@@ -494,21 +504,21 @@ class _LicencepagehomeState extends State<Licencepagehome> {
           }).toList(),
         ),
   DropdownButtonFormField<String>(
-      decoration: InputDecoration(
-      labelText:' Type * ',
-      hintText:'Select Type',
-       ),
-              value: tpyeOptionData,
-              onChanged: (String newValue) =>setState(() => tpyeOptionData = newValue),
-              validator: (value) => value == null ? 'field required' : null,
-             onSaved: (val) =>  licenseDetail.typeId=int.parse(val),
-              items: licensetypedatalist.map((item) {
-            return new DropdownMenuItem(
-              child: new Text(item['typeName']),
-              value: item['id'].toString(),
-            );
-          }).toList(),
-        ),
+            decoration: InputDecoration(
+            labelText:' Type * ',
+            hintText:'Select Type',
+            ),
+                    value: tpyeOptionData,
+                    onChanged: (String newValue) =>setState(() => tpyeOptionData = newValue),
+                    validator: (value) => value == null ? 'field required' : null,
+                  onSaved: (val) =>  licenseDetail.typeId=int.parse(val),
+                    items: licensetypedatalist.map((item) {
+                  return new DropdownMenuItem(
+                    child: new Text(item['typeName']),
+                    value: item['id'].toString(),
+                  );
+                }).toList(),
+              ),
    CheckboxListTile(
               activeColor: Theme.of(context).accentColor,
               title: Text('IR'),
@@ -657,112 +667,62 @@ String licenceNumber(String value) {
     //  licencenumber=apiLicencddata.
      // licencenumber=apiLicencddata.licenseNumber.toString();
     }
-     
-  String findval(int a, int casevalue) {
-    switch (casevalue) {
-      case 1:
-        {
-      
-          int val = a;
-          val--;
-          for (int dat = 0; dat <= countriesdatalist.length; dat++) {
-            if (dat == val) {
-              print(countriesdatalist[dat]['countryCode']);
-             return countriesdatalist[dat]['countryCode'];
-            }
-          }
-        }
-
-        break;
-
-      case 2:
-        {
-          int val = a;
-          val--;
-          for (int dat = 0; dat <= licensecodesdatalist.length; dat++) {
-            if (dat == val) {
-              print(licensecodesdatalist[dat]['code']);
-             return licensecodesdatalist[dat]['code'];
-            }
-          }
-          //  iions= countriesdatalist[dat]['code'];
-        }
-        break;
-
-        //  levelvaluedata=levelvalue(2);
-
-        
-      case 3:
-        {
-          int val = a;
-          val--;
-          for (int dat = 0; dat <= countriesdatalist.length; dat++) {
-            if (dat == val) {
-              print(countriesdatalist[dat]['countryName']);
-             return countriesdatalist[dat]['countryName'];
-            }
-          } // levelvaluedata=levelvalue(3);
-        }
-        break;
-      case 4:
-        {
-           int val = a;
-          val--;
-          for (int dat = 0; dat <= licenseclassdatalist.length; dat++) {
-            if (dat == val) {
-              print(licenseclassdatalist[dat]['className']);
-             return licenseclassdatalist[dat]['className'];
-            }
-          } 
-          //  levelvaluedata=fourear.toString();
-
-        }
-        break;
-      case 5:
-        {
-          //  levelvaluedata= sixear.toString();
-        }
-        break;
-      case 6:
-        {
-          //  levelvaluedata= levelvalue(6);
-        }
-        break;
-
-      default:
-        {
-         return null; //statements;
-        }
-        break;
-    }
-  }
-
-   List<InstructorDetail> player = new List(10);
-addinstructorr(int id ,String type,String remark){
- int x=0;
-
-    player[x] = new InstructorDetail() ; // add this to your code
-      // var fill = player[x];
-       player[x].remark =remark;
-  player[x].id =id;
-   player[x].instructorTypeId =int.parse(type);
-      
- saveLicenseData.instructorDetails.add(player[x]);
+ List<ExaminerDetail> playerExaminer = new List(10);
+  int x=0;
+   List<InstructorDetail> playerInstructor = new List(10);
+    int z=0;
+     List<EndorsementDetail> playerEndorsement = new List(10);
+    int w=0;
+addexaniner(int id ,String type,String remark){
+  playerExaminer[x] = new ExaminerDetail() ; // add this to your code
+  playerExaminer[x].remark =remark;
+  playerExaminer[x].id =id;
+  playerExaminer[x].examinerTypeId =int.parse(type);    
+  saveLicenseData.examinerDetails.add(playerExaminer[x]);
   x++;
 }
-
+addinstructorr(int id ,String type,String remark){
+  playerInstructor[z] = new InstructorDetail() ; // add this to your code
+  playerInstructor[z].remark =remark;
+  playerInstructor[z].id =id;
+  playerInstructor[z].instructorTypeId =int.parse(type);    
+  saveLicenseData.instructorDetails.add(playerInstructor[z]);
+  z++;
+}
+addendorsement(int id ,String type){
+  playerEndorsement[w] = new EndorsementDetail() ; // add this to your code
+  playerEndorsement[w].id =id;
+  playerEndorsement[w].endorsementTypeId =int.parse(type);    
+  saveLicenseData.endorsementDetails.add(playerEndorsement[w]);
+  w++;
+}
 void postdata(){
        saveLicenseData.instructorDetails = <InstructorDetail>[];
+       saveLicenseData.examinerDetails = <ExaminerDetail>[];
+       saveLicenseData.endorsementDetails = <EndorsementDetail>[];
     int dat;
     
-  int count=instructordatafrompage.length;print(count);
+  int count=endorsementDataFromPage.length;print(count);
 
-  for(dat=0;dat<count;dat++){ 
-              String f= instructordatafrompage[dat]['examinerTypeId'];
+  for(dat=0;dat<instructordatafrompage.length;dat++){ 
+              String f= instructordatafrompage[dat]['instructorTypeId'];
               String r= instructordatafrompage[dat]['remark'];
               int b= instructordatafrompage[dat]['id'];
-              print(b); print(r); print(f);
+            //  print(b); print(r); print(f);
             addinstructorr(b,f,r);
+    }
+     for(dat=0;dat<examinerdatafrompage.length;dat++){ 
+              String f= examinerdatafrompage[dat]['examinerTypeId'];
+              String r= examinerdatafrompage[dat]['remark'];
+              int b= examinerdatafrompage[dat]['id'];
+            //  print(b); print(r); print(f);
+            addexaniner(b,f,r);
+    }
+    for(dat=0;dat<count;dat++){ 
+              String f= endorsementDataFromPage[dat]['endorsementTypeId'];
+              int b= endorsementDataFromPage[dat]['id'];
+            //  print(b); print(r); print(f);
+            addendorsement(b,f);
     }
  //saveLicenseData.personnel = <Personneldata>[personal];
  saveLicenseData.licenseDetails = <LicenseDetail>[licenseDetail];

@@ -163,44 +163,44 @@ void reset() {
   
    
    Widget _checkDate() {
-  //     return DateTimeField(
-  //           //  dateOnly: true,
-  //           decoration: InputDecoration( labelText: 'Check Date',
-  //           suffixIcon : Icon(Icons.calendar_today),),
-  //          // hintText: '$dateOfInitialIssue'),
-  //           format: dateFormat,
-  //           initialValue:DateTime.parse(language.checkDate),
-  //           onShowPicker: (context, currentValue) {
-  //                         return showDatePicker(
-  //                         context: context,
-  //                         firstDate: DateTime(1900),
-  //                         initialDate:  DateTime.now(),
-  //                         lastDate: DateTime(2100));
-  //                   },
-  //           validator: (val) {if (val != null) {return null; } else {return 'Date Field is Empty'; }},
-  //           onChanged: (dt) { setState(() => validuntil = dt);
-  //                       print('Selected date: $dateofratingtest');},
-  //           onSaved: (value) {language.checkDate= saveFormat.format(value);value.toString();
-  //             debugPrint(value.toString());},
-  //     );
-  //   //
-  // }
-   return TextField(
-      controller: _controller,
-      onTap : ()=> _selectDate(context,expirydateofthiscertificate,_controller),
- onSubmitted:(val) => language.checkDate= val.toString(),
-//              // convertToDate(val),
-  decoration: InputDecoration(
-     suffixIcon : Icon(Icons.calendar_today),
- //   border: OutlineInputBorder(),
-      labelText: 'Check Date',
-     hintText: ' $expirydateofthiscertificate',
-  ),
-);}
+        return DateTimeField(
+            decoration: InputDecoration( labelText: 'Check Date',
+            suffixIcon : Icon(Icons.calendar_today),),
+           // hintText: '$dateOfInitialIssue'),
+            format: dateFormat,
+            initialValue:DateTime.parse(language.checkDate),
+            onShowPicker: (context, currentValue) {
+                          return showDatePicker(
+                          context: context,
+                          firstDate: DateTime(1900),
+                          initialDate:  DateTime.now(),
+                          lastDate: DateTime(2100));
+                    },
+            validator: (val) {if (val != null) {return null; } else {return 'Date Field is Empty'; }},
+            onChanged: (dt) { setState(() => validuntil = dt);
+                        print('Selected date: $dateofratingtest');},
+            onSaved: (value) {language.checkDate= saveFormat.format(value);value.toString();
+              debugPrint(value.toString());},
+      );
+    //
+   }
+//    return TextField(
+//       controller: _controller,
+//       onTap : ()=> _selectDate(context,expirydateofthiscertificate,_controller),
+//  onSubmitted:(val) => language.checkDate= val.toString(),
+// //              // convertToDate(val),
+//   decoration: InputDecoration(
+//      suffixIcon : Icon(Icons.calendar_today),
+//  //   border: OutlineInputBorder(),
+//       labelText: 'Check Date',
+//      hintText: ' $expirydateofthiscertificate',
+//   ),
+// );}
 //   ///////////////////////
   
   Widget _certificateNo() {
    return    TextFormField(
+          initialValue: language.certificateNumber.toString(),
           decoration: const InputDecoration(labelText: 'Certificate Number'),
           keyboardType: TextInputType.phone,
           validator: licenseId,

@@ -4,8 +4,8 @@ import 'dart:convert';
 import 'modal.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-//import 'package:flutter/material.dart';
-
+//import 'package:flutter/material.dart;
+// import 'package:flutter_validate/flutter_validate.dart';
 
 class LogBookPage extends StatefulWidget {
   @override
@@ -16,8 +16,8 @@ class _LogBookPage extends State<LogBookPage> {
  bool _autoValidate = false;
  String languageString;
  Logbook logbookdata=new Logbook();
-   final totalLandingNight = new TextEditingController(text:'');
-
+//    final totalLandingNight = new TextEditingController();
+// totalLandingNight.addListener(() {logbookdata.totalLandingNight=totalLandingNight.text});
     bool visibilityTag = false;
   bool visibilityObs = false;
 
@@ -167,10 +167,10 @@ class _LogBookPage extends State<LogBookPage> {
   ///////////////
         Widget _totalLandingNight() { 
       return TextFormField(
-        initialValue:logbookdata.totalLandingNight.toString(),
+        initialValue:logbookdata.totalLandingNight.toString()??"",
           decoration: const InputDecoration(labelText: 'Total Landing Night *'),
           keyboardType: TextInputType.phone,
-        controller:totalLandingNight,
+       // controller:totalLandingNight,
          validator: validNumber,
           onSaved: (val) => logbookdata.totalLandingNight=int.parse(val),
         );
@@ -415,16 +415,15 @@ sendRequest(json);
       print(json.decode(response.body));
        logbookdata =Logbook.fromJson(json.decode(response.body));
        //_onSuccessResponse();
-     return 1;
-    
-  } else {
-    return 1;
+     return 1; } 
+  else if  (response.statusCode == 500){ return 1;}
+  else{
     // If th
 //     String emptjson = logbookToJson(logbookdata);
 //  print( emptjson);
 //      return Logbook.fromJson(json.decode(emptjson));//e server did not return a 200 OK response,
     // then throw an exception.
-   // throw Exception('check network connecion');
+   throw Exception('check network connecion');
   }
 
      }
