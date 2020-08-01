@@ -22,7 +22,7 @@ class _LicencepagehomeState extends State<Licencepagehome> {
  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
                       bool _autoValidate = false;
                       bool checkboxValue=false;
-                      String initialnumber='';
+                      String initialnumber;
                       String languageString;
                       var saveFormat = DateFormat('yyyy-MM-dd'); 
                       var showformmat = DateFormat("dd-MM-yyyy");
@@ -47,7 +47,7 @@ class _LicencepagehomeState extends State<Licencepagehome> {
                       String a;
                       String licencenumber='';
                       DateTime initialdateval;
-                     //  Future<Licenceclass>futureLicenceclass;
+                      Future<Licenceclass>futureLicenceclass;
                       // Future<Album> futureAlbum;
                        Future<void> _selectDate(BuildContext context,var a,TextEditingController datecontroller ) async {
                   showDatePicker(
@@ -62,12 +62,12 @@ class _LicencepagehomeState extends State<Licencepagehome> {
                      }); }); 
   }
 
-//   @override
-//   void initState() {
-//     super.initState();
-//   //futureLicenceclass = getlicencddata();
-//  print(saveLicenseData.licenseNumber);
-//   }
+  @override
+  void initState() {
+    super.initState();
+  futureLicenceclass = getlicencddata();
+ print(saveLicenseData.licenseNumber);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -75,7 +75,22 @@ class _LicencepagehomeState extends State<Licencepagehome> {
       debugShowCheckedModeBanner: false,
       home: new Scaffold(
       appBar: new AppBar(title: new Text('    Licence'), ),
-      body: SingleChildScrollView(
+      // body: SingleChildScrollView(
+      //      child: new Container(
+      //       margin: new EdgeInsets.all(15.0),
+      //       child: new Form(
+      //         key: _formKey,
+      //         autovalidate: _autoValidate,
+      //         child:formUI(),
+      //       ),
+      //     ),
+      //   ) ,
+       body: Center(
+          child: FutureBuilder<Licenceclass>(
+            future: futureLicenceclass,
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                return   SingleChildScrollView(
            child: new Container(
             margin: new EdgeInsets.all(15.0),
             child: new Form(
@@ -84,28 +99,13 @@ class _LicencepagehomeState extends State<Licencepagehome> {
               child:formUI(),
             ),
           ),
-        ) ,
-  //       Center(
-  //         child: FutureBuilder<Licenceclass>(
-  //           future: futureLicenceclass,
-  //           builder: (context, snapshot) {
-  //             if (snapshot.hasData) {
-  //               return   SingleChildScrollView(
-  //          child: new Container(
-  //           margin: new EdgeInsets.all(15.0),
-  //           child: new Form(
-  //             key: _formKey,
-  //             autovalidate: _autoValidate,
-  //             child:formUI(),
-  //           ),
-  //         ),
-  //       );
-  //     } else if (snapshot.hasError) { return Text("${snapshot.error}");  }
-  //      // By default, show a loading spinner.
-  //       return CircularProgressIndicator();
-  //       },
-  //     ),
-  //  ),
+        );
+      } else if (snapshot.hasError) { return Text("${snapshot.error}");  }
+       // By default, show a loading spinner.
+        return CircularProgressIndicator();
+        },
+      ),
+   ),
   ),
  );
  }
@@ -136,7 +136,6 @@ class _LicencepagehomeState extends State<Licencepagehome> {
            _additionalDetails(),
             SizedBox(height: 3, child: Container(color: Colors.blue[200],)),
            FlatButton(
-               // color: Colors.grey[300],
                 child: Text('Instructor          '),
                 onPressed: () async {
                 String inst = await Navigator.push( 
@@ -258,7 +257,7 @@ class _LicencepagehomeState extends State<Licencepagehome> {
            // hintText: '$dateOfInitialIssue'
            ),
             format: dateFormat,
-            initialValue:initialdateval,//??DateTime.parse(saveLicenseData.dtIssue),
+            initialValue:initialdateval??DateTime.parse(saveLicenseData.dtIssue),
             onShowPicker: (context, currentValue) {
                           return showDatePicker(
                           context: context,
@@ -648,22 +647,12 @@ String licenceNumber(String value) {
 
 
 
-    void   _onSuccessResponse( ){
-   //  levelvalue(saveLicenseData.countryId,1);
-    // levelvalue(saveLicenseData.codeId,2);
-     print(saveLicenseData.examinerId);
-      print(saveLicenseData.countryId);
-     print(contries);
-     //contries=countriesdatalist[saveLicenseData.countryId]['countryCode'];
-      licencenumber=saveLicenseData.licenseNumber.toString();
-    //  licencenumber=saveLicenseData.
-     // licencenumber=saveLicenseData.licenseNumber.toString();
-    }
- List<ExaminerDetail> playerExaminer = new List(10);
+
+ List<ExaminerDetail> playerExaminer = new List(20);
   int x=0;
-   List<InstructorDetail> playerInstructor = new List(10);
+   List<InstructorDetail> playerInstructor = new List(20);
     int z=0;
-     List<EndorsementDetail> playerEndorsement = new List(10);
+     List<EndorsementDetail> playerEndorsement = new List(20);
     int w=0;
 addexaniner(int id ,String type,String remark){
   playerExaminer[x] = new ExaminerDetail() ; // add this to your code
@@ -714,11 +703,8 @@ void postdata(){
               int b= endorsementDataFromPage[dat]['id'];
             //  print(b); print(r); print(f);
             addendorsement(b,f); }
- saveLicenseData.ratingCertId ='';
- saveLicenseData.id =0;
- licenseDetail.id=0;
- additionallicenseDetail.id=0;
- saveLicenseData.userId="09d45a41-a41f-48c4-84cf-63e5603a26dc";
+
+ saveLicenseData.userId="a92a3003-68fc-4a3a-8ad5-cadf450dbccf";
  saveLicenseData.licenseDetails = <LicenseDetail>[licenseDetail];
  if(additionallicenseDetail.additionalRating)saveLicenseData.licenseDetails.add(additionallicenseDetail);
  String jsons = licenceclassToJson(saveLicenseData);
@@ -742,21 +728,60 @@ sendRequest( String data) async {
 ///get
 //////////////////
 
-  //   Future<Licenceclass> getlicencddata() async {
-  // final response = await http.get('http://192.168.43.246:8080/dLicence/api/license/v1/226');
+    Future<Licenceclass> getlicencddata() async {
+  final response = await http.get('http://192.168.43.246:8080/dLicence/api/license/v1/051221ed-6f4b-4729-9d4c-948ae6e33d1c');
 
-  // if (response.statusCode == 200) {
-  //     print(json.decode(response.body));
-  //      saveLicenseData =Licenceclass.fromJson(json.decode(response.body));
-  //      //_onSuccessResponse();
-  //    return Licenceclass.fromJson(json.decode(response.body));
+  if (response.statusCode == 200) {
+      print(json.decode(response.body));
+    //  setState(() {
+    //   // initialnumber=null;
+    //  }); 
+     String api=response.body;
+      endorsementDataFromPage=jsonDecode(response.body)['endorsementDetails']as List;
+    print(endorsementDataFromPage);
+      instructordatafrompage=jsonDecode(response.body)['instructorDetails']as List;
+     print(instructordatafrompage);
+      examinerdatafrompage=jsonDecode(response.body)['examinerDetails']as List;
+     print(examinerdatafrompage);
+     List licenseDetaillist=jsonDecode(response.body)['licenseDetails']as List;
+     print(licenseDetaillist);
+     licenceDetaillist(licenseDetaillist);
+       saveLicenseData =Licenceclass.fromJson(json.decode(response.body));
+       _onSuccessResponse();
+     return Licenceclass.fromJson(json.decode(response.body));
     
-  // } else {
-  //   // If the server did not return a 200 OK response,
-  //   // then throw an exception.
-  //   throw Exception('Failed to load album');
-  // }
-
+  } else {
+    initialnumber='';
+    // If the server did not return a 200 OK response,
+    // then throw an exception.
+   // throw Exception('Failed to load ');
+  }
+    }
+        void   _onSuccessResponse( ){
+   //  levelvalue(saveLicenseData.countryId,1);
+    // levelvalue(saveLicenseData.codeId,2);
+     print(saveLicenseData.examinerId);
+      print(saveLicenseData.countryId);
+    dateOfInitialIssue= DateTime.parse(saveLicenseData.dtIssue);
+       dateofratingtest= DateTime.parse(saveLicenseData.dtRatingtest);
+         dateofIRtest= DateTime.parse(saveLicenseData.dtIrtest);
+           validuntil= DateTime.parse(saveLicenseData.dtValidity);//contries=countriesdatalist[saveLicenseData.countryId]['countryCode'];
+     // licencenumber=saveLicenseData.licenseNumber.toString();
+    //  licencenumber=saveLicenseData.
+     // licencenumber=saveLicenseData.licenseNumber.toString();
+    }
+    void licenceDetaillist( List<LicenseDetail> detaillist){
+      for (int dat = 0; dat < detaillist.length; dat++) {
+        print("aaaaaaaaaaaa");
+     print(detaillist[dat].classId);
+     print(detaillist[dat].copilot);
+    print(detaillist[dat].id);
+    print(detaillist[dat].ir);
+    print(detaillist[dat].typeId);
+    print("aaaaaaaaaaaa");
+    
+    }
+    }
   // }
     // Response response = await Dio().get("http://192.168.43.246:8080/dLicence/api/license/v1/193");
    

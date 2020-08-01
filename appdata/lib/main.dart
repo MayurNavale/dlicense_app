@@ -14,5 +14,5 @@ class MyApp extends StatelessWidget {
      //home:HomePage(),
     home:LogInPage(),
     );
-  }
+  } 
 }

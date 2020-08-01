@@ -68,11 +68,11 @@ class Licenceclass {
     this.examinerDetails,
     this.examinerId=0,
     this.examinerNumber,
-    this.id,
+    this.id=0,
     this.instructorDetails,
     this.licenseDetails,
     this.licenseNumber,
-    this.ratingCertId,
+    this.ratingCertId='',
     this.remarks,
     this.stateId=0,
     this.titleId=0,
@@ -176,8 +176,8 @@ class Licenceclass {
 
 class EndorsementDetail {
   EndorsementDetail({
-    this.endorsementTypeId,
-    this.id,
+    this.endorsementTypeId=0,
+    this.id=0,
   });
 
   int endorsementTypeId;
@@ -201,7 +201,7 @@ class EndorsementDetail {
 class ExaminerDetail {
   ExaminerDetail({
     this.examinerTypeId,
-    this.id,
+    this.id=0,
     this.remark,
   });
 
@@ -225,7 +225,7 @@ class ExaminerDetail {
 
 class InstructorDetail {
   InstructorDetail({
-    this.id,
+    this.id=0,
     this.instructorTypeId,
     this.remark,
   });
@@ -254,7 +254,7 @@ class LicenseDetail {
     this.additionalRating=false,
     this.classId=0,
     this.copilot=false,
-    this.id,
+    this.id=0,
     this.ir=false,
     this.typeId=0,
   });
