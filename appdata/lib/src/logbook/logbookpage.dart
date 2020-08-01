@@ -16,7 +16,7 @@ class _LogBookPage extends State<LogBookPage> {
  bool _autoValidate = false;
  String languageString;
  Logbook logbookdata=new Logbook();
- String initialnumdata='';
+ String initialnumdata;
 //    final totalLandingNight = new TextEditingController();
 // totalLandingNight.addListener(() {logbookdata.totalLandingNight=totalLandingNight.text});
     bool visibilityTag = false;
@@ -410,23 +410,24 @@ sendRequest(json);
 /////////////////
 
      Future<int> getlicencddata() async {
-         return 1;
-//   final response = await http.get('http://192.168.43.246:8080/dLicence/api/license/v1/129/logBookdata');
+        // return 1;
+  final response = await http.get('http://192.168.43.246:8080/dLicence/api/license/v1/225/logBookdata');
 
-//   if (response.statusCode == 200) {
-//       print(json.decode(response.body));
-//        logbookdata =Logbook.fromJson(json.decode(response.body));
-//        //_onSuccessResponse();
-//      return 1; } 
-//   else if  (response.statusCode == 500){initialnumdata=''; return 1;}
-//   else{
-//     // If th
-// //     String emptjson = logbookToJson(logbookdata);
-// //  print( emptjson);
-// //      return Logbook.fromJson(json.decode(emptjson));//e server did not return a 200 OK response,
-//     // then throw an exception.
-//  throw Exception('check network connecion');
-//   }
+  if (response.statusCode == 200) {
+      print(json.decode(response.body));
+       logbookdata =Logbook.fromJson(json.decode(response.body));
+       //_onSuccessResponse();
+     return 1; } 
+  else if  (response.statusCode == 500){initialnumdata=''; return 1;}
+  else{
+    initialnumdata='';
+    // If th
+//     String emptjson = logbookToJson(logbookdata);
+//  print( emptjson);
+//      return Logbook.fromJson(json.decode(emptjson));//e server did not return a 200 OK response,
+    // then throw an exception.
+return 1;// throw Exception('check network connecion');
+  }
 
      }
 ///////////////////////////////
@@ -434,7 +435,7 @@ sendRequest(json);
   
 sendRequest( String data) async {
   
-var url = 'http://192.168.43.246:8080/dLicence/api/license/v1/129/logBookdata';
+var url = 'http://192.168.43.246:8080/dLicence/api/license/v1/225/logBookdata';
     http.post(url, headers: {"Content-Type": "application/json"}, body: data)
         .then((response) {
       print("Response status: ${response.statusCode}");
