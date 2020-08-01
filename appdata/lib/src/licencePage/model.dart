@@ -3,7 +3,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:appdata/src/models/masterdata.dart';
 
-
+String initialnumber;
 Map<String, dynamic> jsonstring ={
   "additionalRemarks": "string",
   "codeId": 1,
@@ -58,15 +58,15 @@ String licenceclassToJson(Licenceclass data) => json.encode(data.toJson());
 class Licenceclass {
   Licenceclass({
     this.additionalRemarks,
-    this.codeId,
-    this.countryId,
+    this.codeId=0,
+    this.countryId=0,
     this.dtIrtest,
     this.dtIssue,
     this.dtRatingtest,
     this.dtValidity,
     this.endorsementDetails,
     this.examinerDetails,
-    this.examinerId,
+    this.examinerId=0,
     this.examinerNumber,
     this.id,
     this.instructorDetails,
@@ -74,8 +74,8 @@ class Licenceclass {
     this.licenseNumber,
     this.ratingCertId,
     this.remarks,
-    this.stateId,
-    this.titleId,
+    this.stateId=0,
+    this.titleId=0,
     this.userId,
   });
 
@@ -251,12 +251,12 @@ class InstructorDetail {
 
 class LicenseDetail {
   LicenseDetail({
-    this.additionalRating,
-    this.classId,
-    this.copilot,
+    this.additionalRating=false,
+    this.classId=0,
+    this.copilot=false,
     this.id,
-    this.ir,
-    this.typeId,
+    this.ir=false,
+    this.typeId=0,
   });
 
   bool additionalRating;
@@ -295,27 +295,29 @@ class LicenseDetail {
       
           int val = a;
           val--;
-          for (int dat = 0; dat <= countriesdatalist.length; dat++) {
+          if(a==0){return contries;}else{
+          for (int dat = 0; dat <= statedatalist.length; dat++) {
             if (dat == val) {
-              print(countriesdatalist[dat]['countryCode']);
-             return countriesdatalist[dat]['countryCode'];
+            //  print(countriesdatalist[dat]['countryCode']);
+             return statedatalist[dat]['stateName'];
             }
           }
         }
-
+    }
         break;
 
       case 2:
         {
           int val = a;
           val--;
+          if(a==0){return contries;}else{
           for (int dat = 0; dat <= licensecodesdatalist.length; dat++) {
             if (dat == val) {
-              print(licensecodesdatalist[dat]['code']);
+            //  print(licensecodesdatalist[dat]['code']);
              return licensecodesdatalist[dat]['code'];
             }
           }
-          //  iions= countriesdatalist[dat]['code'];
+           } //  iions= countriesdatalist[dat]['code'];
         }
         break;
 
@@ -326,11 +328,12 @@ class LicenseDetail {
         {
           int val = a;
           val--;
+           if(a==0){return contries;}else{
           for (int dat = 0; dat <= countriesdatalist.length; dat++) {
             if (dat == val) {
-              print(countriesdatalist[dat]['countryName']);
+            //  print(countriesdatalist[dat]['countryName']);
              return countriesdatalist[dat]['countryName'];
-            }
+            }}
           } // levelvaluedata=levelvalue(3);
         }
         break;
@@ -338,13 +341,14 @@ class LicenseDetail {
         {
            int val = a;
           val--;
+           if(a==0){return contries;}else{
           for (int dat = 0; dat <= licenseclassdatalist.length; dat++) {
             if (dat == val) {
-              print(licenseclassdatalist[dat]['className']);
+            //  print(licenseclassdatalist[dat]['className']);
              return licenseclassdatalist[dat]['className'];
             }
           } 
-          //  levelvaluedata=fourear.toString();
+             }  //  levelvaluedata=fourear.toString();
 
         }
         break;
@@ -354,7 +358,7 @@ class LicenseDetail {
           val--;
           for (int dat = 0; dat <= examinerdatalist.length; dat++) {
             if (dat == val) {
-              print(examinerdatalist[dat]['examinerType']);
+            //  print(examinerdatalist[dat]['examinerType']);
              return examinerdatalist[dat]['examinerType'];
             } //  levelvaluedata= sixear.toString();
         }
@@ -367,7 +371,7 @@ class LicenseDetail {
         // return instructordatalist[val]['instructorType'];
           for (int dat = 0; dat <= instructordatalist.length; dat++) {
             if (dat == val) {
-              print(instructordatalist[dat]['instructorType']);
+            //  print(instructordatalist[dat]['instructorType']);
              return instructordatalist[dat]['instructorType'];
             } //  levelvaluedata= sixear.toString();
         } //  levelvaluedata= levelvalue(6);
@@ -380,10 +384,38 @@ class LicenseDetail {
         // return instructordatalist[val]['instructorType'];
           for (int dat = 0; dat <= endorsementdatalist.length; dat++) {
             if (dat == val) {
-              print(endorsementdatalist[dat]['endorsementType']);
+            //  print(endorsementdatalist[dat]['endorsementType']);
              return endorsementdatalist[dat]['endorsementType'];
             } //  levelvaluedata= sixear.toString();
         } //  levelvaluedata= levelvalue(6);
+        }
+        break;
+        case 8:
+        {
+          int val = a;
+          val--;
+         if(a==0){return contries;}else{
+          for (int dat = 0; dat <= licensetitlesdatalist.length; dat++) {
+            if (dat == val) {
+            //  print(licensetitlesdatalist[dat]['title']);
+             return licensetitlesdatalist[dat]['title'];
+            } //  levelvaluedata= sixear.toString();
+        } //  levelvaluedata= levelvalue(6);
+        }
+        }
+        break;
+        case 9:
+        {
+          int val = a;
+          val--;
+          if(a==0){return contries;}else{
+          for (int dat = 0; dat <= licensecodesdatalist.length; dat++) {
+            if (dat == val) {
+              //print(licensecodesdatalist[dat]['code']);
+             return licensecodesdatalist[dat]['code'];
+            }
+          }
+           } //  iions= countriesdatalist[dat]['code'];
         }
         break;
       default:
@@ -392,6 +424,7 @@ class LicenseDetail {
         }
         break;
     }
+    
   }
 
 

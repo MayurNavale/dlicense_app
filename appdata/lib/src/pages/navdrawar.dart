@@ -63,7 +63,7 @@ class NavDrawer extends StatelessWidget {
             title: Text('Language'),
             onTap: () => { Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => Licencepage())),
+                MaterialPageRoute(builder: (context) => LanguagePage())),
               },
             
           ),

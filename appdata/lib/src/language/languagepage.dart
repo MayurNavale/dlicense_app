@@ -3,7 +3,8 @@
 import 'modal.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-//import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 import 'package:appdata/src/models/masterdata.dart';
 import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
 // DateTime _dateTime;
@@ -20,27 +21,30 @@ import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
 
 
 
-
-class Licencepage extends StatefulWidget {
+class LanguagePage extends StatefulWidget {
   @override
-  _Licencepage createState() => new _Licencepage();
+  _LanguagePage createState() => new _LanguagePage();
   }
-class _Licencepage extends State<Licencepage> {
+class _LanguagePage extends State<LanguagePage> {
   LanguagePost language=new LanguagePost();
  // TextEditingController _datecontroller = new TextEditingController(); TextEditingController datecontroller = new TextEditingController();
   TextEditingController ba= new TextEditingController();
-   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   bool _autoValidate = false;
- String languageString;
+  String languageString;
+  String initialnum='';
   String lavels;
-   var expirydateofthiscertificate; var dateofthiscertificate;
-  DateTime date;
-String niveaulevel; 
-  int nilevel;
+  String niveaulevel; 
   String levelvalueanswer="";
   String levelvaluedata="";
+  var expirydateofthiscertificate; 
+  var dateofthiscertificate;
   var fourear;
   var sixear;
+  var lang;
+  DateTime date;
+  DateTime checkDate;
+  int nilevel;
    var saveFormat = DateFormat('yyyy-MM-dd'); 
                       var showformmat = DateFormat('dd-MM-yyyy');
                        final dateFormat = DateFormat("dd-MM-yyyy");
@@ -54,6 +58,7 @@ String niveaulevel;
                     lastDate: DateTime(2200)
                 ).then((date) {
                   setState(() {
+                  if(language.checkDate!=null){datecontroller.text=language.checkDate;}//= a =date.toString();
                   datecontroller.text= a =date.toString();
                        fourear= date.add(Duration(days: 1460));
                      sixear= date.add(Duration(days: 2190));
@@ -65,9 +70,15 @@ String niveaulevel;
   }
     bool visibilityTag = false;
 
-  void _changed(bool visibility) => setState(()=>visibilityTag = visibility);
-  
+  Future<int> futurelogbookclass;
   @override
+  void initState() {
+    super.initState();
+ // futurelogbookclass = getlicencddata();
+ //print(apiLicencddata.licenseNumber);
+  }
+  void _changed(bool visibility) => setState(()=>visibilityTag = visibility);
+   @override
   Widget build(BuildContext context) {
     return new MaterialApp(
         debugShowCheckedModeBanner: false,
@@ -75,19 +86,31 @@ String niveaulevel;
         
         appBar: new AppBar(
           
-          title: new Text('    Language'),
+          title: new Text('    Language   '),
         ),
-        body: new SingleChildScrollView(
-          child: new Container(
-            margin: new EdgeInsets.all(15.0),
-            child: new Form(
-              key: _formKey,
-              autovalidate: _autoValidate,
+        body: Center(
+          // child: FutureBuilder<int>(
+          //   future: futurelogbookclass,
+          //   builder: (context, snapshot) {
+          //     if (snapshot.hasData) {
+          //       return   SingleChildScrollView(
+          //  child: new Container(
+          //   margin: new EdgeInsets.all(15.0),
+          //   child: new Form(
+          //     key: _formKey,
+          //     autovalidate: _autoValidate,
               child:formUI(),
-            ),
-          ),
+  //           ),
+  //         ),
+  //       );
+  //     } else if (snapshot.hasError) { return Text("${snapshot.error}");  }
+  //      // By default, show a loading spinner.
+  //       return CircularProgressIndicator();
+  //       },
+  //     ),
+  //  ),
         ),
-      ),
+      ),   
     );
   }
   Widget formUI() {
@@ -168,7 +191,7 @@ void reset() {
             suffixIcon : Icon(Icons.calendar_today),),
            // hintText: '$dateOfInitialIssue'),
             format: dateFormat,
-            initialValue:DateTime.parse(language.checkDate),
+            initialValue:checkDate,//DateTime.parse(language.checkDate),
             onShowPicker: (context, currentValue) {
                           return showDatePicker(
                           context: context,
@@ -200,13 +223,14 @@ void reset() {
   
   Widget _certificateNo() {
    return    TextFormField(
-          initialValue: language.certificateNumber.toString(),
+          initialValue:initialnum?? language.certificateNumber.toString(),
           decoration: const InputDecoration(labelText: 'Certificate Number'),
           keyboardType: TextInputType.phone,
           validator: licenseId,
           onSaved: (String val) {
             language.certificateNumber= int.parse(val);
           },
+          onChanged: (String newValue){ language.certificateNumber= int.parse(newValue);},
         );
   }
   
@@ -220,15 +244,18 @@ void reset() {
    hintText:'select language',
    
       ),
-              value: languageString,
+              value: findval(language.supportedLanguageId, 1),
              
-              onChanged: (val) =>
-                  setState(() => language.supportedLanguageId = int.parse(val)),
+              onChanged: (val) => language.supportedLanguageId =  language.supportedLanguageId,
               validator: (value) => value == null ? 'field required' : null,
               items: languagedatalist.map((item) {
             return new DropdownMenuItem(
               child: new Text(item['language']),
-              value: item['id'].toString(),
+              value: item['language'].toString(),
+             onTap: () {
+            print( item['id']);
+            language.supportedLanguageId  = item['id'];
+          },
             );
           }).toList(),
             );
@@ -243,11 +270,11 @@ void reset() {
       labelText:'Lavels  ',
       hintText:'country Code',
  ),
-              value: lavels,
+              value: findval(language.niveauLevelId, 2),
                   onChanged: (val) {
                     print(val);
-                    leveldt(int.parse(val));
-                  setState(() => language.niveauLevelId = int.parse(val));
+                    leveldt(language.niveauLevelId);
+                  setState(() => language.niveauLevelId =language.niveauLevelId);
                     _changed(true);
                   },
               validator: (value) => value == null ? 'field required' : null,
@@ -255,6 +282,10 @@ void reset() {
                  return new DropdownMenuItem(
                  child: new Text(item['id'].toString()),
                  value: item['id'].toString(),
+                  onTap: () {
+           
+            language.niveauLevelId = item['id'];
+          },
                  );
               }).toList(),
         );
@@ -330,7 +361,124 @@ leveldt(int a){
    break; 
 }  
 }
+ 
+  String findval(int a, int casevalue) {
+    switch (casevalue) {
+      case 1:
+        {
+      
+          int val = a;
+          val--;
+          if(a==0){return lang;}else{
+          for (int dat = 0; dat <= languagedatalist.length; dat++) {
+            if (dat == val) {
+              print(languagedatalist[dat]['language']);
+             return languagedatalist[dat]['language'];
+            }
+          }
+        }
+    }
+        break;
+
+      case 2:
+        {
+          int val = a;
+          val--;
+          if(a==0){return lang;}else{
+          for (int dat = 0; dat <= niveauleveldatalist.length; dat++) {
+            if (dat == val) {
+              print(niveauleveldatalist[dat]['id']);
+             return niveauleveldatalist[dat]['id'];
+            }
+          }
+           } //  iions= countriesdatalist[dat]['code'];
+        }
+        break;
+
+        //  levelvaluedata=levelvalue(2);
+
+        
+      case 3:
+        {
+          // int val = a;
+          // val--;
+          //  if(a==0){return contries;}else{
+          // for (int dat = 0; dat <= languagedatalist.length; dat++) {
+          //   if (dat == val) {
+          //     print(languagedatalist[dat]['countryName']);
+          //    return languagedatalist[dat]['countryName'];
+          //   }}
+          // } // levelvaluedata=levelvalue(3);
+        }
+    break;
+      default:
+        {
+         return null; //statements;
+        }
+        break;
+    }
+    
+  }
+
+shoe(
+ LanguagePost postLanguagedata)
+{
+ String json = welcomeToJson(postLanguagedata);
+ print( json);
+
+}
+  ////////////////////
+/////get
+/////////////////
+
+     Future<int> getlicencddata() async {
+         return 1;
+//   final response = await http.get('http://192.168.43.246:8080/dLicence/api/license/v1/129/logBookdata');
+
+//   if (response.statusCode == 200) {
+//       print(json.decode(response.body));
+//        logbookdata =Logbook.fromJson(json.decode(response.body));
+//        //_onSuccessResponse();
+//      return 1; } 
+//   else if  (response.statusCode == 500){initialnumdata=''; return 1;}
+//   else{
+//     // If th
+// //     String emptjson = logbookToJson(logbookdata);
+// //  print( emptjson);
+// //      return Logbook.fromJson(json.decode(emptjson));//e server did not return a 200 OK response,
+//     // then throw an exception.
+//  throw Exception('check network connecion');
+//   }
+
+     }
+///////////////////////////////
+// /post
   
+sendRequest( String data) async {
+  
+var url = 'http://192.168.43.246:8080/dLicence/api/license/v1/129/logBookdata';
+    http.post(url, headers: {"Content-Type": "application/json"}, body: data)
+        .then((response) {
+      print("Response status: ${response.statusCode}");
+    //  print("Response body: ${response.body}");
+    final String res = response.body;
+      final int statusCode = response.statusCode;
+
+      if (statusCode < 200 || statusCode > 400 || json == null) {
+        throw Exception("Error while fetching data");
+      } else {
+         print(json.decode(res));
+        // Map data=json.decode(res);
+        // final userdata=UserClass.fromJson(data);
+        // UserClass userdataofclass=UserClass.fromJson(data);
+        // print(userdata.firstName);
+        // _onSuccessResponse(userdataofclass);
+      //  _onSuccessResponse();
+      }
+    });
+
+   
+  }
   
   /////////////////end///////////
      }  

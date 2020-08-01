@@ -91,11 +91,11 @@ class _MedicalPage extends State<MedicalPage> {
          visibilityclass3 ? _dtExpiryC3() : new Container(),
        //   _expirydateofthiscertificate(),
          _dateOfInitialIssue(),
-           _examinationdate(),
-           _expirydateofpreviousMedicalCertificate(), 
-        _electrocardiogram(),
-           _audiogram(),
-          _comments(),
+         _examinationdate(),
+         _expirydateofpreviousMedicalCertificate(), 
+         _electrocardiogram(),
+         _audiogram(),
+         _comments(),
 //       
         showdata()
         
@@ -115,9 +115,7 @@ class _MedicalPage extends State<MedicalPage> {
        ),
               value: tpyeOptionDatamed,
               onChanged: (String newValue) {
-        
                _changed(newValue);
-              
                 setState(() => tpyeOptionDatamed = newValue);
               },
               validator: (value) => value == null ? 'field required' : null,

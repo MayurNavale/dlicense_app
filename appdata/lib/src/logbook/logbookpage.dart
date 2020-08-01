@@ -16,6 +16,7 @@ class _LogBookPage extends State<LogBookPage> {
  bool _autoValidate = false;
  String languageString;
  Logbook logbookdata=new Logbook();
+ String initialnumdata='';
 //    final totalLandingNight = new TextEditingController();
 // totalLandingNight.addListener(() {logbookdata.totalLandingNight=totalLandingNight.text});
     bool visibilityTag = false;
@@ -105,7 +106,7 @@ class _LogBookPage extends State<LogBookPage> {
   
     Widget _totalTimeSinglePilot() { 
       return TextFormField(
-          initialValue:logbookdata.totalTimeSinglePilot.toString(),
+          initialValue:initialnumdata??logbookdata.totalTimeSinglePilot.toString(),
           decoration: const InputDecoration(labelText: 'Total time single pilot *'),
           keyboardType: TextInputType.phone,
        //  controller:totalTimeSinglePilot,
@@ -119,7 +120,7 @@ class _LogBookPage extends State<LogBookPage> {
   
       Widget _totalTimeMultiPilot () { 
       return TextFormField(
-        initialValue:logbookdata.totalTimeMultiPilot.toString(),
+        initialValue:initialnumdata??logbookdata.totalTimeMultiPilot.toString(),
         decoration: const InputDecoration(labelText: 'Total time multi pilot *'),
         keyboardType: TextInputType.phone,
         // controller:totalTimeMultiPilot,
@@ -131,7 +132,7 @@ class _LogBookPage extends State<LogBookPage> {
   ///////////////
     Widget _totalTimeFlights() { 
        return TextFormField(
-        initialValue:logbookdata.totalTimeFlights.toString(),
+        initialValue:initialnumdata??logbookdata.totalTimeFlights.toString(),
           decoration: const InputDecoration(labelText: 'Total time of flight *'),
           keyboardType: TextInputType.phone,
         // controller:totalTimeFlights,
@@ -143,7 +144,7 @@ class _LogBookPage extends State<LogBookPage> {
   ///////////////
         Widget _totalTimeairborne() { 
       return TextFormField(
-         initialValue:logbookdata.totalTimeairborne.toString(),
+         initialValue:initialnumdata??logbookdata.totalTimeairborne.toString(),
           decoration: const InputDecoration(labelText: 'Total time airborne *'),
           keyboardType: TextInputType.phone,
         // controller:totalTimeairborne,
@@ -155,7 +156,7 @@ class _LogBookPage extends State<LogBookPage> {
   ///////////////
         Widget _totalLandingDay() { 
       return TextFormField(
-         initialValue:logbookdata.totalLandingDay.toString(),
+         initialValue:initialnumdata??logbookdata.totalLandingDay.toString(),
           decoration: const InputDecoration(labelText: 'Total landings day *'),
           keyboardType: TextInputType.phone,
         // controller:totalLandingDay,
@@ -167,7 +168,7 @@ class _LogBookPage extends State<LogBookPage> {
   ///////////////
         Widget _totalLandingNight() { 
       return TextFormField(
-        initialValue:logbookdata.totalLandingNight.toString()??"",
+        initialValue:initialnumdata??logbookdata.totalLandingNight.toString()??"",
           decoration: const InputDecoration(labelText: 'Total Landing Night *'),
           keyboardType: TextInputType.phone,
        // controller:totalLandingNight,
@@ -179,7 +180,7 @@ class _LogBookPage extends State<LogBookPage> {
   ///////////////
         Widget _totalTakeoffDay() { 
       return TextFormField(
-         initialValue:logbookdata.totalTakeoffDay.toString(),
+         initialValue:initialnumdata??logbookdata.totalTakeoffDay.toString(),
           decoration: const InputDecoration(labelText: 'Total Take off Day *'),
           keyboardType: TextInputType.phone,
          //controller:totalTakeoffDay,
@@ -190,7 +191,7 @@ class _LogBookPage extends State<LogBookPage> {
   /////////////  ///////////////
         Widget _totalTakeoffNight() { 
       return TextFormField(
-         initialValue:logbookdata.totalTakeoffNight.toString(),
+         initialValue:initialnumdata??logbookdata.totalTakeoffNight.toString(),
           decoration: const InputDecoration(labelText: 'Total Take off Night *'),
           keyboardType: TextInputType.phone,
         // controller:totalTakeoffNight,
@@ -202,7 +203,7 @@ class _LogBookPage extends State<LogBookPage> {
   ///////////////
         Widget _totalTimePic() { 
       return TextFormField(
-         initialValue:logbookdata.totalTimePic.toString()==null?'':logbookdata.totalTimePic.toString(),
+         initialValue:initialnumdata??logbookdata.totalTimePic.toString(),
           decoration: const InputDecoration(labelText: 'Total Time Single PIC*'),
           keyboardType: TextInputType.phone,
        //  controller:totalTimePic,
@@ -213,7 +214,7 @@ class _LogBookPage extends State<LogBookPage> {
     ///////////////
         Widget _totalTimeSolo() { 
       return TextFormField(
-         initialValue:logbookdata.totalTimeSolo.toString(),
+         initialValue:initialnumdata??logbookdata.totalTimeSolo.toString(),
           decoration: const InputDecoration(labelText: 'Total Time SOLO *'),
           keyboardType: TextInputType.phone,
     //     controller:totalTimeSolo,
@@ -224,7 +225,7 @@ class _LogBookPage extends State<LogBookPage> {
   ///////////////
         Widget  _totalTimeSpic(){ 
       return TextFormField(
-         initialValue:logbookdata.totalTimeSpic.toString(),
+         initialValue:initialnumdata??logbookdata.totalTimeSpic.toString(),
           decoration: const InputDecoration(labelText: 'Total Time SPIC *'),
           keyboardType: TextInputType.phone,
         // controller:totalTimeSpic,
@@ -236,7 +237,7 @@ class _LogBookPage extends State<LogBookPage> {
   ///////////////
         Widget  _totalTimePicus () { 
       return TextFormField(
-         initialValue:logbookdata.totalTimePicus.toString(),
+         initialValue:initialnumdata??logbookdata.totalTimePicus.toString(),
           decoration: const InputDecoration(labelText: 'Total Time PICUS *'),
           keyboardType: TextInputType.phone,
        //  controller:totalTimePicus,
@@ -248,7 +249,7 @@ class _LogBookPage extends State<LogBookPage> {
   ///////////////
         Widget  _totalTimeCoPilot() { 
       return TextFormField(
-         initialValue:logbookdata.totalTimeCoPilot.toString(),
+         initialValue:initialnumdata??logbookdata.totalTimeCoPilot.toString(),
           decoration: const InputDecoration(labelText: 'Total Time CO-PILOT *'),
           keyboardType: TextInputType.phone,
        //  controller:totalTimeCoPilot,
@@ -260,7 +261,7 @@ class _LogBookPage extends State<LogBookPage> {
   ///////////////
         Widget  _totalTimeDual() { 
       return TextFormField(
-         initialValue:logbookdata.totalTimeDual.toString(),
+         initialValue:initialnumdata??logbookdata.totalTimeDual.toString(),
           decoration: const InputDecoration(labelText: 'Total Time DUAL *'),
           keyboardType: TextInputType.phone,
       //   controller:totalTimeDual,
@@ -272,7 +273,7 @@ class _LogBookPage extends State<LogBookPage> {
   ///////////////
         Widget _totalTimeFI() { 
       return TextFormField(
-         initialValue:logbookdata.totalTimeFi.toString(),
+         initialValue:initialnumdata??logbookdata.totalTimeFi.toString(),
           decoration: const InputDecoration(labelText: 'Total Time FI *'),
           keyboardType: TextInputType.phone,
         // controller:totalTimeFI,
@@ -284,7 +285,7 @@ class _LogBookPage extends State<LogBookPage> {
   ///////////////
         Widget  _totalTimeFE() { 
       return TextFormField(
-         initialValue:logbookdata.totalTimeFe.toString(),
+         initialValue:initialnumdata??logbookdata.totalTimeFe.toString(),
           decoration: const InputDecoration(labelText: ' Total Time FE *'),
           keyboardType: TextInputType.phone,
         // controller:totalTimeFE,
@@ -296,7 +297,7 @@ class _LogBookPage extends State<LogBookPage> {
   ///////////////
         Widget  _totalTimeNight() { 
       return TextFormField(
-         initialValue:logbookdata.totalTimeNight.toString(),
+         initialValue:initialnumdata??logbookdata.totalTimeNight.toString(),
           decoration: const InputDecoration(labelText: 'Total Time NIGHT *'),
           keyboardType: TextInputType.phone,
        //  controller:totalTimeNight,
@@ -308,7 +309,7 @@ class _LogBookPage extends State<LogBookPage> {
   ///////////////
         Widget _totalTimeIFR(){ 
       return TextFormField(
-         initialValue:logbookdata.totalTimeIfr.toString(),
+         initialValue:initialnumdata??logbookdata.totalTimeIfr.toString(),
           decoration: const InputDecoration(labelText: 'Total Time IFR *'),
           keyboardType: TextInputType.phone,
          //controller:totalTimeIFR,
@@ -321,7 +322,7 @@ class _LogBookPage extends State<LogBookPage> {
   ///////////////
         Widget  _totalTimeFSTD() { 
       return TextFormField(
-         initialValue:logbookdata.totalTimeFstd.toString(),
+         initialValue:initialnumdata??logbookdata.totalTimeFstd.toString(),
           decoration: const InputDecoration(labelText: 'Total Time FSTD *'),
           keyboardType: TextInputType.phone,
        //  controller:totalTimeFSTD,
@@ -409,22 +410,23 @@ sendRequest(json);
 /////////////////
 
      Future<int> getlicencddata() async {
-  final response = await http.get('http://192.168.43.246:8080/dLicence/api/license/v1/129/logBookdata');
+         return 1;
+//   final response = await http.get('http://192.168.43.246:8080/dLicence/api/license/v1/129/logBookdata');
 
-  if (response.statusCode == 200) {
-      print(json.decode(response.body));
-       logbookdata =Logbook.fromJson(json.decode(response.body));
-       //_onSuccessResponse();
-     return 1; } 
-  else if  (response.statusCode == 500){ return 1;}
-  else{
-    // If th
-//     String emptjson = logbookToJson(logbookdata);
-//  print( emptjson);
-//      return Logbook.fromJson(json.decode(emptjson));//e server did not return a 200 OK response,
-    // then throw an exception.
-   throw Exception('check network connecion');
-  }
+//   if (response.statusCode == 200) {
+//       print(json.decode(response.body));
+//        logbookdata =Logbook.fromJson(json.decode(response.body));
+//        //_onSuccessResponse();
+//      return 1; } 
+//   else if  (response.statusCode == 500){initialnumdata=''; return 1;}
+//   else{
+//     // If th
+// //     String emptjson = logbookToJson(logbookdata);
+// //  print( emptjson);
+// //      return Logbook.fromJson(json.decode(emptjson));//e server did not return a 200 OK response,
+//     // then throw an exception.
+//  throw Exception('check network connecion');
+//   }
 
      }
 ///////////////////////////////
