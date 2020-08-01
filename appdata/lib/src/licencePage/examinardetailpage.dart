@@ -2,25 +2,28 @@ import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:appdata/src/models/masterdata.dart';
 import 'package:appdata/src/licencePage/licencdhomepage.dart';
+import 'model.dart';
 class ExaminarPage extends StatefulWidget {
-  @override
-  _ExaminarPageState createState() => _ExaminarPageState();
-}
+    List<Examinerapi>  userdata;
+   ExaminarPage(this.userdata);
+   @override
+   State<StatefulWidget> createState() { return _ExaminarPage(this.userdata);}
+ }
 
-class _ExaminarPageState extends State<ExaminarPage> {
-
-
+  class _ExaminarPage extends State<ExaminarPage> {
+  List<Examinerapi>  userdata;
+  _ExaminarPage(this.userdata);
   var id = <int>[];
   var examinarlist = <TextEditingController>[];
   var remarklist = <TextEditingController>[];
   var cards = <Card>[];
 var examinerType;
-  Card createCard() {
-  
-    var examinarController=TextEditingController();
-    var remarkandRes = TextEditingController();
-
-    examinarlist.add(examinarController);
+  Card createCard(int examinarapiId, String remarkapi) {
+  var remarkandRes =TextEditingController();
+     var typeId =TextEditingController();
+    typeId.text=examinarapiId.toString();
+    remarkandRes.text=remarkapi;
+    examinarlist.add(typeId);
     remarklist.add(remarkandRes);
     return Card(
       child: Column(
@@ -28,31 +31,34 @@ var examinerType;
         children: <Widget>[
           Text('Examiner ${cards.length + 1}'),
           DropdownButtonFormField<String>(
-      decoration: InputDecoration(
-      labelText:' Examiner * ',
-    //  hintText:'Select Nationality',
-       ),
-           value:examinerType,
-              onChanged: (String newValue) =>setState(() => examinarController.text = newValue),
-              validator: (value) => value == null ? 'field required' : null,
-         //      onSaved: (val) =>examinarlist.text=val,//  saveUserData.nationality=val,
-              items: examinerdatalist.map((item) {
-            return new DropdownMenuItem(
-              child: new Text(item['examinerType']),
-              value: item['examinerType'].toString(),
-            );
-          }).toList(),
-        ),
-//           TextField(
-//               controller: nameController,
-//               decoration: InputDecoration(labelText: 'Full Name')),
-        
+            decoration: InputDecoration(
+              labelText: ' Examiner * ',
+              hintText: 'Select Examiner',
+            ),
+            value:  findval(examinarapiId,5), //
+            onChanged: (String newValue) => typeId.text = typeId.text,
+            validator: (value) => value == null ? 'field required' : null,
+            //  onSaved: (val) =>examinarController=1,//  saveUserData.nationality=val,
+            items: examinerdatalist.map((item) {
+              return new DropdownMenuItem(
+                child: new Text(item['examinerType']),
+                value: item['examinerType'].toString(),
+                onTap: () {
+                 // print(item['id']);
+                  typeId.text = item['id'].toString();
+             //     print(examinarapiId);
+                },
+              );
+            }).toList(),
+          ),
           new TextFormField(
-            // initialValue:userdata.email,
+            initialValue: remarkapi,
             decoration:
                 const InputDecoration(labelText: 'Remark and restriction'),
             keyboardType: TextInputType.text,
-            controller: remarkandRes,
+            onChanged: (String newValue) =>
+                setState(() => remarkandRes.text = newValue),
+            //controller: remarkandRes.text=remarkapi,
             // validator: validateEmail,
             //  onSaved: (String val)  =>saveUserData.email=val.toString(),
           ),
@@ -64,27 +70,45 @@ var examinerType;
   @override
   void initState() {
     super.initState();
-    cards.add(createCard());
+    intidata();
+  }
+  intidata() {
+   
+//   int count=apilist.length;
+//      for(int dat=0;dat<count;dat++){
+//   String f= apilist[dat]['examinerTypeId'];
+//  String r= apilist[dat]['remark'];
+//    int b= apilist[dat]['id'];
+//    print(b); print(r); print(f);
+// // addinstructorr(b,f,r);
+//     }
+    int count = userdata.length;
+    if (count == 0) {
+      cards.add(createCard(0, ''));
+    }
+    for (int dat = 0; dat < count; dat++) {
+      int apiexaminer = int.parse( userdata[dat].examinerTypeId);
+      String apiremark = userdata[dat].remark;
+      // remarklist.add( apilist[dat]['remark']);
+      cards.add(createCard(apiexaminer, apiremark));
+    }
   }
 
   _onDone() {
-    List<PersonEntry> entries = [];
+    List<Examinerapi> entries = [];
   
-    for (int i = 0; i < cards.length; i++) {
-      var idval = i+1;
+       for (int i = 0; i < cards.length; i++) {
+      var idval = 0;
       var examniaridval = examinarlist[i].text;
       var job = remarklist[i].text;
-     // addinstructor(idval,age,job);
-     entries.add( PersonEntry(examniaridval, idval, job));
-//       String jsonUser = jsonEncode(personEntry);
-      
-//       entries.add(jsonUser);
+      entries.add(Examinerapi(examniaridval, idval, job));
     }
+  
     String jsonTags = jsonEncode(entries);
- //   print(jsonTags);
+
+ 
     Navigator.pop(context, jsonTags);
   }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -107,7 +131,7 @@ var examinerType;
             padding: const EdgeInsets.all(6.0),
             child: RaisedButton(
               child: Text('add new'),
-              onPressed: () => setState(() => cards.add(createCard())),
+              onPressed: () => setState(() => cards.add(createCard(0,''))),
             ),
           ),
           Padding(
@@ -124,19 +148,19 @@ var examinerType;
     );
   }
 }
-
-class PersonEntry {
+class Examinerapi {
   final String examinerTypeId;
   final int id;
   final String remark;
 
-  PersonEntry(this.examinerTypeId, this.id, this.remark);
-  @override
-  //String toRawJson() => json.encode(toJson());
-  String toString() {
-    return 'name= $examinerTypeId, remark= $id, study job= $remark';
-  }
+  Examinerapi(this.examinerTypeId, this.id, this.remark);
 
+  String toString() {
+    return 'examinerTypeId= $examinerTypeId, id= $id, remark= $remark';
+  }
+ factory Examinerapi.fromJson(dynamic json) {
+    return Examinerapi(json['examinerTypeId'] as String, json['id'] as int,json['remark'] as String,);
+  }
   Map<String, dynamic> toJson() => {
         "examinerTypeId": examinerTypeId,
         "id": id,
@@ -144,26 +168,4 @@ class PersonEntry {
       };
 }
 
-double discretevalue = 2.0;
-double hospitaldiscretevalue = 25.0;
-var instructorsOptions;var nationality;
-// To parse this JSON data, do
-//
-//     final welcome = welcomeFromJson(jsonString);
 
-// To parse this JSON data, do
-//
-//     final welcome = welcomeFromJson(jsonString);
-
-//import 'dart:convert';
-
-
-addinstructor(){
-   
-//  instructorDetail.id=id;
-//   instructorDetail.instructorTypeId=type;
-//   instructorDetail.remark=remark;
-  
-  //saveLicenseData.personnel = <Personneldata>[personal];
-
-}

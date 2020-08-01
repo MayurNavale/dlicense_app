@@ -8,9 +8,9 @@ class LanguagePost {
         this.certificateNumber,
         this.checkDate,
         this.id,
-        this.licenseId,
-        this.niveauLevelId,
-        this.supportedLanguageId,
+        this.licenseId=0,
+        this.niveauLevelId=0,
+        this.supportedLanguageId=0,
     });
 
     int certificateNumber;
@@ -41,11 +41,3 @@ class LanguagePost {
 
 
 
-
-shoe(
- LanguagePost postLanguagedata)
-{
- String json = welcomeToJson(postLanguagedata);
- print( json);
-
-}
