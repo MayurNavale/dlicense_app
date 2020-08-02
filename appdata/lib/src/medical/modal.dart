@@ -1,21 +1,7 @@
 import 'dart:convert';
-var tpyeOptionDatamed;
+import 'package:appdata/src/models/masterdata.dart';
+import 'medicalpage.dart';
 
-    var    contriesmed;
-     var  licenceNumber;
-      var  limitations;
-      var  expirydateofthiscertificate;
-      var   examinationdate;
-      var   expirydateofpreviousMedicalCertificate;
-     var electrocardiogram;
-        var audiogram='';
-      var  comments;
- var  dtC1;
-        var  dtC1Sp;
-        var  dtC2;
-        var  dtC3;
-        var  dtClapl;
-var dateOfInitialIssuemed;
 
 Medical welcomeFromJson(String str) => Medical.fromJson(json.decode(str));
 
@@ -35,10 +21,10 @@ class Medical {
         this.dtExpiryClapl,
         this.dtIssue,
         this.id,
-        this.licenseId,
+        this.licenseId=0,
         this.licenseNumber,
-        this.limitationId,
-        this.stateId,
+        this.limitationId=0,
+        this.stateId=0,
     });
 
     String comments;
@@ -109,8 +95,146 @@ List<Map<String, dynamic>> medicaltpedatalist=[
     "id": 2,
     "type": " CLASS 3"
   },
-  {
-    "id": 3,
-    "type": "CC MEDICAL REPORT"
-  }
+  
 ];
+var medic;
+
+  String findval(int a, int casevalue) {
+    switch (casevalue) {
+      case 1:
+        {
+      
+          int val = a;
+          val--;
+          if(a==0){return medic;}else{
+          for (int dat = 0; dat <= medicaltpedatalist.length; dat++) {
+            if (dat == val) {
+            //  print(countriesdatalist[dat]['countryCode']);
+             return medicaltpedatalist[dat]['type'];
+            }
+          }
+        }
+    }
+        break;
+
+      case 2:
+          {
+      
+          int val = a;
+          val--;
+          if(a==0){return medic;}else{
+          for (int dat = 0; dat <= statedatalist.length; dat++) {
+            if (dat == val) {
+            //  print(countriesdatalist[dat]['countryCode']);
+             return statedatalist[dat]['stateName'];
+            }
+          }
+        }
+    }
+        break;
+
+      //   //  levelvaluedata=levelvalue(2);
+
+        
+      case 3:
+        {
+          int val = a;
+          val--;
+           if(a==0){return medic;}else{
+          for (int dat = 0; dat <= limitationdatalist.length; dat++) {
+            if (dat == val) {
+            //  print(countriesdatalist[dat]['countryName']);
+             return limitationdatalist[dat]['limitation'];
+            }}
+          } // levelvaluedata=levelvalue(3);
+        }
+        break;
+      // case 4:
+      //   {
+      //      int val = a;
+      //     val--;
+      //      if(a==0){return contries;}else{
+      //     for (int dat = 0; dat <= licenseclassdatalist.length; dat++) {
+      //       if (dat == val) {
+      //       //  print(licenseclassdatalist[dat]['className']);
+      //        return licenseclassdatalist[dat]['className'];
+      //       }
+      //     } 
+      //        }  //  levelvaluedata=fourear.toString();
+
+      //   }
+      //   break;
+      // case 5:
+      //   {
+      //     int val = a;
+      //     val--;
+      //     for (int dat = 0; dat <= examinerdatalist.length; dat++) {
+      //       if (dat == val) {
+      //       //  print(examinerdatalist[dat]['examinerType']);
+      //        return examinerdatalist[dat]['examinerType'];
+      //       } //  levelvaluedata= sixear.toString();
+      //   }
+      //   }
+      //   break;
+      // case 6:
+      //   {
+      //     int val = a;
+      //     val--;
+      //   // return instructordatalist[val]['instructorType'];
+      //     for (int dat = 0; dat <= instructordatalist.length; dat++) {
+      //       if (dat == val) {
+      //       //  print(instructordatalist[dat]['instructorType']);
+      //        return instructordatalist[dat]['instructorType'];
+      //       } //  levelvaluedata= sixear.toString();
+      //   } //  levelvaluedata= levelvalue(6);
+      //   }
+      //   break;
+      //  case 7:
+      //   {
+      //     int val = a;
+      //     val--;
+      //   // return instructordatalist[val]['instructorType'];
+      //     for (int dat = 0; dat <= endorsementdatalist.length; dat++) {
+      //       if (dat == val) {
+      //       //  print(endorsementdatalist[dat]['endorsementType']);
+      //        return endorsementdatalist[dat]['endorsementType'];
+      //       } //  levelvaluedata= sixear.toString();
+      //   } //  levelvaluedata= levelvalue(6);
+      //   }
+      //   break;
+      //   case 8:
+      //   {
+      //     int val = a;
+      //     val--;
+      //    if(a==0){return contries;}else{
+      //     for (int dat = 0; dat <= licensetitlesdatalist.length; dat++) {
+      //       if (dat == val) {
+      //       //  print(licensetitlesdatalist[dat]['title']);
+      //        return licensetitlesdatalist[dat]['title'];
+      //       } //  levelvaluedata= sixear.toString();
+      //   } //  levelvaluedata= levelvalue(6);
+      //   }
+      //   }
+      //   break;
+      //   case 9:
+      //   {
+      //     int val = a;
+      //     val--;
+      //     if(a==0){return contries;}else{
+      //     for (int dat = 0; dat <= licensecodesdatalist.length; dat++) {
+      //       if (dat == val) {
+      //         //print(licensecodesdatalist[dat]['code']);
+      //        return licensecodesdatalist[dat]['code'];
+      //       }
+      //     }
+      //      } //  iions= countriesdatalist[dat]['code'];
+      //   }
+      //   break;
+      default:
+        {
+         return null; //statements;
+        }
+        break;
+    }
+    
+  }

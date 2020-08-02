@@ -5,20 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+// import 'package:dlicence_codemagic/sr
 import 'package:appdata/src/models/masterdata.dart';
 import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
-// DateTime _dateTime;
-    String dt_irtest;
-   
-    var contries;
-   
-// To parse this JSON data, do
-//
-//     final welcome = welcomeFromJson(jsonString);
-
-//import 'dart:convert';
-
-
 
 
 class LanguagePage extends StatefulWidget {
@@ -35,42 +24,25 @@ class _LanguagePage extends State<LanguagePage> {
   String initialnum='';
   String lavels;
   String niveaulevel; 
+  // DateTime _dateTime;
+    String dt_irtest;
   String levelvalueanswer="";
   String levelvaluedata="";
   var expirydateofthiscertificate; 
   var dateofthiscertificate;
-  var fourear;
+  var fouryear;
   var sixear;
   var lang;
+  
   DateTime date;
   DateTime checkDate;
   int nilevel;
-   var saveFormat = DateFormat('yyyy-MM-dd'); 
-                      var showformmat = DateFormat('dd-MM-yyyy');
-                       final dateFormat = DateFormat("dd-MM-yyyy");
-  final TextEditingController _controller = new TextEditingController();
-  Future<void> _selectDate(BuildContext context,var a,TextEditingController datecontroller ) async {
-   showDatePicker(
-
-                    context: context,
-                    initialDate: DateTime.now(),
-                    firstDate: DateTime(1950),
-                    lastDate: DateTime(2200)
-                ).then((date) {
-                  setState(() {
-                  if(language.checkDate!=null){datecontroller.text=language.checkDate;}//= a =date.toString();
-                  datecontroller.text= a =date.toString();
-                       fourear= date.add(Duration(days: 1460));
-                     sixear= date.add(Duration(days: 2190));
-  print(sixear);
-  print(fourear);
-                      //new DateFormat.yMMMMd().format(date);
-                  });
-                }); 
-  }
-    bool visibilityTag = false;
-
-  Future<int> futurelogbookclass;
+ var saveFormat = DateFormat('yyyy-MM-dd'); 
+ var showformmat = DateFormat('dd-MM-yyyy');
+ final dateFormat = DateFormat("dd-MM-yyyy");
+ final TextEditingController _controller = new TextEditingController();
+ bool visibilityTag = false;
+ Future<int> futurelogbookclass;
   @override
   void initState() {
     super.initState();
@@ -83,11 +55,7 @@ class _LanguagePage extends State<LanguagePage> {
     return new MaterialApp(
         debugShowCheckedModeBanner: false,
       home: new Scaffold(
-        
-        appBar: new AppBar(
-          
-          title: new Text('    Language   '),
-        ),
+        appBar: new AppBar( title: new Text('    Language   '), ),
         body: Center(
           // child: FutureBuilder<int>(
           //   future: futurelogbookclass,
@@ -123,67 +91,13 @@ class _LanguagePage extends State<LanguagePage> {
         _lavels(),
      
         visibilityTag ? _niveaulevel(): new Container(),
-        Row(children: <Widget>[
-          Expanded(
-              flex: 2,
-              child: Container(
-             
-                height: 100,
-              ),),
-     RaisedButton(
-       color:Colors.pink,
-          onPressed:reset,
-          child: new Text('Reset'),
-          ),
-         Container(
-               width: 10,
-               
-              ),
-  RaisedButton(
-       color:Colors.indigo[400],
-          onPressed: _validateInputs,
-          child: new Text('Save'),
-         
-            )
-            ]
-        )
+       showdata(),
+           
       ],
     );
   }
 
 
-  String licenseId(String value) {
-
-  if(value == null) {
-    return null;
-  }
-  final n = num.tryParse(value);
-  if(n == null) {
-    return '"$value" is not a valid number';
-  }
-  return null;
-}
-void reset() {
-
-   _formKey.currentState.reset();
-}
- 
- 
- 
-  void _validateInputs() {
-  if (_formKey.currentState.validate()) {
-//    If all data are correct then save data to out variables
-    _formKey.currentState.save();
-    shoe(language);
-  } else {
-//    If all data are not valid then start auto validation.
-    setState(() {
-      _autoValidate = true;
-    });
-  }
-}
- ///////////////////////
-  
    
    Widget _checkDate() {
         return DateTimeField(
@@ -200,8 +114,10 @@ void reset() {
                           lastDate: DateTime(2100));
                     },
             validator: (val) {if (val != null) {return null; } else {return 'Date Field is Empty'; }},
-            onChanged: (dt) { setState(() => validuntil = dt);
-                        print('Selected date: $dateofratingtest');},
+            onChanged: (dt) { setState(() => checkDate = dt);
+                        print('Selected date: $checkDate');
+                         fouryear= dt.add(Duration(days: 1460));
+                     sixear= dt.add(Duration(days: 2190));},
             onSaved: (value) {language.checkDate= saveFormat.format(value);value.toString();
               debugPrint(value.toString());},
       );
@@ -301,9 +217,37 @@ void reset() {
     labelText: 'Expiry Date :- $levelvaluedata',
         
   ),
-);
-//       
-} 
+);}
+ Widget showdata(){
+    return Row(children: <Widget>[
+          Expanded(
+              flex: 2,
+              child: Container(
+             
+                height: 100,
+              ),),
+     RaisedButton(
+       color:Colors.pink,
+          onPressed:reset,
+          child: new Text('Reset'),
+          ),
+         Container(
+               width: 10,
+               
+              ),
+  RaisedButton(
+       color:Colors.indigo[400],
+          onPressed: _validateInputs,
+          child: new Text('Save'),
+         
+            )
+            ]
+        );
+  }
+////////////////////////////////////////////////////
+// function
+///////////////////////////////////////      
+
   
     String levelvalue(int a){
       print('a $a');
@@ -324,6 +268,38 @@ return levelvalueanswer;
 }
 
   
+  String licenseId(String value) {
+
+  if(value == null) {
+    return null;
+  }
+  final n = num.tryParse(value);
+  if(n == null) {
+    return '"$value" is not a valid number';
+  }
+  return null;
+}
+void reset() {
+
+   _formKey.currentState.reset();
+}
+ 
+ 
+ 
+  void _validateInputs() {
+  if (_formKey.currentState.validate()) {
+//    If all data are correct then save data to out variables
+    _formKey.currentState.save();
+    shoe(language);
+  } else {
+//    If all data are not valid then start auto validation.
+    setState(() {
+      _autoValidate = true;
+    });
+  }
+}
+ ///////////////////////
+  
 leveldt(int a){
  switch( a){
    case 1: { 
@@ -341,7 +317,7 @@ leveldt(int a){
    } 
    break; 
       case 4:{ 
-      levelvaluedata=fourear.toString();
+      levelvaluedata=fouryear.toString();
       
    } 
    break; 
@@ -433,14 +409,14 @@ shoe(
 
      Future<int> getlicencddata() async {
          return 1;
-//   final response = await http.get('http://192.168.43.246:8080/dLicence/api/license/v1/129/logBookdata');
+//   final response = await http.get('http://192.168.43.246:8080/dLicence/api/license/v1/$savelicencdId/languagedata');
 
 //   if (response.statusCode == 200) {
 //       print(json.decode(response.body));
-//        logbookdata =Logbook.fromJson(json.decode(response.body));
+//        language =LanguagePost.fromJson(json.decode(response.body));
 //        //_onSuccessResponse();
 //      return 1; } 
-//   else if  (response.statusCode == 500){initialnumdata=''; return 1;}
+//   else if  (response.statusCode == 500){initialnum=''; return 1;}
 //   else{
 //     // If th
 // //     String emptjson = logbookToJson(logbookdata);
@@ -456,7 +432,7 @@ shoe(
   
 sendRequest( String data) async {
   
-var url = 'http://192.168.43.246:8080/dLicence/api/license/v1/129/logBookdata';
+var url = 'http://192.168.43.246:8080/dLicence/api/license/v1/$savelicencdId/languagedata';
     http.post(url, headers: {"Content-Type": "application/json"}, body: data)
         .then((response) {
       print("Response status: ${response.statusCode}");

@@ -1,7 +1,11 @@
 
 
+import 'package:intl/intl.dart';
+import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
 import 'modal.dart';
 import 'package:flutter/material.dart';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 //import 'package:flutter/material.dart';
 import 'package:appdata/src/models/masterdata.dart';
 
@@ -12,24 +16,32 @@ class MedicalPage extends StatefulWidget {
 class _MedicalPage extends State<MedicalPage> {
  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
  bool _autoValidate = false;
+ var initialnum='';
  String languageString;
-  var dtAudiogram = new TextEditingController();  
-  var dtEcg = new TextEditingController(); 
-  var dtExam = new TextEditingController();  
-  var dtExpPrevcert = new TextEditingController(); 
-  var dtExpiryC1 = new TextEditingController();  
-  var dtExpiryC1Sp = new TextEditingController(); 
-  var dtExpiryC2 = new TextEditingController();  
-  var dtExpiryC3 = new TextEditingController();
-  var dtExpiryClapl = new TextEditingController();  
-  var dtIssue = new TextEditingController(); 
-  bool visibilityclass1 = false;
+var saveFormat = DateFormat('yyyy-MM-dd'); 
+var showformmat = DateFormat("dd-MM-yyyy");
+final dateFormat = DateFormat("dd-MM-yyyy");
+  var dtAudiogram ;  
+  var dtEcg ; 
+  var dtExam ;  
+  var dtExpPrevcert ; 
+  var dtExpiryC1 ;  
+  var dtExpiryC1Sp ; 
+  var dtExpiryC2 ;  
+  var dtExpiryC3 ;
+  var dtExpiryClapl ;  
+  var dtIssue ; 
+  var tpyeOptionDatamed;
+
+  Future<int> futuremedicalclass;
+ bool visibilityclass1 = false;
  bool visibilityclass3=false;
   DateTime date;
   String niveaulevel=''; 
   int nilevel;
   String levelvalueanswer;
   String fromjsondata;
+  int showdt;
   
  
   Future<void> _selectDate(BuildContext context,var a,TextEditingController datecontroller ) async {
@@ -44,21 +56,46 @@ class _MedicalPage extends State<MedicalPage> {
                       //new DateFormat.yMMMMd().format(date);
                      }); }); 
   }
- //nal TextEditingController _controller = new TextEditingController();
+ //nal TextEditingController _controller ;
  Medical saveMedicalData=new Medical();
-   Medical user=new Medical();
+   //Medical user=new Medical();
  String a;
  bool checkboxValue=false;
+ 
+
+  @override
+  void initState() {
+    super.initState();
+  futuremedicalclass = getlicencddata();
+ //print(apiLicencddata.licenseNumber);
+  }
   @override
   Widget build(BuildContext context) {
     return new MaterialApp(
         debugShowCheckedModeBanner: false,
-      home: new Scaffold(
-        
-        appBar: new AppBar(
-          
-          title: new Text('    Medical'),
-        ),
+        home: new Scaffold(
+        appBar: new AppBar( title: new Text('    Medical'), ),
+  //        body: Center(
+  //         child: FutureBuilder<int>(
+  //           future: futuremedicalclass,
+  //           builder: (context, snapshot) {
+  //             if (snapshot.hasData) {
+  //               return   SingleChildScrollView(
+  //          child: new Container(
+  //           margin: new EdgeInsets.all(15.0),
+  //           child: new Form(
+  //             key: _formKey,
+  //             autovalidate: _autoValidate,
+  //             child:formUI(),
+  //           ),
+  //         ),
+  //       );
+  //     } else if (snapshot.hasError) { return Text("${snapshot.error}");  }
+  //      // By default, show a loading spinner.
+  //       return CircularProgressIndicator();
+  //       },
+  //     ),
+  //  ),
         body: new SingleChildScrollView(
           child: new Container(
             margin: new EdgeInsets.all(15.0),
@@ -107,6 +144,31 @@ class _MedicalPage extends State<MedicalPage> {
      
    }
   //////////////////
+  
+    // Widget _tpyeOptionData() { 
+    //   return DropdownButtonFormField<String>(
+    //   decoration: InputDecoration(
+    //   labelText:' Type * ',
+    //   hintText:'Select Type',
+    //    ),
+    //           value: findval( saveMedicalData.licenseId, 1),
+    //           onChanged: (String newValue) {  saveMedicalData.licenseId =  saveMedicalData.licenseId;},
+    //           validator: (value) => value == null ? 'field required' : null,
+    //         onSaved: (val) =>   saveMedicalData.licenseId =  saveMedicalData.licenseId ,
+    //           items: medicaltpedatalist.map((item) {
+    //         return new DropdownMenuItem(
+    //           child: new Text(item['type']),
+    //           value: item['type'].toString(),
+    //             onTap: () {
+    //               print( item['id']);
+                  
+    //              saveMedicalData.licenseId= item['id'];
+    //               _changed( item['id'].toString());
+    //            },
+    //         );
+    //       }).toList(),
+    //     );
+    //     }
      Widget _tpyeOptionData() { 
       return DropdownButtonFormField<String>(
       decoration: InputDecoration(
@@ -128,6 +190,7 @@ class _MedicalPage extends State<MedicalPage> {
           }).toList(),
         );}
   
+  
  /////////////////////
    Widget _contries() {
       return DropdownButtonFormField<String>(
@@ -135,14 +198,18 @@ class _MedicalPage extends State<MedicalPage> {
       labelText:'State of issue * ',
       hintText:'Select State',
        ),
-              value: contriesmed,
-              onChanged: (String newValue) =>setState(() => contries = newValue),
+              value: findval(saveMedicalData.stateId, 2),
+              onChanged: (String newValue) {saveMedicalData.stateId=saveMedicalData.stateId;},
               validator: (value) => value == null ? 'field required' : null,
-               onSaved: (val) =>  saveMedicalData.stateId=int.parse(val),
+               onSaved: (val) =>  saveMedicalData.stateId= saveMedicalData.stateId,
               items: statedatalist.map((item) {
             return new DropdownMenuItem(
               child: new Text(item['stateName']),
-              value: item['id'].toString(),
+              value: item['stateName'].toString(),
+              onTap: () {
+                  print( item['id']);
+                  saveMedicalData.stateId= item['id'];
+               },
             );
           }).toList(),
         );
@@ -150,9 +217,10 @@ class _MedicalPage extends State<MedicalPage> {
   //////////////////////
     Widget _licenceNumber() { 
       return TextFormField(
+        initialValue: initialnum?? saveMedicalData.licenseNumber.toString(),
           decoration: const InputDecoration(labelText: 'Certificate Number'),
           keyboardType: TextInputType.phone,
-          validator: licenceNumber,
+          validator: validNumber,
           onSaved: (val) =>  saveMedicalData.licenseNumber=int.parse(val),
         );
 }
@@ -165,175 +233,264 @@ class _MedicalPage extends State<MedicalPage> {
      labelText:'Limitations ',
        //hintText:'Select LicenceCode',
        ),
-              value: limitations,
-              onChanged: (String newValue) =>setState(() => limitations = newValue),
+              value: findval( saveMedicalData.limitationId, 3),
+              onChanged: (String newValue){ saveMedicalData.limitationId= saveMedicalData.limitationId;},
               validator: (value) => value == null ? 'field required' : null,
-               onSaved: (val) =>  saveMedicalData.limitationId=int.parse(val),
+               onSaved: (val) =>  saveMedicalData.limitationId= saveMedicalData.limitationId,
               items: limitationdatalist.map((item) {
             return new DropdownMenuItem(
               child: new Text(item['limitation']),
-              value: item['id'].toString(),
+              value: item['limitation'].toString(),
+                 onTap: () {
+                  print( item['id']);
+                  saveMedicalData.limitationId= item['id'];
+               },
             );
           }).toList(),
         );}
 
   /////////////
-    Widget _dtExpiryC1Sp() {
-     return TextFormField(
-      controller: dtExpiryC1Sp,
-      onTap : ()=>_selectDate(context,dtC1Sp,dtExpiryC1Sp),
-  onSaved:(val) => saveMedicalData.dtExpiryC1Sp= val.toString(),
-      decoration: InputDecoration(
-         suffixIcon : Icon(Icons.calendar_today),
-         //   border: OutlineInputBorder(),
-         labelText: 'Expiry date of Class 1(SP) *',
-         hintText: ' $dtC1Sp',
-      ),
-    );
- }
-  
-// //   }
+    Widget _dtExpiryC1Sp()     {
+        return DateTimeField(
+            //  dateOnly: true,
+            decoration: InputDecoration( labelText: 'Expiry date of Class 1(SP) *',
+            suffixIcon : Icon(Icons.calendar_today),),
+           // hintText: '$dateOfInitialIssue'),
+            format: dateFormat,
+            initialValue:dtExpiryC1Sp,//DateTime.parse(saveLicenseData.dtRatingtest),
+            onShowPicker: (context, currentValue) {
+                          return showDatePicker(
+                          context: context,
+                          firstDate: DateTime(1900),
+                          initialDate:  DateTime.now(),
+                          lastDate: DateTime(2100));
+                    },
+            validator: (val) {if (val != null) {return null; } else {return 'Date Field is Empty'; }},
+            onChanged: (dt) { setState(() => dtExpiryC1Sp = dt);
+                        print('Selected date: $dtExpiryC1Sp');},
+            onSaved: (value) { saveMedicalData.dtExpiryC1Sp= saveFormat.format(value);value.toString();
+            //  debugPrint(value.toString());},
+               },
+                  );
+   
+  }
+//    
 // //   ///////////////////
     Widget _dtExpiryC1() {
-     return TextFormField(
-      controller: dtExpiryC1,
-      onTap : ()=>_selectDate(context,dtC1,dtExpiryC1),
-     onSaved:(val) => saveMedicalData.dtExpiryC1= val.toString(),
-      decoration: InputDecoration(
-         suffixIcon : Icon(Icons.calendar_today),
-         //   border: OutlineInputBorder(),
-         labelText: 'Expiry date of Class 1 *',
-         hintText: ' $dtC1',
-      ),
-    );
- }
-  
-//   }
+  return DateTimeField(
+            //  dateOnly: true,
+            decoration: InputDecoration(   labelText: 'Expiry date of Class 1 *',
+            suffixIcon : Icon(Icons.calendar_today),),
+           // hintText: '$dateOfInitialIssue'),
+            format: dateFormat,
+            initialValue:dtExpiryC1,//DateTime.parse(saveLicenseData.dtRatingtest),
+            onShowPicker: (context, currentValue) {
+                          return showDatePicker(
+                          context: context,
+                          firstDate: DateTime(1900),
+                          initialDate:  DateTime.now(),
+                          lastDate: DateTime(2100));
+                    },
+            validator: (val) {if (val != null) {return null; } else {return 'Date Field is Empty'; }},
+            onChanged: (dt) { setState(() => dtExpiryC1 = dt);
+                        print('Selected date: $dtExpiryC1');},
+            onSaved: (value) { saveMedicalData.dtExpiryC1= saveFormat.format(value);value.toString();
+            //  debugPrint(value.toString());},
+               },
+                  );
+   
+  }
+
 // //   ///////////////////
     Widget _dtExpiryC2() {
-     return TextFormField(
-      controller: dtExpiryC2,
-      onTap : ()=>_selectDate(context,dtC2,dtExpiryC2),
-   onSaved:(val) => saveMedicalData.dtExpiryC2= val.toString(),
-      decoration: InputDecoration(
-         suffixIcon : Icon(Icons.calendar_today),
-         //   border: OutlineInputBorder(),
-         labelText: 'Expiry date of Class 2 *',
-         hintText: ' $dtC2',
-      ),
-    );
- }
-  
-//   }
+       return DateTimeField(
+            //  dateOnly: true,
+            decoration: InputDecoration(   labelText: 'Expiry date of Class 2 *',
+            suffixIcon : Icon(Icons.calendar_today),),
+           // hintText: '$dateOfInitialIssue'),
+            format: dateFormat,
+            initialValue:dtExpiryC2,//DateTime.parse(saveLicenseData.dtRatingtest),
+            onShowPicker: (context, currentValue) {
+                          return showDatePicker(
+                          context: context,
+                          firstDate: DateTime(1900),
+                          initialDate:  DateTime.now(),
+                          lastDate: DateTime(2100));
+                    },
+            validator: (val) {if (val != null) {return null; } else {return 'Date Field is Empty'; }},
+            onChanged: (dt) { setState(() => dtExpiryC2 = dt);
+                        print('Selected date: $dtExpiryC2');},
+            onSaved: (value) { saveMedicalData.dtExpiryC2= saveFormat.format(value);value.toString();
+            //  debugPrint(value.toString());},
+               },
+                  );
+   
+  }
+
+/////////////
       Widget _dtExpiryC3() {
-     return TextFormField(
-      controller: dtExpiryC3,
-      onTap : ()=>_selectDate(context,dtC3,dtExpiryC3),
-   onSaved:(val) => saveMedicalData.dtExpiryC3= val.toString(),
-      decoration: InputDecoration(
-         suffixIcon : Icon(Icons.calendar_today),
-         //   border: OutlineInputBorder(),
-         labelText: 'Expiry date of Class 3 *',
-         hintText: ' $dtC3',
-      ),
-    );
- }
-  
+return DateTimeField(
+            //  dateOnly: true,
+            decoration: InputDecoration(   labelText: 'Expiry date of Class 3 *',
+            suffixIcon : Icon(Icons.calendar_today),),
+           // hintText: '$dateOfInitialIssue'),
+            format: dateFormat,
+            initialValue:dtExpiryC3,//DateTime.parse(saveLicenseData.dtRatingtest),
+            onShowPicker: (context, currentValue) {
+                          return showDatePicker(
+                          context: context,
+                          firstDate: DateTime(1900),
+                          initialDate:  DateTime.now(),
+                          lastDate: DateTime(2100));
+                    },
+            validator: (val) {if (val != null) {return null; } else {return 'Date Field is Empty'; }},
+            onChanged: (dt) { setState(() => dtExpiryC3 = dt);
+                        print('Selected date: $dtExpiryC3');},
+            onSaved: (value) { saveMedicalData.dtExpiryC3= saveFormat.format(value);value.toString();
+            //  debugPrint(value.toString());},
+               },
+                  );
+   
+  }
+
 //   ///////////////////
     Widget _dtExpiryClapl() {
-     return TextFormField(
-      controller: dtExpiryClapl,
-      onTap : ()=>_selectDate(context,expirydateofthiscertificate,dtExpPrevcert),
-   onSaved:(val) => saveMedicalData.dtExpiryClapl= val.toString(),
-      decoration: InputDecoration(
-         suffixIcon : Icon(Icons.calendar_today),
-         //   border: OutlineInputBorder(),
-         labelText: 'Expiry date of LAPL *',
-         hintText: ' $expirydateofthiscertificate',
-      ),
-    );
- }
-  
+      return DateTimeField(
+            //  dateOnly: true,
+            decoration: InputDecoration(    labelText: 'Expiry date of LAPL *',
+            suffixIcon : Icon(Icons.calendar_today),),
+           // hintText: '$dateOfInitialIssue'),
+            format: dateFormat,
+            initialValue:dtExpiryClapl,//DateTime.parse(saveLicenseData.dtRatingtest),
+            onShowPicker: (context, currentValue) {
+                          return showDatePicker(
+                          context: context,
+                          firstDate: DateTime(1900),
+                          initialDate:  DateTime.now(),
+                          lastDate: DateTime(2100));
+                    },
+            validator: (val) {if (val != null) {return null; } else {return 'Date Field is Empty'; }},
+            onChanged: (dt) { setState(() => dtExpiryClapl = dt);
+                        print('Selected date: $dtExpiryClapl');},
+            onSaved: (value) { saveMedicalData.dtExpiryClapl= saveFormat.format(value);value.toString();
+            //  debugPrint(value.toString());},
+               },
+                  );
+   
+  }
+
 //   ///////////////////
        Widget _dateOfInitialIssue() {
-     return TextFormField(
-      controller: dtIssue,
-      onTap : ()=>_selectDate(context,dateOfInitialIssuemed,dtIssue),
-      onSaved:(val) => saveMedicalData.dtIssue= val.toString(),
-      decoration: InputDecoration(
-         suffixIcon : Icon(Icons.calendar_today),
-         //   border: OutlineInputBorder(),
-         labelText: 'Date Of Initial Issue',
-         hintText: ' $dateOfInitialIssuemed',
-      ),
-    );
- 
- 
-  }
+         return DateTimeField(
+            //  dateOnly: true,
+            decoration: InputDecoration(   labelText: 'Examination date',
+            suffixIcon : Icon(Icons.calendar_today),),
+           // hintText: '$dateOfInitialIssue'),
+            format: dateFormat,
+            initialValue:dtExam,//DateTime.parse(saveLicenseData.dtRatingtest),
+            onShowPicker: (context, currentValue) {
+                          return showDatePicker(
+                          context: context,
+                          firstDate: DateTime(1900),
+                          initialDate:  DateTime.now(),
+                          lastDate: DateTime(2100));
+                    },
+            validator: (val) {if (val != null) {return null; } else {return 'Date Field is Empty'; }},
+            onChanged: (dt) { setState(() => dtExam = dt);
+                        print('Selected date: $dtExam');},
+            onSaved: (value) { saveMedicalData.dtExam= saveFormat.format(value);value.toString();  },  );
+        }
 //   ////////////////////////
    Widget _examinationdate () {
-       return TextFormField(
-      controller: dtExam,
-      onTap : ()=>_selectDate(context,examinationdate,dtExam),
-      onSaved:(val) => saveMedicalData.dtExam= val.toString(),
-      decoration: InputDecoration(
-         suffixIcon : Icon(Icons.calendar_today),
-         //   border: OutlineInputBorder(),
-         labelText: 'Examination date',
-         hintText: ' $examinationdate',
-      ),
-    );
-//   
-  }
-  
+        return DateTimeField(
+            //  dateOnly: true,
+            decoration: InputDecoration(    labelText: 'Date Of Initial Issue',
+            suffixIcon : Icon(Icons.calendar_today),),
+           // hintText: '$dateOfInitialIssue'),
+            format: dateFormat,
+            initialValue:dtIssue,//DateTime.parse(saveLicenseData.dtRatingtest),
+            onShowPicker: (context, currentValue) {
+                          return showDatePicker(
+                          context: context,
+                          firstDate: DateTime(1900),
+                          initialDate:  DateTime.now(),
+                          lastDate: DateTime(2100));
+                    },
+            validator: (val) {if (val != null) {return null; } else {return 'Date Field is Empty'; }},
+            onChanged: (dt) { setState(() => dtIssue = dt);
+                        print('Selected date: $dtIssue');},
+            onSaved: (value) { saveMedicalData.dtIssue= saveFormat.format(value);value.toString();  },  );
+        }
 //   ////////////////
    Widget _expirydateofpreviousMedicalCertificate () {
-       return TextFormField(
-      controller: dtExpPrevcert,
-      onTap : ()=>_selectDate(context,expirydateofpreviousMedicalCertificate,dtExpPrevcert),
-      onSaved:(val) => saveMedicalData.dtExpPrevcert= val.toString(),
-      decoration: InputDecoration(
-         suffixIcon : Icon(Icons.calendar_today),
-         //   border: OutlineInputBorder(),
-         labelText: 'Epiry date previous Medical Certificate',
-         hintText: ' $expirydateofpreviousMedicalCertificate',
-      ),
-    );
-  }
+ return DateTimeField(
+            //  dateOnly: true,
+            decoration: InputDecoration(  labelText: 'Epiry date previous Medical Certificate',
+            suffixIcon : Icon(Icons.calendar_today),),
+           // hintText: '$dateOfInitialIssue'),
+            format: dateFormat,
+            initialValue:dtExpPrevcert,//DateTime.parse(saveLicenseData.dtRatingtest),
+            onShowPicker: (context, currentValue) {
+                          return showDatePicker(
+                          context: context,
+                          firstDate: DateTime(1900),
+                          initialDate:  DateTime.now(),
+                          lastDate: DateTime(2100));
+                    },
+            validator: (val) {if (val != null) {return null; } else {return 'Date Field is Empty'; }},
+            onChanged: (dt) { setState(() => dtExpPrevcert = dt);
+                        print('Selected date: $dtExpPrevcert');},
+            onSaved: (value) { saveMedicalData.dtExpPrevcert= saveFormat.format(value);value.toString();  },  );
+        }
 //   //////////////////
    Widget _electrocardiogram  () {
-         return TextFormField(
-      controller: dtEcg,
-      onTap : ()=>_selectDate(context,electrocardiogram,dtEcg),
-      onSaved:(val) => saveMedicalData.dtEcg= val.toString(),
-      decoration: InputDecoration(
-         suffixIcon : Icon(Icons.calendar_today),
-         //   border: OutlineInputBorder(),
-         labelText: 'Electrocardiogram',
-         hintText: ' $electrocardiogram',
-      ),
-    );
-   }
+      return DateTimeField(
+            //  dateOnly: true,
+            decoration: InputDecoration(  labelText: 'Electrocardiogram',
+            suffixIcon : Icon(Icons.calendar_today),),
+           // hintText: '$dateOfInitialIssue'),
+            format: dateFormat,
+            initialValue:dtEcg,//DateTime.parse(saveLicenseData.dtRatingtest),
+            onShowPicker: (context, currentValue) {
+                          return showDatePicker(
+                          context: context,
+                          firstDate: DateTime(1900),
+                          initialDate:  DateTime.now(),
+                          lastDate: DateTime(2100));
+                    },
+            validator: (val) {if (val != null) {return null; } else {return 'Date Field is Empty'; }},
+            onChanged: (dt) { setState(() => dtEcg = dt);
+                        print('Selected date: $dtEcg');},
+            onSaved: (value) { saveMedicalData.dtEcg= saveFormat.format(value);value.toString();  },  );
+        }
 
 //   /////////////////////
   
        Widget _audiogram  () {
-              return TextFormField(
-      controller: dtAudiogram,
-      onTap : ()=>_selectDate(context,audiogram,dtAudiogram),
-      onSaved:(val) => saveMedicalData.dtAudiogram= val.toString(),
-      decoration: InputDecoration(
-         suffixIcon : Icon(Icons.calendar_today),
-         //   border: OutlineInputBorder(),
-         labelText: 'Audiogram',
-         hintText: ' $audiogram',
-      ),
-    );
-   }
-
+              return DateTimeField(
+            //  dateOnly: true,
+            decoration: InputDecoration(  labelText: 'Audiogram',
+            suffixIcon : Icon(Icons.calendar_today),),
+           // hintText: '$dateOfInitialIssue'),
+            format: dateFormat,
+            initialValue:dtAudiogram,//DateTime.parse(saveLicenseData.dtRatingtest),
+            onShowPicker: (context, currentValue) {
+                          return showDatePicker(
+                          context: context,
+                          firstDate: DateTime(1900),
+                          initialDate:  DateTime.now(),
+                          lastDate: DateTime(2100));
+                    },
+            validator: (val) {if (val != null) {return null; } else {return 'Date Field is Empty'; }},
+            onChanged: (dt) { setState(() => dtAudiogram = dt);
+                        print('Selected date: $dtAudiogram');},
+            onSaved: (value) { saveMedicalData.dtAudiogram= saveFormat.format(value);value.toString();  },  );
+        }
+  
   //////////////
      Widget _comments() { 
       return TextFormField(
+        initialValue: initialnum??saveMedicalData.comments,
            decoration: InputDecoration(  hintText: 'Enter  Comments Here',
            labelText: 'Comments '),
       
@@ -377,7 +534,7 @@ class _MedicalPage extends State<MedicalPage> {
   //validation
   ////////////////////////////
   
-  String licenceNumber(String value) {
+  String validNumber(String value) {
 
   if(value == null) 
     return null;
@@ -396,30 +553,11 @@ class _MedicalPage extends State<MedicalPage> {
  // return d != null && d.isBefore(new DateTime.now());
 }
 
-
-
-
-//   DateTime convertToDate(String input) {
-//     try 
-//     {
-//       var d = new DateFormat.yMd().parseStrict(input);
-//       return d;
-//     } catch (e) {
-//       return null;
-//     }    
-//   }
   
   /////////////////////////////////////////////////////////////////
   // All function
   /////////////////////////////////////////////////////////////////
-  getmedicaldata(){
-    
-     user = welcomeFromJson(fromjsondata);
- //   Map<String, dynamic> data = jsonDecode(fromjsondata);
-  print(  user.dtAudiogram);
-    electrocardiogram=user.dtAudiogram;
-    
-  }
+ 
    void reset() {
 
    _formKey.currentState.reset();
@@ -429,7 +567,7 @@ class _MedicalPage extends State<MedicalPage> {
   if (_formKey.currentState.validate()) {
 //    If all data are correct then save data to out variables
     _formKey.currentState.save();
-    shoe(  saveMedicalData                 );
+    shoe();
 
   } else {
 //    If all data are not valid then start auto validation.
@@ -441,22 +579,15 @@ class _MedicalPage extends State<MedicalPage> {
   
 
   ///////////////////
-  shoe(
- Medical saveMedicalData){
-// LicenseDetail licenseDetail,
-//Personnel personal){
-// saveLicenseData.personnel = <Personnel>[personal];
-// saveLicenseData.licenseDetails = <LicenseDetail>[licenseDetail];
+  shoe( ){
+
  String json = welcomeToJson(saveMedicalData);
    fromjsondata= json;
  print( json);
 
 }
   
-  
-  
-        
- 
+   
   void _changed( String field) {
     switch(field){
    case "1": { visibilityclass1=true;  visibilityclass3=false;}
@@ -471,7 +602,76 @@ class _MedicalPage extends State<MedicalPage> {
    break; 
 } 
        }
- ////////////////////////////////////////////////////////////////////////
+  
+        
+//   void _changed( String field) {
+//     switch(field){
+//    case "1": { visibilityclass1=true;  visibilityclass3=false;}
+//   break;
+//     case "2":{ visibilityclass3=true;  visibilityclass1=false;}
+//        break;
+      
+//    default: { 
+//       visibilityclass1=false;
+//      visibilityclass3=false;
+//    }
+//    break; 
+// } 
+//        }
+
+
+     Future<int> getlicencddata() async {
+        // return 1;
+  final response = await http.get('http://192.168.43.246:8080/dLicence/api/license/v1/$savelicencdId/medicaldata');
+
+  if (response.statusCode == 200) {
+      print(json.decode(response.body));
+       saveMedicalData =Medical.fromJson(json.decode(response.body));
+       //_onSuccessResponse();
+     return 1; } 
+  else if  (response.statusCode == 500){initialnum=''; return 1;}
+  else{
+    initialnum='';
+    return 1;
+    // If th
+//     String emptjson = MedicalToJson(saveMedicalData);
+//  print( emptjson);
+//      return Medical.fromJson(json.decode(emptjson));//e server did not return a 200 OK response,
+    // then throw an exception.
+ //throw Exception('check network connecion');
+  }
+
+     }
+///////////////////////////////
+// /post
+  
+sendRequest( String data) async {
+  
+var url = 'http://192.168.43.246:8080/dLicence/api/license/v1/$savelicencdId/medicaldata';
+    http.post(url, headers: {"Content-Type": "application/json"}, body: data)
+        .then((response) {
+      print("Response status: ${response.statusCode}");
+    //  print("Response body: ${response.body}");
+    final String res = response.body;
+      final int statusCode = response.statusCode;
+
+      if (statusCode < 200 || statusCode > 400 || json == null) {
+        throw Exception("Error while fetching data");
+      } else {
+         print(json.decode(res));
+        // Map data=json.decode(res);
+        // final userdata=UserClass.fromJson(data);
+        // UserClass userdataofclass=UserClass.fromJson(data);
+        // print(userdata.firstName);
+        // _onSuccessResponse(userdataofclass);
+      //  _onSuccessResponse();
+      }
+    });
+
+   
+  }
+
+ //////////////////////////////End medicalpage//////////////////////////////////////////
 }
 ///////////////
 

@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'modal.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:appdata/src/models/masterdata.dart';
 //import 'package:flutter/material.dart;
 // import 'package:flutter_validate/flutter_validate.dart';
 
@@ -411,7 +412,7 @@ sendRequest(json);
 
      Future<int> getlicencddata() async {
         // return 1;
-  final response = await http.get('http://192.168.43.246:8080/dLicence/api/license/v1/225/logBookdata');
+  final response = await http.get('http://192.168.43.246:8080/dLicence/api/license/v1/{$savelicencdId/logBookdata');
 
   if (response.statusCode == 200) {
       print(json.decode(response.body));
@@ -435,7 +436,7 @@ return 1;// throw Exception('check network connecion');
   
 sendRequest( String data) async {
   
-var url = 'http://192.168.43.246:8080/dLicence/api/license/v1/225/logBookdata';
+var url = 'http://192.168.43.246:8080/dLicence/api/license/v1/$savelicencdId/logBookdata';
     http.post(url, headers: {"Content-Type": "application/json"}, body: data)
         .then((response) {
       print("Response status: ${response.statusCode}");

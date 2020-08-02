@@ -720,6 +720,8 @@ sendRequest( String data) async {
         .then((response) {
       print("Response status: ${response.statusCode}");
       print("Response body: ${response.body}");
+       Licenceclass toGetLicenceId =Licenceclass.fromJson(json.decode(response.body));
+      savelicencdId=toGetLicenceId.id;
     });  
 }
 
