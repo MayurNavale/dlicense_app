@@ -412,7 +412,7 @@ sendRequest(json);
 
      Future<int> getlicencddata() async {
         // return 1;
-  final response = await http.get('http://192.168.43.246:8080/dLicence/api/license/v1/{$savelicencdId/logBookdata');
+  final response = await http.get('http://192.168.43.246:8080/dLicence/api/license/v1/$savelicencdId/logBookdata');
 
   if (response.statusCode == 200) {
       print(json.decode(response.body));

@@ -1,4 +1,5 @@
 import 'package:appdata/src/models/masterdata.dart';
+import 'package:appdata/src/pages/signinPage.dart';
 import 'dart:convert';
 import 'model.dart';
 import 'package:http/http.dart' as http;
@@ -10,7 +11,7 @@ class RegisterUser extends StatefulWidget {
   _RegisterUser createState() => new _RegisterUser();
 }
 class _RegisterUser extends State<RegisterUser> {
-
+                                bool visibilityTag = false;
                                  var myFormat = DateFormat('yyyy-MM-dd');
                                   var myFormadme = DateFormat('dd-MM-yyyy');
                                 final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
@@ -106,6 +107,7 @@ class _RegisterUser extends State<RegisterUser> {
            // validator: validateMobile,
             onSaved: (String val)  =>saveUserData.password=val.toString(),),
         status(),
+        visibilityTag ? _onDone(): new Container(),
         showdata()
       ]
     );
@@ -228,7 +230,7 @@ Widget _placeOfBirth() {
           RaisedButton(
                 color:Colors.pink,
                 onPressed:reset,
-                child: new Text('Reset'),
+                child: new Text('Sign In'),
            ),
           SizedBox( width: 10,),
           RaisedButton(
@@ -239,6 +241,16 @@ Widget _placeOfBirth() {
       ]
   );
 }
+ Widget _onDone() {
+      return  TextField(
+        
+//obscureText: true,
+  decoration: InputDecoration(
+    border: OutlineInputBorder(),
+    labelText: 'Save successfully   ',
+        
+  ),
+);}
 
   ////////////////////////////////////////
   //validation
@@ -294,7 +306,10 @@ bool isValidDob(String dat) {
   /////////////////////////////////////////////////////////////////
 
 void reset() {
- _formKey.currentState.reset();
+ Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => LogInPage()),
+              );
 }
 void _validateInputs() {
   if (_formKey.currentState.validate()) {
@@ -324,12 +339,23 @@ var url = 'http://192.168.43.246:8080/dLicence/api/signUpUser';
         .then((response) {
       print("Response status: ${response.statusCode}");
       print("Response body: ${response.body}");
+      UserClass foruuid =UserClass.fromJson(json.decode(response.body));
+       var   uuidval =foruuid.id;
+      ondone(uuidval);
+       //_onSuccessResponse();
       
     });  
   }
 
   
-  
+ void ondone(var uuidvalue){
+    uuid =uuidvalue;
+      print(uuid);
+      visibilityTag=true;
+      setState(() {
+        uuid=uuidvalue;
+      });
+  }
 
 
   var city;

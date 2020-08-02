@@ -36,7 +36,7 @@ import 'dart:convert';
   },
   {
     "id": 2,
-    "Name": "Singal",
+    "Name": "Single",
     
   },
  

@@ -47,7 +47,7 @@ class _LicencepagehomeState extends State<Licencepagehome> {
                       String a;
                       String licencenumber='';
                       DateTime initialdateval;
-                      Future<Licenceclass>futureLicenceclass;
+                      Future<int>futureLicenceclass;
                       // Future<Album> futureAlbum;
                        Future<void> _selectDate(BuildContext context,var a,TextEditingController datecontroller ) async {
                   showDatePicker(
@@ -61,7 +61,7 @@ class _LicencepagehomeState extends State<Licencepagehome> {
                       //new DateFormat.yMMMMd().format(date);
                      }); }); 
   }
-
+bool visibilityTag=false;
   @override
   void initState() {
     super.initState();
@@ -86,7 +86,7 @@ class _LicencepagehomeState extends State<Licencepagehome> {
       //     ),
       //   ) ,
        body: Center(
-          child: FutureBuilder<Licenceclass>(
+          child: FutureBuilder<int>(
             future: futureLicenceclass,
             builder: (context, snapshot) {
               if (snapshot.hasData) {
@@ -160,6 +160,7 @@ class _LicencepagehomeState extends State<Licencepagehome> {
                 endorsementDataFromPage = jsonDecode(endor) as List;
                 endorsementApipList = endorsementDataFromPage.map((i)=>EndorsementAPI.fromJson(i)).toList();
               print(endorsementApipList);} },  ),
+                visibilityTag ? _onDone(): new Container(color: Colors.blue[300],),
            showdata()
         
          ]
@@ -257,7 +258,7 @@ class _LicencepagehomeState extends State<Licencepagehome> {
            // hintText: '$dateOfInitialIssue'
            ),
             format: dateFormat,
-            initialValue:initialdateval??DateTime.parse(saveLicenseData.dtIssue),
+            initialValue:dateOfInitialIssue,//DateTime.parse(saveLicenseData.dtIssue),
             onShowPicker: (context, currentValue) {
                           return showDatePicker(
                           context: context,
@@ -571,14 +572,24 @@ class _LicencepagehomeState extends State<Licencepagehome> {
   
   }
   /////////////////
-  
+   Widget _onDone() {
+      return  TextField(
+        
+//obscureText: true,
+  decoration: InputDecoration(
+    border: OutlineInputBorder(),
+    labelText: 'Save successfully   ',
+        
+  ),
+);}
+
   
   Widget showdata(){
     return Row(children: <Widget>[
       SizedBox(  height: 39, width: 3, ),
       RaisedButton(
               color:Colors.pink,
-              onPressed:(){},//,
+              onPressed:(){    print(endorsementDataFromPage);},//,
               child: new Text('get'),
               ),
       SizedBox( width: 3, ),
@@ -601,6 +612,7 @@ class _LicencepagehomeState extends State<Licencepagehome> {
   //validation
   ////////////////////////////
 String licenceNumber(String value) {
+  
   if(value == null)  return null;
   final n = num.tryParse(value);
   if(n == null)  return '"$value" is not a valid number';
@@ -704,7 +716,7 @@ void postdata(){
             //  print(b); print(r); print(f);
             addendorsement(b,f); }
 
- saveLicenseData.userId="a92a3003-68fc-4a3a-8ad5-cadf450dbccf";
+ saveLicenseData.userId=uuid.toString();
  saveLicenseData.licenseDetails = <LicenseDetail>[licenseDetail];
  if(additionallicenseDetail.additionalRating)saveLicenseData.licenseDetails.add(additionallicenseDetail);
  String jsons = licenceclassToJson(saveLicenseData);
@@ -721,7 +733,7 @@ sendRequest( String data) async {
       print("Response status: ${response.statusCode}");
       print("Response body: ${response.body}");
        Licenceclass toGetLicenceId =Licenceclass.fromJson(json.decode(response.body));
-      savelicencdId=toGetLicenceId.id;
+        forid(toGetLicenceId.id);
     });  
 }
 
@@ -730,38 +742,53 @@ sendRequest( String data) async {
 ///get
 //////////////////
 
-    Future<Licenceclass> getlicencddata() async {
-  final response = await http.get('http://192.168.43.246:8080/dLicence/api/license/v1/051221ed-6f4b-4729-9d4c-948ae6e33d1c');
-
+    Future<int> getlicencddata() async {
+      var urlLicence='http://192.168.43.246:8080/dLicence/api/license/v1/$uuid';
+ print(urlLicence);
+ final response = await http.get(urlLicence);
+print(response.statusCode);
   if (response.statusCode == 200) {
       print(json.decode(response.body));
     //  setState(() {
     //   // initialnumber=null;
     //  }); 
      String api=response.body;
-      endorsementDataFromPage=jsonDecode(response.body)['endorsementDetails']as List;
-    print(endorsementDataFromPage);
-      instructordatafrompage=jsonDecode(response.body)['instructorDetails']as List;
-     print(instructordatafrompage);
-      examinerdatafrompage=jsonDecode(response.body)['examinerDetails']as List;
-     print(examinerdatafrompage);
-     List licenseDetaillist=jsonDecode(response.body)['licenseDetails']as List;
-     print(licenseDetaillist);
-     licenceDetaillist(licenseDetaillist);
+     
+   //  licenceDetaillist(licenseDetaillist);
        saveLicenseData =Licenceclass.fromJson(json.decode(response.body));
-       _onSuccessResponse();
-     return Licenceclass.fromJson(json.decode(response.body));
+       _onSuccessResponse(api);
     
-  } else {
+     return 1;
+    
+  }  else if  (response.statusCode == 500){initialnumber='';return 1;}
+  else{
     initialnumber='';
-    // If the server did not return a 200 OK response,
+    //  initialdateval='';
+    // If th
+//     String emptjson = logbookToJson(logbookdata);
+//  print( emptjson);
+//      return Logbook.fromJson(json.decode(emptjson));//e server did not return a 200 OK response,
     // then throw an exception.
-   // throw Exception('Failed to load ');
+ return 1;//
+// throw Exception('check network connecion');
   }
     }
-        void   _onSuccessResponse( ){
-   //  levelvalue(saveLicenseData.countryId,1);
-    // levelvalue(saveLicenseData.codeId,2);
+
+    forid(var val){
+      savelicencdId=val.toString();
+      visibilityTag=true;
+    }
+        void   _onSuccessResponse(api ){
+  
+   endorsementDataFromPage=jsonDecode(api)['endorsementDetails']as List;
+    print(endorsementDataFromPage);
+      instructordatafrompage=jsonDecode(api)['instructorDetails']as List;
+     print(instructordatafrompage);
+    examinerdatafrompage=jsonDecode(api)['examinerDetails']as List;
+     print(examinerdatafrompage);
+  //   examinerapiplist=asdfg.map((i)=>Examinerapi.fromJson(i)).toList();
+     List licenseDetaillist=jsonDecode(api)['licenseDetails']as List;
+     print(licenseDetaillist);
      print(saveLicenseData.examinerId);
       print(saveLicenseData.countryId);
     dateOfInitialIssue= DateTime.parse(saveLicenseData.dtIssue);
@@ -772,15 +799,22 @@ sendRequest( String data) async {
     //  licencenumber=saveLicenseData.
      // licencenumber=saveLicenseData.licenseNumber.toString();
     }
-    void licenceDetaillist( List<LicenseDetail> detaillist){
+    void licenceDetaillist( List detaillist){
       for (int dat = 0; dat < detaillist.length; dat++) {
-        print("aaaaaaaaaaaa");
-     print(detaillist[dat].classId);
-     print(detaillist[dat].copilot);
-    print(detaillist[dat].id);
-    print(detaillist[dat].ir);
-    print(detaillist[dat].typeId);
-    print("aaaaaaaaaaaa");
+      if (dat==0){
+             licenseDetail.classId  =detaillist[dat].classId;
+    licenseDetail.copilot  =detaillist[dat].copilot;
+   licenseDetail.id=detaillist[dat].id;
+    licenseDetail.ir=(detaillist[dat].ir);
+    licenseDetail.typeId=(detaillist[dat].typeId);
+    print((detaillist[dat].id));}else{
+      additionallicenseDetail.classId  =detaillist[dat].classId;
+    additionallicenseDetail.copilot  =detaillist[dat].copilot;
+   additionallicenseDetail.id=detaillist[dat].id;
+    additionallicenseDetail.ir=(detaillist[dat].ir);
+    additionallicenseDetail.typeId=(detaillist[dat].typeId);
+    print((detaillist[dat].id));
+    }
     
     }
     }

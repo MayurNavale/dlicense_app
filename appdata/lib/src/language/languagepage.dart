@@ -179,7 +179,7 @@ class _LanguagePage extends State<LanguagePage> {
 }  
   
   //////////////////////
-  
+  int nive ;
       Widget _lavels() {
       return DropdownButtonFormField<String>(
       decoration: InputDecoration(
@@ -189,8 +189,8 @@ class _LanguagePage extends State<LanguagePage> {
               value: findval(language.niveauLevelId, 2),
                   onChanged: (val) {
                     print(val);
-                    leveldt(language.niveauLevelId);
-                  setState(() => language.niveauLevelId =language.niveauLevelId);
+                   // leveldt(language.niveauLevelId);
+                  language.niveauLevelId =language.niveauLevelId;
                     _changed(true);
                   },
               validator: (value) => value == null ? 'field required' : null,
@@ -199,7 +199,7 @@ class _LanguagePage extends State<LanguagePage> {
                  child: new Text(item['id'].toString()),
                  value: item['id'].toString(),
                   onTap: () {
-           
+    leveldt( item['id']);//ldatalist
             language.niveauLevelId = item['id'];
           },
                  );

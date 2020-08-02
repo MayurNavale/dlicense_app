@@ -429,7 +429,8 @@ class Instructor {
     String ratingcertificateendorsement;
     String additionalratingtpyeOptionData;
     String instructorremarksandRestrictions;
-     var savelicencdId;
+    String uuid;
+     String savelicencdId;
     var contries;
     var licenceCodeOptions;
     var titleOfLicenceOptions;
