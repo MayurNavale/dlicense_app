@@ -444,8 +444,8 @@ var url = 'http://192.168.43.246:8080/dLicence/api/license/v1/$savelicencdId/lan
         throw Exception("Error while fetching data");
       } else {
          print(json.decode(res));
-        // Map data=json.decode(res);
-        // final userdata=UserClass.fromJson(data);
+        Map data=json.decode(res);
+         language=LanguagePost.fromJson(data);
         // UserClass userdataofclass=UserClass.fromJson(data);
         // print(userdata.firstName);
         // _onSuccessResponse(userdataofclass);

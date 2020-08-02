@@ -660,7 +660,7 @@ var url = 'http://192.168.43.246:8080/dLicence/api/license/v1/$savelicencdId/med
       } else {
          print(json.decode(res));
         // Map data=json.decode(res);
-        // final userdata=UserClass.fromJson(data);
+        // saveMedicalData =Medical.fromJson(data);
         // UserClass userdataofclass=UserClass.fromJson(data);
         // print(userdata.firstName);
         // _onSuccessResponse(userdataofclass);
