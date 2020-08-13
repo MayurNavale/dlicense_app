@@ -37,24 +37,21 @@ futuremedicalVal = getMedicaldata();
             future: futuremedicalVal,
             builder: (context, snapshot) {
               if (snapshot.hasData) {
-                return   SingleChildScrollView(
-            child: new Container(
-            margin: new EdgeInsets.all(15.0),
-            child: new Form(
-              key: _formKey,
-              autovalidate: _autoValidate,
-              child:formUI(),
-            ),
+                return SingleChildScrollView(
+                    child: new Container(
+                    margin: new EdgeInsets.all(15.0),
+                    child: new Form(
+                    key: _formKey,
+                    autovalidate: _autoValidate,
+                    child:formUI(),  ),),
+                ); } 
+              else if (snapshot.hasError) { return Text("${snapshot.error}");  }
+              return CircularProgressIndicator();
+            },
           ),
-        );
-      } else if (snapshot.hasError) { return Text("${snapshot.error}");  }
-       // By default, show a loading spinner.
-        return CircularProgressIndicator();
-        },
+        ),
       ),
-     ),
-    ),
-   );
+    );
   }
 Widget formUI() {
   return new Column(
@@ -66,30 +63,21 @@ Widget formUI() {
           keyboardType: TextInputType.phone,
           validator: licenseId,
           onSaved: (String val) { radiotelephone.licenseId= int.parse(val); },  ),
-    SizedBox(height:2),
-        _dateOfInitialIssue(),
-        Row(children: <Widget>[
-          Expanded(
-              flex: 2,
-              child: Container(
-             
-                height: 100,
-              ),),
-     RaisedButton(
-       color:Colors.pink,
-          onPressed:reset,
-          child: new Text('Reset'),
-          ),
-         Container(
-               width: 10,
-               
-              ),
-  RaisedButton(
-       color:Colors.indigo[400],
-          onPressed: _validateInputs,
-          child: new Text('Save'),
-         
-            )
+          SizedBox(height:2),
+             _dateOfInitialIssue(),
+          Row(children: <Widget>[
+                SizedBox(height:20,width:20),
+                RaisedButton(
+                  color:Colors.pink,
+                  onPressed:reset,
+                  child: new Text('Reset'), ),
+              SizedBox(width: 10, ),
+        RaisedButton(
+                color:Colors.indigo[400],
+                onPressed: _validateInputs,
+                child: new Text('Save'),
+              
+                  )
             ]
         )
       ],
@@ -117,7 +105,7 @@ void reset() =>_formKey.currentState.reset();
   if (_formKey.currentState.validate()) {
 //    If all data are correct then save data to out variables
     _formKey.currentState.save();
-    shoe();
+    uplodeRadioTelephoneData();
   } else {
 //    If all data are not valid then start auto validation.
     setState(() {
@@ -150,9 +138,9 @@ void reset() =>_formKey.currentState.reset();
   }
 
 
-shoe()
+uplodeRadioTelephoneData()
 {String json = welcomeToJson(radiotelephone);
- print( json);
+uplode(json);
 }
 
 
@@ -171,9 +159,9 @@ final response = await http.get('http://$ipAddress:8080/dLicence/api/license/v1/
 void assign(var dateval)=>dtIssue= DateTime.parse(dateval);
 ///////////post//////////////////
            
-sendRequest( String data) async {
+uplode( String data) async {
   
-var url = 'http://$ipAddress:8080/dLicence/api/license/v1/medicaldata';
+var url = 'http://$ipAddress:8080/dLicence/api/license/v1/$savelicencdId/radiotelephone';
     http.post(url, headers: {"Content-Type": "application/json"}, body: data)
         .then((response) {
       print("Response status: ${response.statusCode}");
