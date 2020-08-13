@@ -165,7 +165,7 @@ sendRequest( String data) async {
       print("Response body: ${response.body}");
       final int statusCode = response.statusCode;
       if (statusCode < 200 || statusCode > 400 || json == null) {
-      new Exception("Check Network Connection");
+      throw  Exception("Check Network Connection");
       } else {
           final foruuid = jsonDecode(response.body);
           forSaveUUID(  foruuid['id']);
