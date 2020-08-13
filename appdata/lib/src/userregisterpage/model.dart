@@ -48,19 +48,19 @@ String userClassToJson(UserClass data) => json.encode(data.toJson());
 
 class UserClass {
     UserClass({
-        this.address,
-        this.dateOfBirth,
-        this.displayName,
-        this.email,
-        this.firstName,
+        this.address='pune 28',
+        this.dateOfBirth='202-01-01',
+        this.displayName='tech',
+        this.email='future1@gmail.com',
+        this.firstName='sam',
         this.id,
-        this.lastName,
-        this.nationality,
-        this.passportPhoto,
-        this.password,
-        this.placeOfBirth,
-        this.status,
-        this.telephoneNumber,
+        this.lastName='pataki',
+        this.nationality='india',
+        this.passportPhoto='',
+        this.password='1234',
+        this.placeOfBirth='pune',
+        this.status='Single',
+        this.telephoneNumber=1234,
     });
 
     String address;

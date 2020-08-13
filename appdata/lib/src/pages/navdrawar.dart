@@ -1,11 +1,12 @@
+import 'package:appdata/src/Preview/previewPage.dart';
 import 'package:appdata/src/logbook/logbookpage.dart';
-
+// import 'package:appdata/src/preview/previewPage.dart';
+import 'package:appdata/src/radiotelephone/model.dart';
+import 'package:appdata/src/radiotelephone/radioTelephonePage.dart';
 import 'package:appdata/src/userregisterpage/model.dart';
 import 'package:flutter/material.dart';
 import 'package:appdata/src/medical/medicalpage.dart';
 import 'package:appdata/src/pages/signinPage.dart';
-
-
 import 'package:appdata/src/userregisterpage/registeruserpage.dart';
 import 'package:appdata/src/licencePage/licencdhomepage.dart';
 import 'package:appdata/src/language/languagepage.dart';
@@ -18,7 +19,7 @@ class NavDrawer extends StatelessWidget {
         children: <Widget>[
           DrawerHeader(
             child: Text(
-              'Side menu',
+              ' Menu',
               style: TextStyle(color: Colors.white, fontSize: 25),
             ),
             decoration: BoxDecoration(
@@ -28,22 +29,22 @@ class NavDrawer extends StatelessWidget {
                 //     image: AssetImage('assets/images/cover.jpg'))),
           ),
           ),
-          ListTile(
-        title: Text("login"),
-        trailing: Icon(Icons.arrow_forward),
-        onTap: () { Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => LogInPage()),
-              );},
-      ),
-      ListTile(
-        title: Text("register user"),
-        trailing: Icon(Icons.arrow_forward),
-        onTap:() { Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => RegisterUser(),
-        ));} ,
-      ),
+      //     ListTile(
+      //   title: Text("login"),
+      //   trailing: Icon(Icons.arrow_forward),
+      //   onTap: () { Navigator.push(
+      //           context,
+      //           MaterialPageRoute(builder: (context) => LogInPage()),
+      //         );},
+      // ),
+      // ListTile(
+      //   title: Text("register user"),
+      //   trailing: Icon(Icons.arrow_forward),
+      //   onTap:() { Navigator.push(
+      //           context,
+      //           MaterialPageRoute(builder: (context) => RegisterUser(),
+      //   ));} ,
+      // ),
       ListTile(
         title: Text(" Licence "),
         trailing: Icon(Icons.arrow_forward),
@@ -88,14 +89,24 @@ class NavDrawer extends StatelessWidget {
             
           ),
           
-//           ListTile(
-//          //   leading: Icon(Icons.settings),
-//             title: Text('Medical'),
-//             onTap: () => { Navigator.push(
-//                 context,
-//                 MaterialPageRoute(builder: (context) => Licencepaget()),
-//               )},
-//           ),
+          ListTile(
+             trailing: Icon(Icons.arrow_forward),
+         //   leading: Icon(Icons.settings),
+            title: Text('Radio Telephone'),
+            onTap: () => { Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) =>RadiotelephonePage ()),
+              )},
+          ),
+          ListTile(
+             trailing: Icon(Icons.arrow_forward),
+         //   leading: Icon(Icons.settings),
+            title: Text('Preview'),
+            onTap: () => { Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) =>PreviewPageFinal ()),
+              )},
+          ),
 //           ListTile(
 //          //   leading: Icon(Icons.border_color),
 //             title: Text('Feedback'),

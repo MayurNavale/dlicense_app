@@ -339,30 +339,20 @@ class _LogBookPage extends State<LogBookPage> {
     
   Widget showdata(){
     return Row(children: <Widget>[
-          Expanded(
-              flex: 2,
-              child: Container(
-             
-                height: 100,
-              ),),
-     RaisedButton(
-       color:Colors.pink,
+          SizedBox(height:100,width:20),
+      RaisedButton(
+          color:Colors.pink,
           onPressed:reset,
           child: new Text('Reset'),
           ),
-         Container(
-               width: 10,
-               
-              ),
-  RaisedButton(
+     SizedBox(width:10),
+    RaisedButton(
        color:Colors.indigo[400],
           onPressed: _validateInputs,
-          child: new Text('Save'),
-         
-            )
-            ]
-        );
-  }
+          child: new Text('Save'),)
+    ]
+  );
+}
   ////////////////////////////////////////
   //validation
   ////////////////////////////
@@ -412,23 +402,13 @@ sendRequest(json);
 
      Future<int> getlicencddata() async {
         // return 1;
-  final response = await http.get('http://192.168.43.246:8080/dLicence/api/license/v1/$savelicencdId/logBookdata');
-
+  final response = await http.get('http://$ipAddress:8080/dLicence/api/license/v1/$savelicencdId/logBookdata');
   if (response.statusCode == 200) {
       print(json.decode(response.body));
-       logbookdata =Logbook.fromJson(json.decode(response.body));
-       //_onSuccessResponse();
-     return 1; } 
+      logbookdata =Logbook.fromJson(json.decode(response.body));
+  return 1; } 
   else if  (response.statusCode == 500){initialnumdata=''; return 1;}
-  else{
-    initialnumdata='';
-    // If th
-//     String emptjson = logbookToJson(logbookdata);
-//  print( emptjson);
-//      return Logbook.fromJson(json.decode(emptjson));//e server did not return a 200 OK response,
-    // then throw an exception.
-return 1;// throw Exception('check network connecion');
-  }
+  else{ throw Exception('check network connecion');}
 
      }
 ///////////////////////////////
@@ -436,25 +416,15 @@ return 1;// throw Exception('check network connecion');
   
 sendRequest( String data) async {
   
-var url = 'http://192.168.43.246:8080/dLicence/api/license/v1/$savelicencdId/logBookdata';
+var url = 'http://$ipAddress:8080/dLicence/api/license/v1/$savelicencdId/logBookdata';
     http.post(url, headers: {"Content-Type": "application/json"}, body: data)
         .then((response) {
       print("Response status: ${response.statusCode}");
-    //  print("Response body: ${response.body}");
-    final String res = response.body;
+      final String res = response.body;
       final int statusCode = response.statusCode;
-
       if (statusCode < 200 || statusCode > 400 || json == null) {
         throw Exception("Error while fetching data");
-      } else {
-         print(json.decode(res));
-        // Map data=json.decode(res);
-        // final userdata=UserClass.fromJson(data);
-        // UserClass userdataofclass=UserClass.fromJson(data);
-        // print(userdata.firstName);
-        // _onSuccessResponse(userdataofclass);
-      //  _onSuccessResponse();
-      }
+      } else { print(json.decode(res)); }
     });
 
    

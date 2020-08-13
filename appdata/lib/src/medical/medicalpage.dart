@@ -622,7 +622,7 @@ return DateTimeField(
 
      Future<int> getlicencddata() async {
         // return 1;
-  final response = await http.get('http://192.168.43.246:8080/dLicence/api/license/v1/$savelicencdId/medicaldata');
+  final response = await http.get('http://$ipAddress:8080/dLicence/api/license/v1/$savelicencdId/medicaldata');
 
   if (response.statusCode == 200) {
       print(json.decode(response.body));
@@ -647,7 +647,7 @@ return DateTimeField(
   
 sendRequest( String data) async {
   
-var url = 'http://192.168.43.246:8080/dLicence/api/license/v1/$savelicencdId/medicaldata';
+var url = 'http://$ipAddress:8080/dLicence/api/license/v1/$savelicencdId/medicaldata';
     http.post(url, headers: {"Content-Type": "application/json"}, body: data)
         .then((response) {
       print("Response status: ${response.statusCode}");

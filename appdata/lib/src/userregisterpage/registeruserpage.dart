@@ -21,6 +21,7 @@ class _RegisterUser extends State<RegisterUser> {
                                 bool visibilityclass1 = false;
                                 bool visibilityclass3=false;
                                 UserClass saveUserData = new UserClass();
+                                UserClass alreadySave = new UserClass();
                                 DateTime date;
                                 String niveaulevel=''; 
                                 int nilevel;
@@ -67,17 +68,17 @@ class _RegisterUser extends State<RegisterUser> {
          new TextFormField(
                 decoration: const InputDecoration(labelText: ' First Name'),
                 keyboardType: TextInputType.text,
-                validator: validateName,
+               // validator: validateName,
                 onSaved: (String val)  =>saveUserData.firstName=val, ),
          new TextFormField(
                 decoration: const InputDecoration(labelText: '  Last Name'),
                 keyboardType: TextInputType.text,
-                validator: validateName,
+              //  validator: validateName,
                 onSaved: (String val)  =>saveUserData.lastName=val,),
         new TextFormField(
                 decoration: const InputDecoration(labelText: ' display Name'),
                 keyboardType: TextInputType.text,
-                validator: validateName,
+              //  validator: validateName,
                 onSaved: (String val)  =>saveUserData.displayName=val,),
         _nationality(),
         _placeOfBirth(),
@@ -85,7 +86,7 @@ class _RegisterUser extends State<RegisterUser> {
         new TextFormField(
             decoration: const InputDecoration(labelText: ' Address '),
             keyboardType: TextInputType.text,
-            validator: (value) => value == null ? 'field required' : null,
+            // validator: (value) => value == null ? 'field required' : null,
             onSaved: (String val)  =>saveUserData.address=val.toString(),
         ),
         _postalcode(),
@@ -93,7 +94,7 @@ class _RegisterUser extends State<RegisterUser> {
         new TextFormField(
             decoration: const InputDecoration(labelText: 'Email'),
             keyboardType: TextInputType.emailAddress,
-            validator: validateEmail,
+            //validator: validateEmail,
             onSaved: (String val)  =>saveUserData.email=val.toString(),),
         new TextFormField(
             decoration: const InputDecoration(labelText: 'Telephone'),
@@ -103,11 +104,11 @@ class _RegisterUser extends State<RegisterUser> {
        new TextFormField(
             decoration: const InputDecoration(labelText: 'Password'),
            keyboardType: TextInputType.text,
-                validator: validateName,
+          //      validator: validateName,
            // validator: validateMobile,
             onSaved: (String val)  =>saveUserData.password=val.toString(),),
         status(),
-        visibilityTag ? _onDone(): new Container(),
+       // visibilityTag ? _onDone(): new Container(),
         showdata()
       ]
     );
@@ -122,7 +123,7 @@ Widget _nationality() {
        ),
               value: nationality,
               onChanged: (String newValue) =>setState(() => nationality = newValue),
-              validator: (value) => value == null ? 'field required' : null,
+              //validator: (value) => value == null ? 'field required' : null,
                onSaved: (val) =>  saveUserData.nationality=val,
               items: countriesalreadlist.map((item) {
             return new DropdownMenuItem(
@@ -141,7 +142,7 @@ Widget _placeOfBirth() {
        ),
               value: placeOfBirth,
               onChanged: (String newValue) =>setState(() => placeOfBirth = newValue),
-              validator: (value) => value == null ? 'field required' : null,
+              // validator: (value) => value == null ? 'field required' : null,
                onSaved: (val) =>  saveUserData.placeOfBirth=val,
               items: countriesalreadlist.map((item) {
             return new DropdownMenuItem(
@@ -161,7 +162,7 @@ Widget _placeOfBirth() {
        ),
               value: postalcode,
               onChanged: (String newValue) =>setState(() => postalcode = newValue),
-              validator: (value) => value == null ? 'field required' : null,
+              // validator: (value) => value == null ? 'field required' : null,/
           //     onSaved: (val) =>  saveUserData..limitationId=int.parse(val),
               items: countriesalreadlist.map((item) {
             return new DropdownMenuItem(
@@ -181,7 +182,7 @@ Widget _placeOfBirth() {
        ),
               value: city,
               onChanged: (String newValue) =>setState(() => city = newValue),
-              validator: (value) => value == null ? 'field required' : null,
+              // validator: (value) => value == null ? 'field required' : null,
           // onSaved: (val) =>  saveUserData..=val,
               items: countriesalreadlist.map((item) {
             return new DropdownMenuItem(
@@ -212,7 +213,7 @@ Widget _placeOfBirth() {
        ),
               value: _status,
               onChanged: (String newValue) =>setState(() => _status = newValue),
-              validator: (value) => value == null ? 'field required' : null,
+              // validator: (value) => value == null ? 'field required' : null,
           onSaved: (val) =>  saveUserData.status=val,
               items: statuslist.map((item) {
             return new DropdownMenuItem(
@@ -227,30 +228,32 @@ Widget _placeOfBirth() {
   Widget showdata(){
     return Row(children: <Widget>[
           SizedBox( width: 40,height: 100,),
-          RaisedButton(
-                color:Colors.pink,
-                onPressed:reset,
-                child: new Text('Sign In'),
-           ),
+          // RaisedButton(
+          //       color:Colors.pink,
+          //       onPressed:reset,
+          //       child: new Text('Sign In'),
+          //  ),
           SizedBox( width: 10,),
           RaisedButton(
                 color:Colors.indigo[400],
-                onPressed: _validateInputs,
+                onPressed: showuserdata,
                 child: new Text('Register'),
           ),
       ]
   );
 }
- Widget _onDone() {
-      return  TextField(
+//  Widget _onDone() {
+//       return  TextField(
         
-//obscureText: true,
-  decoration: InputDecoration(
-    border: OutlineInputBorder(),
-    labelText: 'Save successfully   ',
+// //obscureText: true,
+//   decoration: InputDecoration(
+//     border: OutlineInputBorder(),
+//     labelText: 'Save successfully   ',
+//     hintText: 'Save successfully   ',
+//    // fillColor: Color.blue[200];
         
-  ),
-);}
+//   ),
+// );}
 
   ////////////////////////////////////////
   //validation
@@ -327,14 +330,14 @@ void _validateInputs() {
 
   ///////////////////
 showuserdata(){
-saveUserData.passportPhoto='photo';
-  saveUserData.id= '123e4567-e89b-12d3-a456-426655440000';
-  String json = userClassToJson(saveUserData);
+alreadySave.passportPhoto='photo';
+  alreadySave.id= '123e4567-e89b-12d3-a456-426655440000';
+  String json = userClassToJson(alreadySave);
   print( json);
   sendRequest(json);
 }
 sendRequest( String data) async {
-var url = 'http://192.168.43.246:8080/dLicence/api/signUpUser';
+var url = 'http://$ipAddress:8080/dLicence/api/signUpUser';
     http.post(url, headers: {"Content-Type": "application/json"}, body: data)
         .then((response) {
       print("Response status: ${response.statusCode}");
@@ -355,6 +358,10 @@ var url = 'http://192.168.43.246:8080/dLicence/api/signUpUser';
       setState(() {
         uuid=uuidvalue;
       });
+       Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => LogInPage()),
+              );
   }
 
 

@@ -21,6 +21,9 @@ environment:
   sdk: ">=2.7.0 <3.0.0"
 
 dependencies:
+  flutter_pdfview: ^1.0.3+2
+  share_extend:
+  flutter_full_pdf_viewer: ^1.0.4
   datetime_picker_formfield:
   path_provider: ^1.6.11
   path:
@@ -29,6 +32,8 @@ dependencies:
   dio: ^3.0.9
   intl: ^0.16.1
   async: ^2.4.1
+  lint: ^1.2.0
+  nice_button: ^0.1.7
   flutter:
     sdk: flutter
 
@@ -46,7 +51,8 @@ dev_dependencies:
 
 # The following section is specific to Flutter.
 flutter:
-
+  assets:
+    - properties.json
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   # the material Icons class.

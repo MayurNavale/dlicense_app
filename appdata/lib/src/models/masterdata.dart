@@ -1,4 +1,29 @@
 
+String uuid,savelicencdId,ipAddress;
+
+
+  List<Map<String, dynamic>> countriesdatalist=[];
+  List<Map<String, dynamic>> licenseclassdatalist=[]; 
+  List<Map<String, dynamic>> licensecodesdatalist=[];
+  List<Map<String, dynamic>> licensetitlesdatalist=[];
+  List<Map<String, dynamic>> titledatalist=[];
+  List<Map<String, dynamic>> licensetypedatalist=[];
+  List<Map<String, dynamic>> statedatalist=[];
+  List<Map<String, dynamic>> airlinedatalist=[];
+  List<Map<String, dynamic>> institutiondatalist=[];    
+  List<Map<String, dynamic>> languagedatalist=[];
+  List<Map<String, dynamic>> limitationdatalist=[];
+  List<Map<String, dynamic>> ministrydatalist=[];
+  List<Map<String, dynamic>> niveauleveldatalist=[];
+  List<Map<String, dynamic>> schooldatalist=[];
+  List<Map<String, dynamic>> doctordatalist=[];
+  List<Map<String, dynamic>> examinerdatalist=[];
+  List<Map<String, dynamic>> endorsementdatalist=[];
+  List<Map<String, dynamic>> instructordatalist=[];
+
+
+
+
 class Stateclass {
     Stateclass({
         this.countryId,
@@ -384,33 +409,16 @@ class Instructor {
   List filteredCountries = [];
   //List planetList = ["planet", "Venus", "Earth"];
 
-  List urls=[
-  'http://192.168.43.246:8080/dLicence/api/countries/v1',
-  'http://192.168.43.246:8080/dLicence/api/licenseclass/v1',
-  'http://192.168.43.246:8080/dLicence/api/licensecodes/v1',
-  'http://192.168.43.246:8080/dLicence/api/licensetitles/v1',
-  'http://192.168.43.246:8080/dLicence/api/licensetype/v1',
-  'http://192.168.43.246:8080/dLicence/api/states/v1'];
+  // List urls=[
+  // 'http://$ipAddress:8080/dLicence/api/countries/v1',
+  // 'http://$ipAddress:8080/dLicence/api/licenseclass/v1',
+  // 'http://$ipAddress:8080/dLicence/api/licensecodes/v1',
+  // 'http://$ipAddress:8080/dLicence/api/licensetitles/v1',
+  // 'http://$ipAddress:8080/dLicence/api/licensetype/v1',
+  // 'http://$ipAddress:8080/dLicence/api/states/v1'];
 
  
-  List<Map<String, dynamic>> countriesdatalist=[];
-  List<Map<String, dynamic>> licenseclassdatalist=[]; 
-  List<Map<String, dynamic>> licensecodesdatalist=[];
-  List<Map<String, dynamic>> licensetitlesdatalist=[];
-  List<Map<String, dynamic>> titledatalist=[];
-  List<Map<String, dynamic>> licensetypedatalist=[];
-  List<Map<String, dynamic>> statedatalist=[];
-  List<Map<String, dynamic>> airlinedatalist=[];
-  List<Map<String, dynamic>> institutiondatalist=[];    
-  List<Map<String, dynamic>> languagedatalist=[];
-  List<Map<String, dynamic>> limitationdatalist=[];
-  List<Map<String, dynamic>> ministrydatalist=[];
-  List<Map<String, dynamic>> niveauleveldatalist=[];
-  List<Map<String, dynamic>> schooldatalist=[];
-  List<Map<String, dynamic>> doctordatalist=[];
-  List<Map<String, dynamic>> examinerdatalist=[];
-  List<Map<String, dynamic>> endorsementdatalist=[];
-  List<Map<String, dynamic>> instructordatalist=[];
+
     int licenceNumber;
      int licenceCodeOptionsid; 
 
@@ -429,8 +437,8 @@ class Instructor {
     String ratingcertificateendorsement;
     String additionalratingtpyeOptionData;
     String instructorremarksandRestrictions;
-    String uuid;
-     String savelicencdId;
+    
+     
     var contries;
     var licenceCodeOptions;
     var titleOfLicenceOptions;

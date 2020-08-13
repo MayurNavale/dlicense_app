@@ -68,23 +68,16 @@ bool visibilityTag=false;
   futureLicenceclass = getlicencddata();
  print(saveLicenseData.licenseNumber);
   }
-
+var _valuedrop;
   @override
   Widget build(BuildContext context) {
     return new MaterialApp(
       debugShowCheckedModeBanner: false,
       home: new Scaffold(
-      appBar: new AppBar(title: new Text('    Licence'), ),
-      // body: SingleChildScrollView(
-      //      child: new Container(
-      //       margin: new EdgeInsets.all(15.0),
-      //       child: new Form(
-      //         key: _formKey,
-      //         autovalidate: _autoValidate,
-      //         child:formUI(),
-      //       ),
-      //     ),
-      //   ) ,
+      appBar: new AppBar(title: new Text('Licence'),
+       
+       actions: <Widget>[_action(context), ]),
+     
        body: Center(
           child: FutureBuilder<int>(
             future: futureLicenceclass,
@@ -124,17 +117,18 @@ bool visibilityTag=false;
            _dateofratingtest(),
            _dateofIRtest(),
            _validuntil(),
-           SizedBox(height: 3, child: Container(color: Colors.blue[200],)),
+           SizedBox(height: 3, child: Container(color: Colors.grey[200],)),
           
            _examinerscertificatenumber(),
             _licenceCodeOptionsforExaminer(),
-           SizedBox(height: 3, child: Container(color: Colors.blue[200],)),
+           SizedBox(height: 3, child: Container(color: Colors.grey[200],)),
            _classOptions(),
            _tpyeOptionData(),
            _ir(),
-           _co_Pilot(), SizedBox(height: 3, child: Container(color: Colors.blue[200],)),
+           _co_Pilot(),
+           remarkAndRes(), SizedBox(height: 3, child: Container(color: Colors.grey[200],)),
            _additionalDetails(),
-            SizedBox(height: 3, child: Container(color: Colors.blue[200],)),
+            SizedBox(height: 3, child: Container(color: Colors.grey[200],)),
            FlatButton(
                 child: Text('Instructor          '),
                 onPressed: () async {
@@ -146,18 +140,18 @@ bool visibilityTag=false;
           FlatButton(
                child: Text('Examiner        '),
                onPressed: () async {
-               String a = await Navigator.push( context, MaterialPageRoute( builder: (context) =>ExaminarPage (examinerapiplist), ),);
-               if (a != null) {
-                examinerdatafrompage = jsonDecode(a) as List;
+               String resevedExaminer = await Navigator.push( context, MaterialPageRoute( builder: (context) =>ExaminarPage (examinerapiplist), ),);
+               if (resevedExaminer != null) {
+                examinerdatafrompage = jsonDecode(resevedExaminer) as List;
                 examinerapiplist = examinerdatafrompage.map((i)=>Examinerapi.fromJson(i)).toList();
               print(examinerapiplist);}}),
           FlatButton(
-              //color: Colors.grey[300],
+              //color:ment Colors.grey[300],
               child: Text('Endorsement          '),
               onPressed: () async {
-              String endor = await Navigator.push( context, MaterialPageRoute( builder: (context) =>EndorsementPage(endorsementApipList), ), );
-                if (endor != null) {
-                endorsementDataFromPage = jsonDecode(endor) as List;
+              String endorsement = await Navigator.push( context, MaterialPageRoute( builder: (context) =>EndorsementPage(endorsementApipList), ), );
+                if (endorsement != null) {
+                endorsementDataFromPage = jsonDecode(endorsement) as List;
                 endorsementApipList = endorsementDataFromPage.map((i)=>EndorsementAPI.fromJson(i)).toList();
               print(endorsementApipList);} },  ),
                 visibilityTag ? _onDone(): new Container(color: Colors.blue[300],),
@@ -433,7 +427,7 @@ bool visibilityTag=false;
       labelText:' Type * ',
       hintText:'Select Type',
        ),
-              value: tpyeOptionDataone,
+              value:findval( licenseDetail.typeId,10),// tpyeOptionDataone,
               onChanged: (String newValue) { licenseDetail.typeId  = licenseDetail.typeId ;},
               validator: (value) => value == null ? 'field required' : null,
             onSaved: (val) =>  licenseDetail.typeId  = licenseDetail.typeId ,
@@ -484,6 +478,17 @@ bool visibilityTag=false;
              
             );
   }
+ Widget remarkAndRes(){  
+   return TextFormField(
+           initialValue:initialnumber??saveLicenseData.remarks,// licencenumber.toString(),
+           decoration: InputDecoration(  hintText: 'Remark and restriction',
+           labelText: 'Remark and restriction '),
+         // keyboardType: TextInputType.phone,
+         // validator: licenceNumber,
+          onChanged: (String newValue){saveLicenseData.remarks=newValue;},
+          onSaved: (val) =>  saveLicenseData.remarks=val,
+        );
+ }
   //////////////
   ///
   Widget _additionalDetails(){
@@ -500,7 +505,7 @@ bool visibilityTag=false;
        labelText:'Class  * ',
          hintText:'class Name',
        ),
-              value: classOptions,//=findval( licenseDetail.classId,4),
+              value: findval( additionallicenseDetail.classId,4),
               onChanged: (String newValue) {//setState(() => classOptions = newValue);
               additionallicenseDetail.additionalRating=true;
               additionallicenseDetail.classId =additionallicenseDetail.classId;},
@@ -522,7 +527,7 @@ bool visibilityTag=false;
       labelText:' Type * ',
       hintText:'Select Type',
        ),
-              value: tpyeOptionData,
+              value: findval( additionallicenseDetail.typeId,10),
               onChanged: (String newValue) =>setState(() => additionallicenseDetail.typeId  = additionallicenseDetail.typeId ),
               validator: (value) => value == null ? 'field required' : null,
              onSaved: (val) =>  additionallicenseDetail.typeId=  additionallicenseDetail.typeId,
@@ -555,13 +560,13 @@ bool visibilityTag=false;
               //  additionallicenseDetail.copilot=!additionallicenseDetail.copilot;
                },   ),
    TextFormField(
-        initialValue:initialnumber??saveLicenseData.remarks,// licencenumber.toString(),
+        initialValue:initialnumber??saveLicenseData.additionalRemarks,// licencenumber.toString(),
            decoration: InputDecoration(  hintText: 'Remark and restriction',
            labelText: 'Remark and restriction '),
          // keyboardType: TextInputType.phone,
          // validator: licenceNumber,
-          onChanged: (String newValue){saveLicenseData.remarks=newValue;},
-          onSaved: (val) =>  saveLicenseData.remarks=val,
+          onChanged: (String newValue){saveLicenseData.additionalRemarks=newValue;},
+          onSaved: (val) =>  saveLicenseData.additionalRemarks=val,
         )
               ],
             ),
@@ -608,6 +613,54 @@ bool visibilityTag=false;
      );
   }
   
+  //////////////////
+  Widget _action(BuildContext context) {
+  return PopupMenuButton(
+    icon: Icon(Icons.more_vert),
+    onSelected: (newValue)async {
+       switch (newValue){
+        case 0:{
+        String resevedExaminer = await Navigator.push( context, MaterialPageRoute( builder: (context) =>ExaminarPage (examinerapiplist), ),);
+               if (resevedExaminer != null) {
+                examinerdatafrompage = jsonDecode(resevedExaminer) as List;
+                examinerapiplist = examinerdatafrompage.map((i)=>Examinerapi.fromJson(i)).toList();
+              print(examinerapiplist);}
+      }break;
+           case 1:{
+        
+                String inst = await Navigator.push( 
+                context, MaterialPageRoute( builder: (context) =>Instructorpage(instructorapiplist), ), );
+                if (inst != null) {
+                   instructordatafrompage = jsonDecode(inst) as List;
+                   instructorapiplist = instructordatafrompage.map((i)=>Instructorapi.fromJson(i)).toList();} }
+      break;
+        case 2:{
+        String endorsement = await Navigator.push( context, MaterialPageRoute( builder: (context) =>EndorsementPage(endorsementApipList), ), );
+                if (endorsement != null) {
+                endorsementDataFromPage = jsonDecode(endorsement) as List;
+                endorsementApipList = endorsementDataFromPage.map((i)=>EndorsementAPI.fromJson(i)).toList();
+              print(endorsementApipList);} 
+      }break;
+      }// add this property
+    },
+    itemBuilder: (context) => [
+      PopupMenuItem(
+        child: Text("Examiner"),
+        value: 0,
+      ),
+      PopupMenuItem(
+        child: Text("Instructor"),
+        value: 1,
+      ),
+      PopupMenuItem(
+        child: Text("Endorsement"),
+        value: 2,
+      ),
+    ],
+  );
+}
+
+
   ////////////////////////////////////////
   //validation
   ////////////////////////////
@@ -726,14 +779,71 @@ void postdata(){
   
 }
 
+
+forLicenceid(var val)=> savelicencdId=val.toString();
+    
+ void   _onSuccessResponse(api ){
+    endorsementDataFromPage=jsonDecode(api)['endorsementDetails']as List;
+    print(endorsementDataFromPage);
+      instructordatafrompage=jsonDecode(api)['instructorDetails']as List;
+     print(instructordatafrompage);
+    examinerdatafrompage=jsonDecode(api)['examinerDetails']as List;
+     print(examinerdatafrompage);
+  //   examinerapiplist=asdfg.map((i)=>Examinerapi.fromJson(i)).toList();
+     List licenseDetaillist=jsonDecode(api)['licenseDetails']as List;
+    print(licenseDetaillist);// licenceDetaillist(licenseDetaillist);
+      dateOfInitialIssue= DateTime.parse(saveLicenseData.dtIssue);
+      dateofratingtest= DateTime.parse(saveLicenseData.dtRatingtest);
+      dateofIRtest= DateTime.parse(saveLicenseData.dtIrtest);
+      validuntil= DateTime.parse(saveLicenseData.dtValidity);//contries=countriesdatalist[saveLicenseData.countryId]['countryCode'];
+  }
+    void licenceDetaillist( List detaillist){
+      for (int dat = 0; dat < detaillist.length; dat++) {
+      if (dat==0){
+    licenseDetail.classId  =detaillist[dat]['classId'];
+    licenseDetail.copilot  =detaillist[dat]['copilot'];
+    // licenseDetail.id=detaillist[dat]['id'];
+    licenseDetail.ir=detaillist[dat]['ir'];
+    licenseDetail.typeId=detaillist[dat]['typeId'];
+    print((detaillist[dat].id));}else{
+     additionallicenseDetail.classId  =detaillist[dat]['classId'];
+    additionallicenseDetail.copilot  =detaillist[dat]['copilot'];
+    // additionallicenseDetail.id=detaillist[dat]['id'];
+    additionallicenseDetail.ir=detaillist[dat]['ir'];
+    additionallicenseDetail.typeId=detaillist[dat]['typeId'];
+    print((detaillist[dat].id));
+    }
+    }
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//////////Post////////////////////
+
 sendRequest( String data) async {
- var url = 'http://192.168.43.246:8080/dLicence/api/license/v1';
+ var url = 'http://$ipAddress:8080/dLicence/api/license/v1';
     http.post(url, headers: {"Content-Type": "application/json"}, body: data)
         .then((response) {
       print("Response status: ${response.statusCode}");
       print("Response body: ${response.body}");
-       Licenceclass toGetLicenceId =Licenceclass.fromJson(json.decode(response.body));
-        forid(toGetLicenceId.id);
+      final forLicenceid = jsonDecode(response.body);
+          forLicenceid(  forLicenceid['id']);
+       
     });  
 }
 
@@ -743,102 +853,20 @@ sendRequest( String data) async {
 //////////////////
 
     Future<int> getlicencddata() async {
-      var urlLicence='http://192.168.43.246:8080/dLicence/api/license/v1/$uuid';
- print(urlLicence);
- final response = await http.get(urlLicence);
-print(response.statusCode);
-  if (response.statusCode == 200) {
-      print(json.decode(response.body));
-    //  setState(() {
-    //   // initialnumber=null;
-    //  }); 
-     String api=response.body;
-     
-   //  licenceDetaillist(licenseDetaillist);
-       saveLicenseData =Licenceclass.fromJson(json.decode(response.body));
-       _onSuccessResponse(api);
-    
-     return 1;
-    
-  }  else if  (response.statusCode == 500){initialnumber='';return 1;}
-  else{
-    initialnumber='';
-    //  initialdateval='';
-    // If th
-//     String emptjson = logbookToJson(logbookdata);
-//  print( emptjson);
-//      return Logbook.fromJson(json.decode(emptjson));//e server did not return a 200 OK response,
-    // then throw an exception.
- return 1;//
-// throw Exception('check network connecion');
-  }
+      var urlLicence='http://$ipAddress:8080/dLicence/api/license/v1/$uuid';
+     print(urlLicence);
+     final response = await http.get(urlLicence);
+     print(response.statusCode);
+     if (response.statusCode == 200) {
+         print(json.decode(response.body));
+         String api=response.body;
+         saveLicenseData =Licenceclass.fromJson(json.decode(response.body));
+        forLicenceid(saveLicenseData.id);print(saveLicenseData.id);
+         _onSuccessResponse(api);
+         return 1; }  
+     else if  (response.statusCode == 500){initialnumber='';return 1;}
+     else{throw Exception('check network connecion');}
     }
-
-    forid(var val){
-      savelicencdId=val.toString();
-      visibilityTag=true;
-    }
-        void   _onSuccessResponse(api ){
-  
-   endorsementDataFromPage=jsonDecode(api)['endorsementDetails']as List;
-    print(endorsementDataFromPage);
-      instructordatafrompage=jsonDecode(api)['instructorDetails']as List;
-     print(instructordatafrompage);
-    examinerdatafrompage=jsonDecode(api)['examinerDetails']as List;
-     print(examinerdatafrompage);
-  //   examinerapiplist=asdfg.map((i)=>Examinerapi.fromJson(i)).toList();
-     List licenseDetaillist=jsonDecode(api)['licenseDetails']as List;
-     print(licenseDetaillist);
-     print(saveLicenseData.examinerId);
-      print(saveLicenseData.countryId);
-    dateOfInitialIssue= DateTime.parse(saveLicenseData.dtIssue);
-       dateofratingtest= DateTime.parse(saveLicenseData.dtRatingtest);
-         dateofIRtest= DateTime.parse(saveLicenseData.dtIrtest);
-           validuntil= DateTime.parse(saveLicenseData.dtValidity);//contries=countriesdatalist[saveLicenseData.countryId]['countryCode'];
-     // licencenumber=saveLicenseData.licenseNumber.toString();
-    //  licencenumber=saveLicenseData.
-     // licencenumber=saveLicenseData.licenseNumber.toString();
-    }
-    void licenceDetaillist( List detaillist){
-      for (int dat = 0; dat < detaillist.length; dat++) {
-      if (dat==0){
-             licenseDetail.classId  =detaillist[dat].classId;
-    licenseDetail.copilot  =detaillist[dat].copilot;
-   licenseDetail.id=detaillist[dat].id;
-    licenseDetail.ir=(detaillist[dat].ir);
-    licenseDetail.typeId=(detaillist[dat].typeId);
-    print((detaillist[dat].id));}else{
-      additionallicenseDetail.classId  =detaillist[dat].classId;
-    additionallicenseDetail.copilot  =detaillist[dat].copilot;
-   additionallicenseDetail.id=detaillist[dat].id;
-    additionallicenseDetail.ir=(detaillist[dat].ir);
-    additionallicenseDetail.typeId=(detaillist[dat].typeId);
-    print((detaillist[dat].id));
-    }
-    
-    }
-    }
-  // }
-    // Response response = await Dio().get("http://192.168.43.246:8080/dLicence/api/license/v1/193");
-   
-    //   String res = response.data;
-    //    int statusCode = response.statusCode;
-
-    //   if (statusCode < 200 || statusCode > 400 || json == null) {
-    //   //  _onFailureResponse(new Exception("Error while fetching data"));
-    //   } else { }
-    //     print(json.decode(res));
-    //     //String data=json.decode(res);
-    //     saveLicenseData=LicenceclassFromJson(res);
-    //     //
-    //   // saveLicenseData=Licenceclass.fromJson(data);
-    //     // Licenceclass userdataofclass=Licenceclass.fromJson(data);
-    //     print(Licenceclass);
-    //       setState(() {
-    //  print(saveLicenseData.licenseNumber);
-    //   licencenumber=saveLicenseData.licenseNumber.toString();
-    // }); 
-
 
 
 

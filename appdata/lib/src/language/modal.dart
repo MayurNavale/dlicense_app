@@ -1,10 +1,10 @@
 import 'dart:convert';
-LanguagePost welcomeFromJson(String str) => LanguagePost.fromJson(json.decode(str));
+LanguageClass welcomeFromJson(String str) => LanguageClass.fromJson(json.decode(str));
 
-String welcomeToJson(LanguagePost data) => json.encode(data.toJson());
+String welcomeToJson(LanguageClass data) => json.encode(data.toJson());
 
-class LanguagePost {
-    LanguagePost({
+class LanguageClass {
+    LanguageClass({
         this.certificateNumber,
         this.checkDate,
         this.id,
@@ -20,7 +20,7 @@ class LanguagePost {
     int niveauLevelId;
     int supportedLanguageId;
 
-    factory LanguagePost.fromJson(Map<String, dynamic> json) => LanguagePost(
+    factory LanguageClass.fromJson(Map<String, dynamic> json) => LanguageClass(
         certificateNumber: json["certificateNumber"],
         checkDate: json["checkDate"],
         id: json["id"],

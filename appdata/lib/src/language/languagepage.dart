@@ -15,13 +15,15 @@ class LanguagePage extends StatefulWidget {
   _LanguagePage createState() => new _LanguagePage();
   }
 class _LanguagePage extends State<LanguagePage> {
-  LanguagePost language=new LanguagePost();
+  LanguageClass language=new LanguageClass();
+ 
+  TextEditingController niveaulevelcontroller;
  // TextEditingController _datecontroller = new TextEditingController(); TextEditingController datecontroller = new TextEditingController();
   TextEditingController ba= new TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   bool _autoValidate = false;
   String languageString;
-  String initialnum='';
+  String defaultValue;
   String lavels;
   String niveaulevel; 
   // DateTime _dateTime;
@@ -32,7 +34,7 @@ class _LanguagePage extends State<LanguagePage> {
   var dateofthiscertificate;
   var fouryear;
   var sixear;
-  var lang;
+  var defauldval;
   
   DateTime date;
   DateTime checkDate;
@@ -46,10 +48,10 @@ class _LanguagePage extends State<LanguagePage> {
   @override
   void initState() {
     super.initState();
- // futurelogbookclass = getlicencddata();
+ futurelogbookclass = getlicencddata();
  //print(apiLicencddata.licenseNumber);
   }
-  void _changed(bool visibility) => setState(()=>visibilityTag = visibility);
+ 
    @override
   Widget build(BuildContext context) {
     return new MaterialApp(
@@ -57,42 +59,40 @@ class _LanguagePage extends State<LanguagePage> {
       home: new Scaffold(
         appBar: new AppBar( title: new Text('    Language   '), ),
         body: Center(
-          // child: FutureBuilder<int>(
-          //   future: futurelogbookclass,
-          //   builder: (context, snapshot) {
-          //     if (snapshot.hasData) {
-          //       return   SingleChildScrollView(
-          //  child: new Container(
-          //   margin: new EdgeInsets.all(15.0),
-          //   child: new Form(
-          //     key: _formKey,
-          //     autovalidate: _autoValidate,
-              child:formUI(),
-  //           ),
-  //         ),
-  //       );
-  //     } else if (snapshot.hasError) { return Text("${snapshot.error}");  }
-  //      // By default, show a loading spinner.
-  //       return CircularProgressIndicator();
-  //       },
-  //     ),
-  //  ),
+          child: FutureBuilder<int>(
+            future: futurelogbookclass,
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                return   SingleChildScrollView(
+           child: new Container(
+            margin: new EdgeInsets.all(15.0),
+            child: new Form(
+              key: _formKey,
+              autovalidate: _autoValidate,
+             child:formUI(),
+            ),
+          ),
+        );
+      } else if (snapshot.hasError) { return Text("${snapshot.error}");  }
+       // By default, show a loading spinner.
+        return CircularProgressIndicator();
+        },
+      ),
+   ),
         ),
-      ),   
+       
     );
   }
   Widget formUI() {
    return new Column(
       children: <Widget>[
-       
         _certificateNo(),
         _checkDate(),
         _language(),
         _lavels(),
-     
-        visibilityTag ? _niveaulevel(): new Container(),
-       showdata(),
-           
+        _niveaulevel(),
+       SizedBox(height:2),
+       showdata(),          
       ],
     );
   }
@@ -117,29 +117,19 @@ class _LanguagePage extends State<LanguagePage> {
             onChanged: (dt) { setState(() => checkDate = dt);
                         print('Selected date: $checkDate');
                          fouryear= dt.add(Duration(days: 1460));
-                     sixear= dt.add(Duration(days: 2190));},
+                         print(fouryear);
+                     sixear= dt.add(Duration(days: 2190));print(sixear);},
             onSaved: (value) {language.checkDate= saveFormat.format(value);value.toString();
               debugPrint(value.toString());},
       );
     //
    }
-//    return TextField(
-//       controller: _controller,
-//       onTap : ()=> _selectDate(context,expirydateofthiscertificate,_controller),
-//  onSubmitted:(val) => language.checkDate= val.toString(),
-// //              // convertToDate(val),
-//   decoration: InputDecoration(
-//      suffixIcon : Icon(Icons.calendar_today),
-//  //   border: OutlineInputBorder(),
-//       labelText: 'Check Date',
-//      hintText: ' $expirydateofthiscertificate',
-//   ),
-// );}
+
 //   ///////////////////////
   
   Widget _certificateNo() {
    return    TextFormField(
-          initialValue:initialnum?? language.certificateNumber.toString(),
+          initialValue:defaultValue?? language.certificateNumber.toString(),
           decoration: const InputDecoration(labelText: 'Certificate Number'),
           keyboardType: TextInputType.phone,
           validator: licenseId,
@@ -182,65 +172,40 @@ class _LanguagePage extends State<LanguagePage> {
   int nive ;
       Widget _lavels() {
       return DropdownButtonFormField<String>(
-      decoration: InputDecoration(
-      labelText:'Lavels  ',
-      hintText:'country Code',
- ),
-              value: findval(language.niveauLevelId, 2),
-                  onChanged: (val) {
+              decoration: InputDecoration( labelText:'Lavels  ', hintText:'country Code',),
+              value: findval(language.niveauLevelId, 2).toString(),
+              onChanged: (val) {
                     print(val);
-                   // leveldt(language.niveauLevelId);
-                  language.niveauLevelId =language.niveauLevelId;
-                    _changed(true);
-                  },
+                    leveldt( int.parse(val));
+                    language.niveauLevelId =language.niveauLevelId; },
               validator: (value) => value == null ? 'field required' : null,
               items: niveauleveldatalist.map((item) {
-                 return new DropdownMenuItem(
-                 child: new Text(item['id'].toString()),
-                 value: item['id'].toString(),
-                  onTap: () {
-    leveldt( item['id']);//ldatalist
-            language.niveauLevelId = item['id'];
-          },
-                 );
-              }).toList(),
+                    return new DropdownMenuItem(
+                    child: new Text(item['id'].toString()),
+                    value: item['id'].toString(),
+                    onTap: () { language.niveauLevelId = item['id']; },   ); }).toList(),
         );
      }  
   
       
-
-    Widget _niveaulevel() {
+ Widget _niveaulevel() {
       return  TextField(
-//obscureText: true,
-  decoration: InputDecoration(
-    border: OutlineInputBorder(),
-    labelText: 'Expiry Date :- $levelvaluedata',
-        
-  ),
-);}
+         decoration: InputDecoration(
+         border: OutlineInputBorder(),
+        labelText: 'Expiry Date :- $levelvaluedata',),);
+      }
  Widget showdata(){
     return Row(children: <Widget>[
-          Expanded(
-              flex: 2,
-              child: Container(
-             
-                height: 100,
-              ),),
-     RaisedButton(
-       color:Colors.pink,
-          onPressed:reset,
-          child: new Text('Reset'),
-          ),
-         Container(
-               width: 10,
-               
-              ),
-  RaisedButton(
-       color:Colors.indigo[400],
-          onPressed: _validateInputs,
-          child: new Text('Save'),
-         
-            )
+      SizedBox(height:100,width:10),
+      RaisedButton(
+            color:Colors.pink,splashColor: Colors.pink[200],
+            onPressed:reset,
+            child: new Text('Reset'), ),
+      SizedBox(width:3),
+      RaisedButton(
+            color:Colors.indigo[400],splashColor: Colors.indigo[200],
+            onPressed: _validateInputs,
+            child: new Text('Save'),  )
             ]
         );
   }
@@ -249,40 +214,18 @@ class _LanguagePage extends State<LanguagePage> {
 ///////////////////////////////////////      
 
   
-    String levelvalue(int a){
-      print('a $a');
- int bed= a;
-      bed--;
-for(int dat=0;dat<=niveauleveldatalist.length;dat++){
-  
-      if (dat==bed){
-        print(niveauleveldatalist[dat]['level']);
-  levelvalueanswer= niveauleveldatalist[dat]['level'];
-        
-        break;
-      }
-  
-} 
-return levelvalueanswer;
-  
-}
 
-  
-  String licenseId(String value) {
 
-  if(value == null) {
-    return null;
-  }
+String licenseId(String value) {
+  if(value == null) {return null;}
   final n = num.tryParse(value);
-  if(n == null) {
-    return '"$value" is not a valid number';
-  }
+  if(n == null) { return '"$value" is not a valid number';}
   return null;
 }
-void reset() {
 
-   _formKey.currentState.reset();
-}
+
+void reset() => _formKey.currentState.reset();
+
  
  
  
@@ -299,72 +242,44 @@ void reset() {
   }
 }
  ///////////////////////
-  
 leveldt(int a){
  switch( a){
-   case 1: { 
-    levelvaluedata=levelvalue(1);
-      // statements; 
-   } 
-   break; 
-  
-   case 2:{ 
-      levelvaluedata=levelvalue(2);
-   } 
-   break; 
-      case 3:{ 
-      levelvaluedata=levelvalue(3);
-   } 
-   break; 
-      case 4:{ 
-      levelvaluedata=fouryear.toString();
-      
-   } 
-   break; 
-      case 5:{ 
-      levelvaluedata= sixear.toString();
-   } 
-   break; 
-    case 6:{ 
-      levelvaluedata= levelvalue(6);
-   } 
-   break; 
-    
-      
-   default: { 
-      //statements;  
-   }
-   break; 
-}  
+   case 1: levelvaluedata=levelvalue(1); break; 
+   case 2: levelvaluedata=levelvalue(2);break; 
+   case 3: levelvaluedata=levelvalue(3);break; 
+   case 4: levelvaluedata=fouryear.toString();break; 
+   case 5:  levelvaluedata= sixear.toString();break; 
+   case 6: levelvaluedata= levelvalue(6); break; 
+   default: { } break; 
+  }  
 }
- 
+ String levelvalue(int a){
+  a--;
+  for(int dat=0;dat<=niveauleveldatalist.length;dat++){
+      if (dat==a){levelvalueanswer= niveauleveldatalist[dat]['level'];
+      break; }} 
+  return levelvalueanswer;  
+}
+
+
   String findval(int a, int casevalue) {
     switch (casevalue) {
-      case 1:
-        {
-      
-          int val = a;
-          val--;
-          if(a==0){return lang;}else{
-          for (int dat = 0; dat <= languagedatalist.length; dat++) {
-            if (dat == val) {
-              print(languagedatalist[dat]['language']);
-             return languagedatalist[dat]['language'];
+      case 1:{int val = a;val--;
+            if(a==0){return defauldval;}else{
+            for (int dat = 0; dat <= languagedatalist.length; dat++) {
+              if (dat == val) {return languagedatalist[dat]['language'];
+              }
             }
           }
-        }
-    }
-        break;
-
+        } break;
       case 2:
         {
-          int val = a;
-          val--;
-          if(a==0){return lang;}else{
+          int val = a;val--;
+          if(a==0){return defauldval;}else{
           for (int dat = 0; dat <= niveauleveldatalist.length; dat++) {
             if (dat == val) {
-              print(niveauleveldatalist[dat]['id']);
-             return niveauleveldatalist[dat]['id'];
+              String level= niveauleveldatalist[dat]['id'].toString();
+             return level;
             }
           }
            } //  iions= countriesdatalist[dat]['code'];
@@ -393,11 +308,11 @@ leveldt(int a){
         }
         break;
     }
-    
+    return defauldval;
   }
 
 shoe(
- LanguagePost postLanguagedata)
+ LanguageClass postLanguagedata)
 {
  String json = welcomeToJson(postLanguagedata);
  print( json);
@@ -407,32 +322,24 @@ shoe(
 /////get
 /////////////////
 
-     Future<int> getlicencddata() async {
-         return 1;
-//   final response = await http.get('http://192.168.43.246:8080/dLicence/api/license/v1/$savelicencdId/languagedata');
+Future<int> getlicencddata() async {
+      
+  final response = await http.get('http://$ipAddress:8080/dLicence/api/license/v1/$savelicencdId/languagedata');
 
-//   if (response.statusCode == 200) {
-//       print(json.decode(response.body));
-//        language =LanguagePost.fromJson(json.decode(response.body));
-//        //_onSuccessResponse();
-//      return 1; } 
-//   else if  (response.statusCode == 500){initialnum=''; return 1;}
-//   else{
-//     // If th
-// //     String emptjson = logbookToJson(logbookdata);
-// //  print( emptjson);
-// //      return Logbook.fromJson(json.decode(emptjson));//e server did not return a 200 OK response,
-//     // then throw an exception.
-//  throw Exception('check network connecion');
-//   }
+  if (response.statusCode == 200) {
+      print(json.decode(response.body));
+       language =LanguageClass.fromJson(json.decode(response.body));
+       //_onSuccessResponse();
+     return 1; } 
+     else if  (response.statusCode == 500){defaultValue=''; return 1;}
+    else throw Exception('check network connecion');
+ }
 
-     }
-///////////////////////////////
-// /post
-  
+void assign(String checkdata){
+   checkDate= DateTime.parse(checkdata);}
 sendRequest( String data) async {
-  
-var url = 'http://192.168.43.246:8080/dLicence/api/license/v1/$savelicencdId/languagedata';
+  ///////////////////////////////post////////////
+var url = 'http://$ipAddress:8080/dLicence/api/license/v1/$savelicencdId/languagedata';
     http.post(url, headers: {"Content-Type": "application/json"}, body: data)
         .then((response) {
       print("Response status: ${response.statusCode}");
@@ -443,19 +350,20 @@ var url = 'http://192.168.43.246:8080/dLicence/api/license/v1/$savelicencdId/lan
       if (statusCode < 200 || statusCode > 400 || json == null) {
         throw Exception("Error while fetching data");
       } else {
-         print(json.decode(res));
-        Map data=json.decode(res);
-         language=LanguagePost.fromJson(data);
-        // UserClass userdataofclass=UserClass.fromJson(data);
-        // print(userdata.firstName);
-        // _onSuccessResponse(userdataofclass);
-      //  _onSuccessResponse();
+        
+// Find the Scaffold in the widget tree and use it to show a SnackBar.
+Scaffold.of(context).showSnackBar(snackBar);
+        //  print(json.decode(res));
+        // Map data=json.decode(res);
+        //  language=LanguageClass.fromJson(data);
       }
     });
 
    
   }
-  
+  final snackBar = SnackBar(content: Text('Save Sucessefull'));
+
+
   /////////////////end///////////
      }  
   
