@@ -60,13 +60,10 @@ class _LoogBookModuleState extends State<LoogBookModule> {
   Widget formUI() {
        return  Column(
       children: <Widget>[
-          // _contries(), 
-          //  _licenceCodeOptions(),
-          //  _licenceNumber(),
-          //  _licencetitleOptions(),
+          
            _dateOfFlight(),
            _placeOfDeparture(),
-          //  _dateofratingtest(),
+           _placeOfArival(),
           //  _dateofIRtest(),
           //  _validuntil(),
             showdata()
@@ -124,7 +121,32 @@ Widget _placeOfDeparture()  {
           }).toList(),
     );
   }
-
+///////////
+Widget _placeOfArival()  {
+    return DropdownButtonFormField<String>(
+      decoration: InputDecoration(
+        labelText: ' Place Of Arival * ',
+      
+      ),
+      value:defaultval,
+      // value: findval( loogBookModule.placeOfDeparture,1), //
+       onChanged: (String newValue){loogBookModule.placeOfDeparture=newValue;
+              //  loogBookModule.placeOfDeparture=loogBookModule.placeOfDeparture;
+       },// => setState(() => contries = newValue),
+      validator: (value) => value == null ? 'field required' : null,
+      onSaved: (val) => loogBookModule.placeOfDeparture = loogBookModule.placeOfDeparture,
+        items: placesdatalist.map((item) {
+            return new DropdownMenuItem(
+              child: new Text(item['placeName']),
+              value: item['placeName'].toString(),
+          //      onTap: () {
+          //   print( item['id']);
+          //   loogBookModule.placeOfDeparture = item['id'];
+          // },
+            );
+          }).toList(),
+    );
+  }
 ///////////
   Widget showdata(){
     return Row(children: <Widget>[
