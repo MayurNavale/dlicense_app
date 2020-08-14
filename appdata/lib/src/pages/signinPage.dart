@@ -51,10 +51,10 @@ ipaddress(String ip){ipAddress=ip;setState(() =>ipAddress=ip);}
   }
    Widget formUI() {
        return Column(children:[
-           SizedBox(height:4),
+           SizedBox(height:8),
             new TextFormField(
             //  style:TextDecoration.underline FontStyle.italic,// style:te FontStyle.italic,
-              textAlign: TextAlign.center,
+              // textAlign: TextAlign.center,
               initialValue: 'future1@gmail.com',
                 decoration: const InputDecoration(labelText: 'Email'),
                 keyboardType: TextInputType.emailAddress,
@@ -63,7 +63,7 @@ ipaddress(String ip){ipAddress=ip;setState(() =>ipAddress=ip);}
             ),
             SizedBox(height:6),
             new TextFormField(
-              textAlign: TextAlign.center,
+              // textAlign: TextAlign.center,
               initialValue: '1234',
                 decoration: const InputDecoration(labelText: 'Passward'),
                 keyboardType: TextInputType.text,
@@ -84,10 +84,11 @@ ipaddress(String ip){ipAddress=ip;setState(() =>ipAddress=ip);}
        
       
         FlatButton(
+          padding: EdgeInsets.all(6),
           splashColor:Colors.deepPurple[200] ,
-          color:Colors.deepPurple[700],
+          color:Colors.pink,
           onPressed: _validateInputs,//_validateInputs,
-          child: new Text('Sign In'),),
+          child: new Text('    Sign In    '),),
           SizedBox(height: 4,width: 10,),
         InkWell(
           splashColor:Colors.grey[300] ,

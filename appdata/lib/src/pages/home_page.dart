@@ -90,41 +90,25 @@ body: isLoading
     });
 
     var apiProvider = EmployeeApiProvider();
-    await apiProvider.stateapimasterdata();
-
-    // wait for 2 seconds to simulate loading of data
-    await Future.delayed(const Duration(milliseconds: 600));
-   await apiProvider.airlineapimasterdata();
-    await Future.delayed(const Duration(milliseconds: 600));
-    await apiProvider.countryNameapimasterdata();
-    await Future.delayed(const Duration(milliseconds: 600));
-    await apiProvider.doctorNameapimasterdata();
-    await Future.delayed(const Duration(milliseconds: 600));
-    await apiProvider.institutionNameapimasterdata();
-    await Future.delayed(const Duration(milliseconds: 600));
-    await apiProvider.languageapimasterdata();
-    await Future.delayed(const Duration(milliseconds: 600));
-    await apiProvider.classNameapimasterdata();
-    await Future.delayed(const Duration(milliseconds: 600));
-    await apiProvider.codeapimasterdata();
-    await Future.delayed(const Duration(milliseconds: 600));
-    await apiProvider.titleapimasterdata();
-    await Future.delayed(const Duration(milliseconds: 600));
-    await apiProvider.typeNameapimasterdata();
-    await Future.delayed(const Duration(milliseconds: 600));
-    await apiProvider.limitationINTmedicalapimasterdata();
-    await Future.delayed(const Duration(milliseconds: 600));
-    // await apiProvider.limitationsMedicalapimasterdata();
-    // await Future.delayed(const Duration(seconds: 2));
-    await apiProvider.ministryNameapimasterdata();
-    await Future.delayed(const Duration(milliseconds: 600));
-    await apiProvider.niveaulevelapimasterdata();
-    await Future.delayed(const Duration(milliseconds: 600));
-    await apiProvider.schoolNameapimasterdata();
-    await Future.delayed(const Duration(milliseconds: 600));
+    await apiProvider.stateapimasterdata();await Future.delayed(const Duration(milliseconds: 600));
+    await apiProvider.airlineapimasterdata(); await Future.delayed(const Duration(milliseconds: 600));
+    await apiProvider.countryNameapimasterdata(); await Future.delayed(const Duration(milliseconds: 600));
+    await apiProvider.doctorNameapimasterdata();await Future.delayed(const Duration(milliseconds: 600));
+    await apiProvider.institutionNameapimasterdata(); await Future.delayed(const Duration(milliseconds: 600));
+    await apiProvider.languageapimasterdata();await Future.delayed(const Duration(milliseconds: 600));
+    await apiProvider.classNameapimasterdata();await Future.delayed(const Duration(milliseconds: 600));
+    await apiProvider.codeapimasterdata();await Future.delayed(const Duration(milliseconds: 600));
+    await apiProvider.titleapimasterdata();await Future.delayed(const Duration(milliseconds: 600));
+    await apiProvider.typeNameapimasterdata(); await Future.delayed(const Duration(milliseconds: 600));
+    await apiProvider.limitationINTmedicalapimasterdata();await Future.delayed(const Duration(milliseconds: 600));
+    await apiProvider.ministryNameapimasterdata(); await Future.delayed(const Duration(milliseconds: 600));
+    await apiProvider.niveaulevelapimasterdata(); await Future.delayed(const Duration(milliseconds: 600));
+    await apiProvider.schoolNameapimasterdata(); await Future.delayed(const Duration(milliseconds: 600));
     await apiProvider.examinerapimasterdata(); await Future.delayed(const Duration(milliseconds: 600));
     await apiProvider.endorsementapimasterdata(); await Future.delayed(const Duration(milliseconds: 600));
     await apiProvider.instructorapimasterdata();  await Future.delayed(const Duration(milliseconds: 600));
+    await apiProvider.placeapimasterdata();  await Future.delayed(const Duration(milliseconds: 600));
+    await apiProvider.makemodelapimasterdata();  await Future.delayed(const Duration(milliseconds: 600));
     setState(() {
       isLoading = false;
     });

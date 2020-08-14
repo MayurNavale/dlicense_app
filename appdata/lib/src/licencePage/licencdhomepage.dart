@@ -19,7 +19,7 @@ class Licencepagehome extends StatefulWidget {
 
 class _LicencepagehomeState extends State<Licencepagehome> {
  
- final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+                      final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
                       bool _autoValidate = false;
                       bool checkboxValue=false;
                       String initialnumber;
@@ -74,6 +74,7 @@ var _valuedrop;
     return new MaterialApp(
       debugShowCheckedModeBanner: false,
       home: new Scaffold(
+        
       appBar: new AppBar(title: new Text('Licence'),
        
        actions: <Widget>[_action(context), ]),
@@ -672,22 +673,7 @@ String licenceNumber(String value) {
   return null;
 }
   
- bool isValidDob(String dob) {
-    if (dob.isEmpty) return true;
-    var d = convertToDate(dob);
-    return d != null && d.isBefore(new DateTime.now());
-}
 
-
-  DateTime convertToDate(String input) {
-    try 
-    {
-      var d = new DateFormat.yMd().parseStrict(input);
-      return d;
-    } catch (e) {
-      return null;
-    }    
-  }
   
   /////////////////////////////////////////////////////////////////
    void reset() {
@@ -865,7 +851,8 @@ sendRequest( String data) async {
          _onSuccessResponse(api);
          return 1; }  
      else if  (response.statusCode == 500){initialnumber='';return 1;}
-     else{throw Exception('check network connecion');}
+     else{initialnumber='';return 1;//throw Exception('check network connecion');
+     }
     }
 
 

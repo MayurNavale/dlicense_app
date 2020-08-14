@@ -8,23 +8,20 @@ import 'package:sqflite/sqflite.dart';
 class DBProvider {
   static Database _database;
   static final DBProvider db = DBProvider._();
-
   DBProvider._();
-
   Future<Database> get database async {
     // If database exists, return database
     if (_database != null) return _database;
 
     // If database don't exists, create one
     _database = await initDB();
-
     return _database;
   }
 
   // Create the database and the Employee table
   initDB() async {
     Directory documentsDirectory = await getApplicationDocumentsDirectory();
-    final path = join(documentsDirectory.path, 'dlicence_Databse_table.db');
+    final path = join(documentsDirectory.path, 'dlicence_Databse_create.db');
 
     return await openDatabase(path, version: 1, onOpen: (db) {},
         onCreate: (Database db, int version) async {
@@ -100,6 +97,16 @@ class DBProvider {
           'id INTEGER PRIMARY KEY,'
           'instructorType TEXT'
           ')');
+          await db.execute('CREATE TABLE Place('
+          'id INTEGER PRIMARY KEY,'
+          'placeName TEXT,'
+          'placeCode TEXT'
+          ')');
+          await db.execute('CREATE TABLE Makemodel('
+          'id INTEGER PRIMARY KEY,'
+          'makeModelCode TEXT,'
+          'makeModelName TEXT'
+          ')');
 
     });
   }
@@ -107,80 +114,88 @@ int countryId;
     int id;
     String stateName;
   // Insert employee on database
-  createstatedb(Stateclass newstatedata) async {
+  createstatedb(Stateclass apiData) async {
     await deleteAllEmployees();
     final db = await database;
-    final res = await db.insert('Statedatatable', newstatedata.toJson());
+    final res = await db.insert('Statedatatable', apiData.toJson());
 return res;
   }
-   airlinestatedb(Airline newstatedata) async {
+   airlinestatedb(Airline apiData) async {
      final db = await database;
-    final res = await db.insert('Airlinedatatable', newstatedata.toJson());
+    final res = await db.insert('Airlinedatatable', apiData.toJson());
     return res;}
-      countryNamedb(Country newstatedata) async {
+      countryNamedb(Country apiData) async {
      final db = await database;
-    final res = await db.insert('Country', newstatedata.toJson());
+    final res = await db.insert('Country', apiData.toJson());
     return res;}
-       doctorNamedb(Doctor newstatedata) async {
+       doctorNamedb(Doctor apiData) async {
      final db = await database;
-    final res = await db.insert('Doctor', newstatedata.toJson());
+    final res = await db.insert('Doctor', apiData.toJson());
     return res;} 
-      institutionNamedb(Institution newstatedata) async {
+      institutionNamedb(Institution apiData) async {
      final db = await database;
-    final res = await db.insert('Institution', newstatedata.toJson());
+    final res = await db.insert('Institution', apiData.toJson());
     return res;}
-       languagedb(Language newstatedata) async {
+       languagedb(Language apiData) async {
      final db = await database;
-    final res = await db.insert('Language', newstatedata.toJson());
+    final res = await db.insert('Language', apiData.toJson());
     return res;}
-       classNamedb(Class newstatedata) async {
+       classNamedb(Class apiData) async {
      final db = await database;
-    final res = await db.insert('Class', newstatedata.toJson());
+    final res = await db.insert('Class', apiData.toJson());
     return res;}
-       codedb(Code newstatedata) async {
+       codedb(Code apiData) async {
      final db = await database;
-    final res = await db.insert('Code', newstatedata.toJson());
+    final res = await db.insert('Code', apiData.toJson());
     return res;}
-       titledb(Titleclass newstatedata) async {
+       titledb(Titleclass apiData) async {
      final db = await database;
-    final res = await db.insert('Titleclass', newstatedata.toJson());
+    final res = await db.insert('Titleclass', apiData.toJson());
     return res;}
-       typeNamedb(Type newstatedata) async {
+       typeNamedb(Type apiData) async {
      final db = await database;
-    final res = await db.insert('Type', newstatedata.toJson());
+    final res = await db.insert('Type', apiData.toJson());
     return res;}
-       limitationdb(Limitation newstatedata) async {
+       limitationdb(Limitation apiData) async {
      final db = await database;
-    final res = await db.insert('Limitation', newstatedata.toJson());
+    final res = await db.insert('Limitation', apiData.toJson());
     return res;}
-    //    limitationsMedicaldb(Medicaltype newstatedata) async {
+    //    limitationsMedicaldb(Medicaltype apiData) async {
     //  final db = await database;
-    // final res = await db.insert('Medicaltype', newstatedata.toJson());
+    // final res = await db.insert('Medicaltype', apiData.toJson());
     // return res;}
- ministryNamedb(Ministry newstatedata) async {
+ ministryNamedb(Ministry apiData) async {
      final db = await database;
-    final res = await db.insert('Ministry', newstatedata.toJson());
+    final res = await db.insert('Ministry', apiData.toJson());
     return res;}
     
- niveauleveldb(Niveaulevel newstatedata) async {
+ niveauleveldb(Niveaulevel apiData) async {
      final db = await database;
-    final res = await db.insert('Niveaulevel', newstatedata.toJson());
+    final res = await db.insert('Niveaulevel', apiData.toJson());
     return res;}
-schoolNamedb(School newstatedata) async {
+schoolNamedb(School apiData) async {
      final db = await database;
-    final res = await db.insert('School', newstatedata.toJson());
+    final res = await db.insert('School', apiData.toJson());
     return res;}
- examinerTypesdb(Examiner newstatedata) async {
+ examinerTypesdb(Examiner apiData) async {
      final db = await database;
-     final res = await db.insert('Examiner', newstatedata.toJson());
+     final res = await db.insert('Examiner', apiData.toJson());
     return res;}
 endorsementTypesdb(Endorsement newdata) async {
      final db = await database;
      final res = await db.insert('Endorsement', newdata.toJson());
      return res;}
-      instructorTypessdb(Instructor newstatedata) async {
+instructorTypessdb(Instructor apiData) async {
      final db = await database;
-     final res = await db.insert('Instructor', newstatedata.toJson());
+     final res = await db.insert('Instructor', apiData.toJson());
+    return res;}
+placedb(Place apiData) async {
+     final db = await database;
+     final res = await db.insert('Place', apiData.toJson());
+    return res;}
+makemodeldb(Makemodel apiData) async {
+     final db = await database;
+     final res = await db.insert('Makemodel', apiData.toJson());
     return res;}
 
 
@@ -200,10 +215,14 @@ endorsementTypesdb(Endorsement newdata) async {
    final resap = await db.rawDelete('DELETE FROM Type');
    final resai = await db.rawDelete('DELETE FROM Limitation');
    final resau = await db.rawDelete('DELETE FROM Ministry');
-   final resafgh = await db.rawDelete('DELETE FROM Niveaulevel');
-   final resasd = await db.rawDelete('DELETE FROM Examiner');
-   final resasds = await db.rawDelete('DELETE FROM Endorsement');
-      final resasdh = await db.rawDelete('DELETE FROM Instructor');
+    await db.rawDelete('DELETE FROM Niveaulevel');
+  await db.rawDelete('DELETE FROM Examiner');
+   await db.rawDelete('DELETE FROM Endorsement');
+       await db.rawDelete('DELETE FROM Instructor');
+      await db.rawDelete('DELETE FROM Instructor');
+      await db.rawDelete('DELETE FROM Instructor');
+       await db.rawDelete('DELETE FROM Place');
+       await db.rawDelete('DELETE FROM Makemodel');
     final res = await db.rawDelete('DELETE FROM School');
    
     return res;
@@ -243,9 +262,10 @@ endorsementTypesdb(Endorsement newdata) async {
  // print(examinerdatalist);
   endorsementdatalist = await db.rawQuery("SELECT * FROM ENDORSEMENT");
  // print(endorsementdatalist);
-  instructordatalist = await db.rawQuery("SELECT * FROM INSTRUCTOR"); print(instructordatalist);
-  statedatalist = await db.rawQuery("SELECT * FROM STATEDATATABLE");
-  print(statedatalist);
+  instructordatalist = await db.rawQuery("SELECT * FROM INSTRUCTOR"); 
+  placesdatalist = await db.rawQuery("SELECT * FROM PLACE");
+    makemodeldatalist = await db.rawQuery("SELECT * FROM MAKEMODEL");
+  statedatalist = await db.rawQuery("SELECT * FROM STATEDATATABLE");print(statedatalist);
  
  print(hasdata);
     List<Stateclass> list =

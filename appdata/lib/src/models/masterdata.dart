@@ -2,25 +2,27 @@
 String uuid,savelicencdId,ipAddress;
 
 
-  List<Map<String, dynamic>> countriesdatalist=[];
-  List<Map<String, dynamic>> licenseclassdatalist=[]; 
-  List<Map<String, dynamic>> licensecodesdatalist=[];
-  List<Map<String, dynamic>> licensetitlesdatalist=[];
-  List<Map<String, dynamic>> titledatalist=[];
-  List<Map<String, dynamic>> licensetypedatalist=[];
-  List<Map<String, dynamic>> statedatalist=[];
-  List<Map<String, dynamic>> airlinedatalist=[];
-  List<Map<String, dynamic>> institutiondatalist=[];    
-  List<Map<String, dynamic>> languagedatalist=[];
-  List<Map<String, dynamic>> limitationdatalist=[];
-  List<Map<String, dynamic>> ministrydatalist=[];
-  List<Map<String, dynamic>> niveauleveldatalist=[];
-  List<Map<String, dynamic>> schooldatalist=[];
-  List<Map<String, dynamic>> doctordatalist=[];
-  List<Map<String, dynamic>> examinerdatalist=[];
-  List<Map<String, dynamic>> endorsementdatalist=[];
-  List<Map<String, dynamic>> instructordatalist=[];
-
+List<Map<String, dynamic>>  countriesdatalist=[],
+                            licenseclassdatalist=[],
+                            licensecodesdatalist=[],
+                            licensetitlesdatalist=[],
+                            titledatalist=[],
+                            licensetypedatalist=[],
+                            statedatalist=[],
+                            airlinedatalist=[],
+                            institutiondatalist=[],
+                            languagedatalist=[],
+                            limitationdatalist=[],
+                            ministrydatalist=[],
+                            niveauleveldatalist=[],
+                            schooldatalist=[],
+                            doctordatalist=[],
+                            examinerdatalist=[],
+                            endorsementdatalist=[],
+                            instructordatalist=[],
+                            placesdatalist=[],
+                            makemodeldatalist=[];
+ 
 
 
 
@@ -389,25 +391,71 @@ class Instructor {
         "instructorType": instructorType,
     };
 }
+class Makemodel {
+    Makemodel({
+        this.id,
+        this.makeModelCode,
+        this.makeModelName,
+    });
+
+    int id;
+    String makeModelCode;
+    String makeModelName;
+
+    factory Makemodel.fromJson(Map<String, dynamic> json) => Makemodel(
+        id: json["id"],
+        makeModelCode:  json["makeModelCode"],
+        makeModelName:  json["makeModelName"],
+    );
+
+    Map<String, dynamic> toJson() => {
+        "id":  id,
+        "makeModelCode": makeModelCode,
+        "makeModelName":  makeModelName,
+    };
+}
 
 
+class Place {
+    Place({
+        this.id,
+        this.placeCode,
+        this.placeName,
+    });
+
+    int id;
+    String placeCode;
+    String placeName;
+
+    factory Place.fromJson(Map<String, dynamic> json) => Place(
+        id: json["id"],
+        placeCode: json["placeCode"],
+        placeName: json["placeName"],
+    );
+
+    Map<String, dynamic> toJson() => {
+        "id": id,
+        "placeCode": placeCode,
+        "placeName": placeName,
+    };
+}
 
 
-// 
-  List countriesdata = [];
-    List licenseclassdata=[];
-  List licensecodesdata=[];
-  List licensetitlesdata=[];
-  List licensetypedata=[];
-  List statedata=[];
+// // 
+//   List countriesdata = [];
+//     List licenseclassdata=[];
+//   List licensecodesdata=[];
+//   List licensetitlesdata=[];
+//   List licensetypedata=[];
+//   List statedata=[];
 
-  List apidata = [];
-  //String classOptions;
-   List classdata = [];
-  List<Map<String, dynamic>> planet ;
-  List planetX = [];List planetB = [];
-  List filteredCountries = [];
-  //List planetList = ["planet", "Venus", "Earth"];
+//   List apidata = [];
+//   //String classOptions;
+//    List classdata = [];
+//   List<Map<String, dynamic>> planet ;
+//   List planetX = [];List planetB = [];
+//   List filteredCountries = [];
+//   //List planetList = ["planet", "Venus", "Earth"];
 
   // List urls=[
   // 'http://$ipAddress:8080/dLicence/api/countries/v1',

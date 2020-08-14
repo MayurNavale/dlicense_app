@@ -126,5 +126,17 @@ Future<List<Instructor>> instructorapimasterdata() async {
       print('Inserting $data');
       DBProvider.db.instructorTypessdb(Instructor.fromJson(data));
     }).toList(); }
-
+Future<List<Place>> placeapimasterdata() async {
+    Response response =await Dio().get("http://$ipAddress:8080/dLicence/api/places/v1");
+    return (response.data as List).map((data) {
+      print('Inserting $data');
+      DBProvider.db.placedb(Place.fromJson(data));
+    }).toList(); }
+    Future<List<Makemodel>> makemodelapimasterdata() async {
+    Response response =await Dio().get("http://$ipAddress:8080/dLicence/api/makemodel/v1");
+    return (response.data as List).map((data) {
+      print('Inserting $data');
+      DBProvider.db.makemodeldb(Makemodel.fromJson(data));
+    }).toList(); }
+    
 }
