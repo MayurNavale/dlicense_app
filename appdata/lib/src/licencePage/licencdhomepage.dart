@@ -27,40 +27,40 @@ class _LicencepagehomeState extends State<Licencepagehome> {
                       var saveFormat = DateFormat('yyyy-MM-dd'); 
                       var showformmat = DateFormat("dd-MM-yyyy");
                        final dateFormat = DateFormat("dd-MM-yyyy");
-                      Licenceclass saveLicenseData= new Licenceclass();
-                     // Licenceclass apiLicencddata=new Licenceclass();//.fromJson(jsonstring);
-                      LicenseDetail licenseDetail=new LicenseDetail(); 
-                      LicenseDetail additionallicenseDetail=new LicenseDetail(); 
-                      //final TextEditingController _controller = new TextEditingController();
-                     // Licenceclass apiLicencddata=new Licenceclass(); UserClass userdata = UserClass.fromJson(jsonstring);
+                      Licenceclass saveLicenseData=  Licenceclass();
+                     // Licenceclass apiLicencddata= Licenceclass();//.fromJson(jsonstring);
+                      LicenseDetail licenseDetail= LicenseDetail(); 
+                      LicenseDetail additionallicenseDetail= LicenseDetail(); 
+                      //final TextEditingController _controller =  TextEditingController();
+                     // Licenceclass apiLicencddata= Licenceclass(); UserClass userdata = UserClass.fromJson(jsonstring);
                         List<Examinerapi> examinerapiplist=[];
                         List examinerdatafrompage;
                         List<Instructorapi> instructorapiplist=[];
                         List instructordatafrompage;  
                         List<EndorsementAPI> endorsementApipList=[];
                         List endorsementDataFromPage;
-                     // Personneldata personal=new Personneldata();
-                      final dtirtest = new TextEditingController();
-                      final dtissue = new TextEditingController();  
-                      final dtratingtest = new TextEditingController(); 
-                      final dtvalidity = new TextEditingController();    
+                     // Personneldata personal= Personneldata();
+                      final dtirtest =  TextEditingController();
+                      final dtissue =  TextEditingController();  
+                      final dtratingtest =  TextEditingController(); 
+                      final dtvalidity =  TextEditingController();    
                       String a;
                       String licencenumber='';
                       DateTime initialdateval;
                       Future<int>futureLicenceclass;
                       // Future<Album> futureAlbum;
-                       Future<void> _selectDate(BuildContext context,var a,TextEditingController datecontroller ) async {
-                  showDatePicker(
-                            context: context,
-                            initialDate: DateTime.now(),
-                            firstDate: DateTime(1950),
-                            lastDate: DateTime(2200)
-                            ).then((date) {
-                            setState(() {
-                            datecontroller.text= a =date.toString();
-                      //new DateFormat.yMMMMd().format(date);
-                     }); }); 
-  }
+                      //  Future<void> _selectDate(BuildContext context,var a,TextEditingController datecontroller ) async {
+  //                 showDatePicker(
+  //                           context: context,
+  //                           initialDate: DateTime.now(),
+  //                           firstDate: DateTime(1950),
+  //                           lastDate: DateTime(2200)
+  //                           ).then((date) {
+  //                           setState(() {
+  //                           datecontroller.text= a =date.toString();
+  //                     // DateFormat.yMMMMd().format(date);
+  //                    }); }); 
+  // }
 bool visibilityTag=false;
   @override
   void initState() {
@@ -68,14 +68,12 @@ bool visibilityTag=false;
   futureLicenceclass = getlicencddata();
  print(saveLicenseData.licenseNumber);
   }
-var _valuedrop;
+// var _valuedrop;
   @override
   Widget build(BuildContext context) {
-    return new MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: new Scaffold(
+    return Scaffold(
         
-      appBar: new AppBar(title: new Text('Licence'),
+      appBar:  AppBar(title:  Text('Licence'),
        
        actions: <Widget>[_action(context), ]),
      
@@ -85,9 +83,9 @@ var _valuedrop;
             builder: (context, snapshot) {
               if (snapshot.hasData) {
                 return   SingleChildScrollView(
-           child: new Container(
-            margin: new EdgeInsets.all(15.0),
-            child: new Form(
+           child:  Container(
+            margin:  EdgeInsets.all(15.0),
+            child:  Form(
               key: _formKey,
               autovalidate: _autoValidate,
               child:formUI(),
@@ -99,9 +97,8 @@ var _valuedrop;
         return CircularProgressIndicator();
         },
       ),
-   ),
-  ),
- );
+    ),
+  );
  }
 
 
@@ -155,7 +152,7 @@ var _valuedrop;
                 endorsementDataFromPage = jsonDecode(endorsement) as List;
                 endorsementApipList = endorsementDataFromPage.map((i)=>EndorsementAPI.fromJson(i)).toList();
               print(endorsementApipList);} },  ),
-                visibilityTag ? _onDone(): new Container(color: Colors.blue[300],),
+                visibilityTag ? _onDone():  Container(color: Colors.blue[300],),
            showdata()
         
          ]
@@ -170,14 +167,14 @@ var _valuedrop;
       
       ),
       value: findval( saveLicenseData.stateId,1), //
-       onChanged: (String newValue){saveLicenseData.countryId=saveLicenseData.stateId;
+       onChanged: (String value){saveLicenseData.countryId=saveLicenseData.stateId;
                saveLicenseData.stateId=saveLicenseData.stateId;
-       },// => setState(() => contries = newValue),
+       },// => setState(() => contries = Value),
       validator: (value) => value == null ? 'field required' : null,
       onSaved: (val) => saveLicenseData.stateId = saveLicenseData.stateId,
         items: statedatalist.map((item) {
-            return new DropdownMenuItem(
-              child: new Text(item['stateName']),
+            return  DropdownMenuItem(
+              child:  Text(item['stateName']),
               value: item['stateName'].toString(),
                onTap: () {
             print( item['id']);
@@ -196,12 +193,12 @@ var _valuedrop;
       
       ),
       value: findval( saveLicenseData.codeId,2), //
-      onChanged: (String newValue){saveLicenseData.codeId=saveLicenseData.codeId;},// => setState(() => licenceCodeOptions = newValue),// => setState(() => licenceCodeOptions = newValue),
+      onChanged: (String value){saveLicenseData.codeId=saveLicenseData.codeId;},// => setState(() => licenceCodeOptions = Value),// => setState(() => licenceCodeOptions = Value),
       validator: (value) => value == null ? 'field required' : null,
       onSaved: (val) => saveLicenseData.codeId = saveLicenseData.codeId,
        items: licensecodesdatalist.map((item) {
-        return new DropdownMenuItem(
-          child: new Text(item['code']),
+        return  DropdownMenuItem(
+          child:  Text(item['code']),
           value: item['code'].toString(),
           onTap: () {
             print( item['id']);
@@ -219,7 +216,7 @@ var _valuedrop;
           decoration: const InputDecoration(labelText: 'Certificate Number'),
           keyboardType: TextInputType.phone,
           validator: licenceNumber,
-           onChanged: (String newValue) { saveLicenseData.licenseNumber=int.parse(newValue);},
+           onChanged: (String value) { saveLicenseData.licenseNumber=int.parse(value);},
           onSaved: (val) =>  saveLicenseData.licenseNumber=int.parse(val),
         );
 }
@@ -228,12 +225,12 @@ var _valuedrop;
        return DropdownButtonFormField<String>(
       decoration: InputDecoration( labelText: ' Title of Lisence * ',),
       value: findval( saveLicenseData.titleId,8), //
-      onChanged: (String newValue){saveLicenseData.titleId=saveLicenseData.titleId;},// => setState(() => licenceCodeOptions = newValue),// => setState(() => licenceCodeOptions = newValue),
+      onChanged: (String value){saveLicenseData.titleId=saveLicenseData.titleId;},// => setState(() => licenceCodeOptions = Value),// => setState(() => licenceCodeOptions = Value),
       validator: (value) => value == null ? 'field required' : null,
       onSaved: (val) => saveLicenseData.titleId = saveLicenseData.codeId,
        items: licensetitlesdatalist.map((item) {
-        return new DropdownMenuItem(
-          child: new Text(item['title']),
+        return  DropdownMenuItem(
+          child:  Text(item['title']),
           value: item['title'].toString(),
           onTap: () {
             print( item['id']);
@@ -279,12 +276,12 @@ var _valuedrop;
          hintText:'country Code',
        ),
               value: findval( saveLicenseData.countryId,3),
-              onChanged: (String newValue) =>setState(() => countryCodes = newValue),
+              onChanged: (String value) =>setState(() => countryCodes = value),
               validator: (value) => value == null ? 'field required' : null,
          //  onSaved: (val) =>  saveLicenseData.codeId=int.parse(val),
               items: countriesdatalist.map((item) {
-            return new DropdownMenuItem(
-              child: new Text(item['countryName']),
+            return  DropdownMenuItem(
+              child:  Text(item['countryName']),
               value: item['countryName'].toString(),
               
             );
@@ -368,12 +365,12 @@ var _valuedrop;
     return  DropdownButtonFormField<String>(
       decoration: InputDecoration(  labelText: ' Licence Code * ',),
       value: findval( saveLicenseData.examinerId,9), //
-      onChanged: (String newValue){saveLicenseData.examinerId=saveLicenseData.examinerId;},// => setState(() => licenceCodeOptions = newValue),// => setState(() => licenceCodeOptions = newValue),
+      onChanged: (String value){saveLicenseData.examinerId=saveLicenseData.examinerId;},// => setState(() => licenceCodeOptions = Value),// => setState(() => licenceCodeOptions = Value),
       validator: (value) => value == null ? 'field required' : null,
       onSaved: (val) => saveLicenseData.examinerId = saveLicenseData.codeId,
        items: licensecodesdatalist.map((item) {
-        return new DropdownMenuItem(
-          child: new Text(item['code']),
+        return  DropdownMenuItem(
+          child:  Text(item['code']),
           value: item['code'].toString(),
           onTap: () {
             print( item['id']);
@@ -392,7 +389,7 @@ var _valuedrop;
            labelText: 'Examiners certificate number '),
           keyboardType: TextInputType.phone,
           validator: licenceNumber,
-          onChanged: (String newValue){saveLicenseData.examinerNumber=int.parse(newValue);},
+          onChanged: (String value){saveLicenseData.examinerNumber=int.parse(value);},
           onSaved: (val) =>  saveLicenseData.examinerNumber=int.parse(val),
         );
 }
@@ -406,12 +403,12 @@ var _valuedrop;
          hintText:'class Name',
        ),
               value: findval( licenseDetail.classId,4),
-              onChanged: (String newValue) =>licenseDetail.classId=licenseDetail.classId,//setState(() => classOptions = newValue),
+              onChanged: (String value) =>licenseDetail.classId=licenseDetail.classId,//setState(() => classOptions = value),
               validator: (value) => value == null ? 'field required' : null,
        onSaved: (val) =>  licenseDetail.classId=licenseDetail.classId,
               items: licenseclassdatalist.map((item) {
-            return new DropdownMenuItem(
-              child: new Text(item['className']),
+            return  DropdownMenuItem(
+              child:  Text(item['className']),
               value: item['className'].toString(),
                onTap: () {
                   print( item['id']);
@@ -429,12 +426,12 @@ var _valuedrop;
       hintText:'Select Type',
        ),
               value:findval( licenseDetail.typeId,10),// tpyeOptionDataone,
-              onChanged: (String newValue) { licenseDetail.typeId  = licenseDetail.typeId ;},
+              onChanged: (String value) { licenseDetail.typeId  = licenseDetail.typeId ;},
               validator: (value) => value == null ? 'field required' : null,
             onSaved: (val) =>  licenseDetail.typeId  = licenseDetail.typeId ,
               items: licensetypedatalist.map((item) {
-            return new DropdownMenuItem(
-              child: new Text(item['typeName']),
+            return  DropdownMenuItem(
+              child:  Text(item['typeName']),
               value: item['typeName'].toString(),
                 onTap: () {
                   print( item['id']);
@@ -486,7 +483,7 @@ var _valuedrop;
            labelText: 'Remark and restriction '),
          // keyboardType: TextInputType.phone,
          // validator: licenceNumber,
-          onChanged: (String newValue){saveLicenseData.remarks=newValue;},
+          onChanged: (String value){saveLicenseData.remarks=value;},
           onSaved: (val) =>  saveLicenseData.remarks=val,
         );
  }
@@ -507,14 +504,14 @@ var _valuedrop;
          hintText:'class Name',
        ),
               value: findval( additionallicenseDetail.classId,4),
-              onChanged: (String newValue) {//setState(() => classOptions = newValue);
+              onChanged: (String value) {//setState(() => classOptions = Value);
               additionallicenseDetail.additionalRating=true;
               additionallicenseDetail.classId =additionallicenseDetail.classId;},
               validator: (value) => value == null ? 'field required' : null,
        onSaved: (val) =>  additionallicenseDetail.classId=licenseDetail.classId,
               items: licenseclassdatalist.map((item) {
-            return new DropdownMenuItem(
-              child: new Text(item['className']),
+            return  DropdownMenuItem(
+              child:  Text(item['className']),
               value: item['className'].toString(),
                onTap: () {
                   print( item['id']);
@@ -529,12 +526,12 @@ var _valuedrop;
       hintText:'Select Type',
        ),
               value: findval( additionallicenseDetail.typeId,10),
-              onChanged: (String newValue) =>setState(() => additionallicenseDetail.typeId  = additionallicenseDetail.typeId ),
+              onChanged: (String value) =>setState(() => additionallicenseDetail.typeId  = additionallicenseDetail.typeId ),
               validator: (value) => value == null ? 'field required' : null,
              onSaved: (val) =>  additionallicenseDetail.typeId=  additionallicenseDetail.typeId,
               items: licensetypedatalist.map((item) {
-            return new DropdownMenuItem(
-              child: new Text(item['typeName']),
+            return  DropdownMenuItem(
+              child:  Text(item['typeName']),
               value: item['typeName'].toString(),
                 onTap: () {
                   print( item['id']);
@@ -566,7 +563,7 @@ var _valuedrop;
            labelText: 'Remark and restriction '),
          // keyboardType: TextInputType.phone,
          // validator: licenceNumber,
-          onChanged: (String newValue){saveLicenseData.additionalRemarks=newValue;},
+          onChanged: (String value){saveLicenseData.additionalRemarks=value;},
           onSaved: (val) =>  saveLicenseData.additionalRemarks=val,
         )
               ],
@@ -596,19 +593,19 @@ var _valuedrop;
       RaisedButton(
               color:Colors.pink,
               onPressed:(){    print(endorsementDataFromPage);},//,
-              child: new Text('get'),
+              child:  Text('get'),
               ),
       SizedBox( width: 3, ),
       RaisedButton(
        color:Colors.pink,
           onPressed:reset,
-          child: new Text('Reset'),
+          child:  Text('Reset'),
           ),
          SizedBox( width: 3, ),
       RaisedButton(
          color:Colors.indigo[400],
           onPressed: _validateInputs,
-          child: new Text('Save'),
+          child:  Text('Save'),
           )
       ]
      );
@@ -618,8 +615,8 @@ var _valuedrop;
   Widget _action(BuildContext context) {
   return PopupMenuButton(
     icon: Icon(Icons.more_vert),
-    onSelected: (newValue)async {
-       switch (newValue){
+    onSelected: (Value)async {
+       switch (Value){
         case 0:{
         String resevedExaminer = await Navigator.push( context, MaterialPageRoute( builder: (context) =>ExaminarPage (examinerapiplist), ),);
                if (resevedExaminer != null) {
@@ -699,14 +696,14 @@ String licenceNumber(String value) {
 
 
 
- List<ExaminerDetail> playerExaminer = new List(20);
+ List<ExaminerDetail> playerExaminer =  List(20);
   int x=0;
-   List<InstructorDetail> playerInstructor = new List(20);
+   List<InstructorDetail> playerInstructor =  List(20);
     int z=0;
-     List<EndorsementDetail> playerEndorsement = new List(20);
+     List<EndorsementDetail> playerEndorsement =  List(20);
     int w=0;
 addexaniner(int id ,String type,String remark){
-  playerExaminer[x] = new ExaminerDetail() ; // add this to your code
+  playerExaminer[x] =  ExaminerDetail() ; // add this to your code
   playerExaminer[x].remark =remark;
   playerExaminer[x].id =id;
   playerExaminer[x].examinerTypeId =int.parse(type);    
@@ -714,7 +711,7 @@ addexaniner(int id ,String type,String remark){
   x++;
 }
 addinstructorr(int id ,String type,String remark){
-  playerInstructor[z] = new InstructorDetail() ; // add this to your code
+  playerInstructor[z] =  InstructorDetail() ; // add this to your code
   playerInstructor[z].remark =remark;
   playerInstructor[z].id =id;
   playerInstructor[z].instructorTypeId =int.parse(type);    
@@ -722,7 +719,7 @@ addinstructorr(int id ,String type,String remark){
   z++;
 }
 addendorsement(int id ,String type){
-  playerEndorsement[w] = new EndorsementDetail() ; // add this to your code
+  playerEndorsement[w] =  EndorsementDetail() ; // add this to your code
   playerEndorsement[w].id =id;
   playerEndorsement[w].endorsementTypeId =int.parse(type);    
   saveLicenseData.endorsementDetails.add(playerEndorsement[w]);
@@ -823,13 +820,13 @@ forLicenceid(var val)=> savelicencdId=val.toString();
 
 sendRequest( String data) async {
  var url = 'http://$ipAddress:8080/dLicence/api/license/v1';
-    http.post(url, headers: {"Content-Type": "application/json"}, body: data)
+    http.post(url, headers: {"Content-Type": "application/json","Authorization":"$token"}, body: data)
         .then((response) {
       print("Response status: ${response.statusCode}");
       print("Response body: ${response.body}");
       final forLicenceid = jsonDecode(response.body);
           forLicenceid(  forLicenceid['id']);
-       
+       print(savelicencdId);
     });  
 }
 
@@ -839,9 +836,9 @@ sendRequest( String data) async {
 //////////////////
 
     Future<int> getlicencddata() async {
-      var urlLicence='http://$ipAddress:8080/dLicence/api/license/v1/$uuid';
+      var urlLicence='http://$ipAddress:8080/dLicence/public/license/v1/$uuid';
      print(urlLicence);
-     final response = await http.get(urlLicence);
+     final response = await http.get(urlLicence, headers: {"Authorization":"$token"},);
      print(response.statusCode);
      if (response.statusCode == 200) {
          print(json.decode(response.body));

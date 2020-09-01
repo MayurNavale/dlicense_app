@@ -6,7 +6,11 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Dlicence',
-      theme: ThemeData( primarySwatch: Colors.purpleAccent[900]),
+      debugShowCheckedModeBanner: false,
+      theme: ThemeData(        
+        primaryColor: Color.fromARGB(255, 25,178,238),//Colors.deepPurple,
+        accentColor:Color.fromARGB(255, 25,178,238)
+         ),
       home:LogInPage(),
     );
   } 

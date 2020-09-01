@@ -1,5 +1,5 @@
-
-String uuid,savelicencdId,ipAddress;
+import 'package:flutter/material.dart';
+String uuid,savelicencdId,ipAddress,token;
 
 
 List<Map<String, dynamic>>  countriesdatalist=[],
@@ -23,6 +23,22 @@ List<Map<String, dynamic>>  countriesdatalist=[],
                             placesdatalist=[],
                             makemodeldatalist=[];
  
+_onFatchingUserDetail(){
+   _scaffoldKey.currentState.showSnackBar(
+       new SnackBar(content:// CircularProgressIndicator(),
+        Text("Loading.....",
+       textAlign: TextAlign.center, style: TextStyle(color: Colors.red, fontSize: 16.0, fontWeight: 
+       FontWeight.bold),),
+        duration: Duration(seconds: 6), backgroundColor: Colors.blue[600],)
+);}
+
+_onFailuar(){
+   _scaffoldKey.currentState.showSnackBar(
+       new SnackBar(content: Text("Chack network Connection",
+       textAlign: TextAlign.center, style: TextStyle(color: Colors.red, fontSize: 16.0, fontWeight: 
+       FontWeight.bold),), duration: Duration(seconds: 2), backgroundColor: Colors.black,)
+);}
+final _scaffoldKey = GlobalKey<ScaffoldState>();
 
 
 
@@ -252,29 +268,7 @@ class Limitation {
         "medicalTypeId": medicalTypeId,
     };
 }
-// class Medicaltype {
-//     Medicaltype({
-//         this.id,
-//         this.limitations,
-//         this.type,
-//     });
 
-//     int id;
-//     List<Limitation> limitations;
-//     String type;
-
-//     factory Medicaltype.fromJson(Map<String, dynamic> json) => Medicaltype(
-//         id: json["id"],
-//         limitations: List<Limitation>.from(json["limitations"].map((x) => Limitation.fromJson(x))),
-//         type: json["type"],
-//     );
-
-//     Map<String, dynamic> toJson() => {
-//         "id": id,
-//         "limitations": List<dynamic>.from(limitations.map((x) => x.toJson())),
-//         "type": type,
-//     };
-// }
 class Ministry {
     Ministry({
         this.id,

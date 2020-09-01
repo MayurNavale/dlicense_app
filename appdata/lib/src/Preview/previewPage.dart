@@ -31,13 +31,11 @@ bool visibilityTag=false;
 
   @override
   Widget build(BuildContext context) {
-    return new MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: new Scaffold(
+    return Scaffold(
          // backgroundColor: firstColor,
       appBar: new AppBar(title: new Text('    Preview',style:TextStyle( fontSize: 20,fontStyle: FontStyle.normal)), ),
   
-       body: Center(
+      body: Center(
           child: FutureBuilder<int>(
             future: futureLicenceclass,
             builder: (context, snapshot) {
@@ -54,10 +52,9 @@ bool visibilityTag=false;
         else if (snapshot.hasError) { return Text("${snapshot.error}");  }
         return CircularProgressIndicator();
         },
+        ),
       ),
-   ),
-  ),
- );
+   );
  }
 
 

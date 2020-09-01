@@ -7,10 +7,10 @@ import 'package:flutter/material.dart';
 import 'package:appdata/src/models/masterdata.dart';
 class RadiotelephonePage extends StatefulWidget {
   @override
-  _RadiotelephonePage createState() => new _RadiotelephonePage();
+  _RadiotelephonePage createState() =>  _RadiotelephonePage();
   }
     class _RadiotelephonePage extends State<RadiotelephonePage> {
-    Radiotelephone radiotelephone=new Radiotelephone();
+    Radiotelephone radiotelephone= Radiotelephone();
     final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
     bool _autoValidate = false;
     var initialLicenceId;
@@ -28,19 +28,17 @@ futuremedicalVal = getMedicaldata();
   
   @override
   Widget build(BuildContext context) {
-    return new MaterialApp(
-        debugShowCheckedModeBanner: false,
-        home: new Scaffold(
-        appBar: new AppBar( title: new Text('    Radiotelephone'), ),
+    return Scaffold(
+        appBar:  AppBar( title:  Text('    Radiotelephone'), ),
         body: Center(
           child: FutureBuilder<int>(
             future: futuremedicalVal,
             builder: (context, snapshot) {
               if (snapshot.hasData) {
                 return SingleChildScrollView(
-                    child: new Container(
-                    margin: new EdgeInsets.all(15.0),
-                    child: new Form(
+                    child:  Container(
+                    margin:  EdgeInsets.all(15.0),
+                    child:  Form(
                     key: _formKey,
                     autovalidate: _autoValidate,
                     child:formUI(),  ),),
@@ -50,11 +48,10 @@ futuremedicalVal = getMedicaldata();
             },
           ),
         ),
-      ),
     );
   }
 Widget formUI() {
-  return new Column(
+  return  Column(
     children: <Widget>[
      SizedBox(height:2),
           TextFormField(
@@ -70,12 +67,12 @@ Widget formUI() {
                 RaisedButton(
                   color:Colors.pink,
                   onPressed:reset,
-                  child: new Text('Reset'), ),
+                  child:  Text('Reset'), ),
               SizedBox(width: 10, ),
         RaisedButton(
                 color:Colors.indigo[400],
                 onPressed: _validateInputs,
-                child: new Text('Save'),
+                child:  Text('Save'),
               
                   )
             ]
@@ -139,7 +136,7 @@ void reset() =>_formKey.currentState.reset();
 
 
 uplodeRadioTelephoneData()
-{String json = welcomeToJson(radiotelephone);
+{String json = radiotelephoneToJson(radiotelephone);
 uplode(json);
 }
 
@@ -153,7 +150,9 @@ final response = await http.get('http://$ipAddress:8080/dLicence/api/license/v1/
        assign(radiotelephone.dtIssue);
      return 1; } 
   else if  (response.statusCode == 500){initialLicenceId=''; return 1;}
-  else{throw Exception('check network connecion'); }
+  else{ return 1;
+    //throw Exception('check network connecion');
+   }
  }
 
 void assign(var dateval)=>dtIssue= DateTime.parse(dateval);

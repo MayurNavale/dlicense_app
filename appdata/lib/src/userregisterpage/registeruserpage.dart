@@ -1,5 +1,6 @@
 import 'package:appdata/src/models/masterdata.dart';
 import 'package:appdata/src/pages/signinPage.dart';
+import 'package:flutter/cupertino.dart';
 import 'dart:convert';
 import 'model.dart';
 import 'package:http/http.dart' as http;
@@ -8,7 +9,7 @@ import 'package:intl/intl.dart';
 
 class RegisterUser extends StatefulWidget {
   @override
-  _RegisterUser createState() => new _RegisterUser();
+  _RegisterUser createState() =>  _RegisterUser();
 }
 class _RegisterUser extends State<RegisterUser> {
                                 bool visibilityTag = false;
@@ -45,215 +46,64 @@ class _RegisterUser extends State<RegisterUser> {
                                                     bool checkboxValue=false;
   @override
   Widget build(BuildContext context) {
-    return new MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: new Scaffold(
-      appBar: new AppBar(title: new Text(' Register for DLicence'),),
-      body: new SingleChildScrollView(
-          child: new Container(
-            margin: new EdgeInsets.all(15.0),
-            child: new Form(
+    return  Scaffold(
+      appBar:  AppBar(title:  Text(' Register for DLicence'),),
+      body:  SingleChildScrollView(
+          child:  Container(
+            margin:  EdgeInsets.all(15.0),
+            child:  Form(
               key: _formKey,
               autovalidate: _autoValidate,
               child:  formUI(),
             ),
           ),
         ),
-      ),
+      
     );
   }
    Widget formUI() {
     return  Column(
       children:[
-         new TextFormField(
+          TextFormField(
+           initialValue: saveUserData.firstName,
                 decoration: const InputDecoration(labelText: ' First Name'),
                 keyboardType: TextInputType.text,
                // validator: validateName,
                 onSaved: (String val)  =>saveUserData.firstName=val, ),
-         new TextFormField(
-                decoration: const InputDecoration(labelText: '  Last Name'),
-                keyboardType: TextInputType.text,
-              //  validator: validateName,
-                onSaved: (String val)  =>saveUserData.lastName=val,),
-        new TextFormField(
-                decoration: const InputDecoration(labelText: ' display Name'),
-                keyboardType: TextInputType.text,
-              //  validator: validateName,
-                onSaved: (String val)  =>saveUserData.displayName=val,),
-        _nationality(),
-        _placeOfBirth(),
-        _dateOfBirth(),
-        new TextFormField(
-            decoration: const InputDecoration(labelText: ' Address '),
-            keyboardType: TextInputType.text,
-            // validator: (value) => value == null ? 'field required' : null,
-            onSaved: (String val)  =>saveUserData.address=val.toString(),
-        ),
-        _postalcode(),
-        _city(),
-        new TextFormField(
+         
+         TextFormField(
+          initialValue: saveUserData.email,
             decoration: const InputDecoration(labelText: 'Email'),
             keyboardType: TextInputType.emailAddress,
             //validator: validateEmail,
             onSaved: (String val)  =>saveUserData.email=val.toString(),),
-        new TextFormField(
+         TextFormField(
+          initialValue: saveUserData.telephoneNumber.toString(),
             decoration: const InputDecoration(labelText: 'Telephone'),
             keyboardType: TextInputType.phone,
            // validator: validateMobile,
             onSaved: (String val)  =>saveUserData.telephoneNumber=int.parse(val),),
-       new TextFormField(
+        TextFormField(
+         initialValue:saveUserData.password ,
             decoration: const InputDecoration(labelText: 'Password'),
            keyboardType: TextInputType.text,
           //      validator: validateName,
            // validator: validateMobile,
             onSaved: (String val)  =>saveUserData.password=val.toString(),),
-        status(),
-       // visibilityTag ? _onDone(): new Container(),
+       
+       // visibilityTag ? _onDone():  Container(),
         showdata()
       ]
     );
   }
   //////////////////
 
-Widget _nationality() {
-      return DropdownButtonFormField<String>(
-      decoration: InputDecoration(
-      labelText:' Nationality * ',
-      hintText:'Select Nationality',
-       ),
-              value: nationality,
-              onChanged: (String newValue) =>setState(() => nationality = newValue),
-              //validator: (value) => value == null ? 'field required' : null,
-               onSaved: (val) =>  saveUserData.nationality=val,
-              items: countriesalreadlist.map((item) {
-            return new DropdownMenuItem(
-              child: new Text(item['countryCode']),
-              value: item['countryCode'].toString(),
-            );
-          }).toList(),
-        );
-     }  
-//   //////////////////////
-Widget _placeOfBirth() {
-      return DropdownButtonFormField<String>(
-      decoration: InputDecoration(
-      labelText:'Place Of Birth * ',
-      hintText:'Select Place Of Birth',
-       ),
-              value: placeOfBirth,
-              onChanged: (String newValue) =>setState(() => placeOfBirth = newValue),
-              // validator: (value) => value == null ? 'field required' : null,
-               onSaved: (val) =>  saveUserData.placeOfBirth=val,
-              items: countriesalreadlist.map((item) {
-            return new DropdownMenuItem(
-              child: new Text(item['countryCode']),
-              value: item['countryCode'].toString(),
-            );
-          }).toList(),
-        );
-     }  
-//   //////////////////////
-  //   //////////////////////
-    Widget _postalcode() {
-           return DropdownButtonFormField<String>(
-      decoration: InputDecoration(
-    labelText:'Postal Code * ',
-      hintText:'Select Postal Code',
-       ),
-              value: postalcode,
-              onChanged: (String newValue) =>setState(() => postalcode = newValue),
-              // validator: (value) => value == null ? 'field required' : null,/
-          //     onSaved: (val) =>  saveUserData..limitationId=int.parse(val),
-              items: countriesalreadlist.map((item) {
-            return new DropdownMenuItem(
-              child: new Text(item['countryPhone'].toString()),
-              value: item['id'].toString(),
-            );
-          }).toList(),
-        );}
-
-     
-    //   //////////////////////
-    Widget _city() {
-      return DropdownButtonFormField<String>(
-      decoration: InputDecoration(
-      labelText:' City * ',
-      hintText:'Select City',
-       ),
-              value: city,
-              onChanged: (String newValue) =>setState(() => city = newValue),
-              // validator: (value) => value == null ? 'field required' : null,
-          // onSaved: (val) =>  saveUserData..=val,
-              items: countriesalreadlist.map((item) {
-            return new DropdownMenuItem(
-              child: new Text(item['countryCode']),
-              value: item['countryCode'].toString(),
-            );
-          }).toList(),
-        );
-     }  
-     ////////////////////
-  Widget _dateOfBirth() {
-      return TextFormField(
-        controller:dtOfBirth,
-        onTap : ()=>_selectDate(context,dateOfBirth,dtOfBirth),
-        onSaved:(val) => saveUserData.dateOfBirth= dtOfBirth.text.toString(),
-        decoration: InputDecoration(
-            suffixIcon : Icon(Icons.calendar_today),
-            labelText:' Date of Birth *',
-           // hintText: ' $dateOfBirth',
-        ),
-      );
- }
-  Widget status() {
-      return DropdownButtonFormField<String>(
-      decoration: InputDecoration(
-      labelText:' Status * ',
-      hintText:'Select ',
-       ),
-              value: _status,
-              onChanged: (String newValue) =>setState(() => _status = newValue),
-              // validator: (value) => value == null ? 'field required' : null,
-          onSaved: (val) =>  saveUserData.status=val,
-              items: statuslist.map((item) {
-            return new DropdownMenuItem(
-              child: new Text(item['Name']),
-              value: item['Name'].toString(),
-            );
-          }).toList(),
-        );
-     }  
   ///////////////
     
   Widget showdata(){
-    return Row(children: <Widget>[
-          SizedBox( width: 40,height: 100,),
-          // RaisedButton(
-          //       color:Colors.pink,
-          //       onPressed:reset,
-          //       child: new Text('Sign In'),
-          //  ),
-          SizedBox( width: 10,),
-          RaisedButton(
-                color:Colors.indigo[400],
-                onPressed: showuserdata,
-                child: new Text('Register'),
-          ),
-      ]
-  );
+    return InkWell(onTap: _validateInputs, child:Container(color: CupertinoColors.systemBlue, padding:EdgeInsets.all(10) , height: 60 ,width:  MediaQuery.of(context).size.width, child:Center (child :Text('Register'),)));
+    
 }
-//  Widget _onDone() {
-//       return  TextField(
-        
-// //obscureText: true,
-//   decoration: InputDecoration(
-//     border: OutlineInputBorder(),
-//     labelText: 'Save successfully   ',
-//     hintText: 'Save successfully   ',
-//    // fillColor: Color.blue[200];
-        
-//   ),
-// );}
 
   ////////////////////////////////////////
   //validation
@@ -272,7 +122,7 @@ String validateName(String value) {
   String validateEmail(String value) {
     Pattern pattern =
         r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
-    RegExp regex = new RegExp(pattern);
+    RegExp regex =  RegExp(pattern);
     if (!regex.hasMatch(value))
       return 'Enter Valid Email';
     else
@@ -297,7 +147,7 @@ bool isValidDob(String dat) {
 //   DateTime convertToDate(String input) {
 //     try 
 //     {
-//       var d = new DateFormat.yMd().parseStrict(input);
+//       var d =  DateFormat.yMd().parseStrict(input);
 //       return d;
 //     } catch (e) {
 //       return null;
@@ -330,14 +180,18 @@ void _validateInputs() {
 
   ///////////////////
 showuserdata(){
-alreadySave.passportPhoto='photo';
-  alreadySave.id= '123e4567-e89b-12d3-a456-426655440000';
-  String json = userClassToJson(alreadySave);
+  Role role= Role();
+  role.name='ROLE_APPLICANT';
+  saveUserData.roles=<Role>[role];
+// alreadySave.passportPhoto='photo';
+//   alreadySave.id= '123e4567-e89b-12d3-a456-426655440000';
+  String json = userClassToJson(saveUserData);
   print( json);
   sendRequest(json);
 }
 sendRequest( String data) async {
-var url = 'http://$ipAddress:8080/dLicence/api/signUpUser';
+var url = 'http://$ipAddress:8080/dLicence/public/signUpUser';
+print(url);
     http.post(url, headers: {"Content-Type": "application/json"}, body: data)
         .then((response) {
       print("Response status: ${response.statusCode}");

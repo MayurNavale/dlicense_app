@@ -10,15 +10,15 @@ import 'package:appdata/src/models/masterdata.dart';
 
 class LogBookPage extends StatefulWidget {
   @override
-  _LogBookPage createState() => new _LogBookPage();
+  _LogBookPage createState() =>  _LogBookPage();
   }
 class _LogBookPage extends State<LogBookPage> {
  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
  bool _autoValidate = false;
  String languageString;
- Logbook logbookdata=new Logbook();
+ Logbook logbookdata= Logbook();
  String initialnumdata;
-//    final totalLandingNight = new TextEditingController();
+//    final totalLandingNight =  TextEditingController();
 // totalLandingNight.addListener(() {logbookdata.totalLandingNight=totalLandingNight.text});
     bool visibilityTag = false;
   bool visibilityObs = false;
@@ -35,13 +35,11 @@ class _LogBookPage extends State<LogBookPage> {
  bool checkboxValue=false;
   @override
   Widget build(BuildContext context) {
-    return new MaterialApp(
-        debugShowCheckedModeBanner: false,
-      home: new Scaffold(
+    return Scaffold(
         
-        appBar: new AppBar(
+        appBar:  AppBar(
           
-          title: new Text('    Logbook   '),
+          title:  Text('    Logbook   '),
         ),
         body: Center(
           child: FutureBuilder<int>(
@@ -49,9 +47,9 @@ class _LogBookPage extends State<LogBookPage> {
             builder: (context, snapshot) {
               if (snapshot.hasData) {
                 return   SingleChildScrollView(
-           child: new Container(
-            margin: new EdgeInsets.all(15.0),
-            child: new Form(
+           child:  Container(
+            margin:  EdgeInsets.all(15.0),
+            child:  Form(
               key: _formKey,
               autovalidate: _autoValidate,
               child:formUI(),
@@ -64,9 +62,7 @@ class _LogBookPage extends State<LogBookPage> {
         },
       ),
    ),
-       
-      ),   
-    );
+      );
   }
    Widget formUI() {
        return  Column(
@@ -343,13 +339,13 @@ class _LogBookPage extends State<LogBookPage> {
       RaisedButton(
           color:Colors.pink,
           onPressed:reset,
-          child: new Text('Reset'),
+          child:  Text('Reset'),
           ),
      SizedBox(width:10),
     RaisedButton(
        color:Colors.indigo[400],
           onPressed: _validateInputs,
-          child: new Text('Save'),)
+          child:  Text('Save'),)
     ]
   );
 }

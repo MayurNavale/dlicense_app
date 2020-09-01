@@ -1,8 +1,8 @@
 import 'dart:convert';
 
-Radiotelephone welcomeFromJson(String str) => Radiotelephone.fromJson(json.decode(str));
+Radiotelephone radiotelephoneFromJson(String str) => Radiotelephone.fromJson(json.decode(str));
 
-String welcomeToJson(Radiotelephone data) => json.encode(data.toJson());
+String radiotelephoneToJson(Radiotelephone data) => json.encode(data.toJson());
 
 class Radiotelephone
 

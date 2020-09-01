@@ -12,14 +12,14 @@ import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
 
 class LanguagePage extends StatefulWidget {
   @override
-  _LanguagePage createState() => new _LanguagePage();
+  _LanguagePage createState() =>  _LanguagePage();
   }
 class _LanguagePage extends State<LanguagePage> {
-  LanguageClass language=new LanguageClass();
+  LanguageClass language= LanguageClass();
  
   TextEditingController niveaulevelcontroller;
- // TextEditingController _datecontroller = new TextEditingController(); TextEditingController datecontroller = new TextEditingController();
-  TextEditingController ba= new TextEditingController();
+ // TextEditingController _datecontroller =  TextEditingController(); TextEditingController datecontroller =  TextEditingController();
+  TextEditingController ba=  TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   bool _autoValidate = false;
   String languageString;
@@ -27,7 +27,7 @@ class _LanguagePage extends State<LanguagePage> {
   String lavels;
   String niveaulevel; 
   // DateTime _dateTime;
-    String dt_irtest;
+    // String dt_irtest;
   String levelvalueanswer="";
   String levelvaluedata="";
   var expirydateofthiscertificate; 
@@ -42,7 +42,6 @@ class _LanguagePage extends State<LanguagePage> {
  var saveFormat = DateFormat('yyyy-MM-dd'); 
  var showformmat = DateFormat('dd-MM-yyyy');
  final dateFormat = DateFormat("dd-MM-yyyy");
- final TextEditingController _controller = new TextEditingController();
  bool visibilityTag = false;
  Future<int> futurelogbookclass;
   @override
@@ -54,19 +53,17 @@ class _LanguagePage extends State<LanguagePage> {
  
    @override
   Widget build(BuildContext context) {
-    return new MaterialApp(
-        debugShowCheckedModeBanner: false,
-      home: new Scaffold(
-        appBar: new AppBar( title: new Text('    Language   '), ),
+    return Scaffold(
+        appBar:  AppBar( title:  Text('    Language   '), ),
         body: Center(
           child: FutureBuilder<int>(
             future: futurelogbookclass,
             builder: (context, snapshot) {
               if (snapshot.hasData) {
                 return   SingleChildScrollView(
-           child: new Container(
-            margin: new EdgeInsets.all(15.0),
-            child: new Form(
+           child:  Container(
+            margin:  EdgeInsets.all(15.0),
+            child:  Form(
               key: _formKey,
               autovalidate: _autoValidate,
              child:formUI(),
@@ -78,13 +75,11 @@ class _LanguagePage extends State<LanguagePage> {
         return CircularProgressIndicator();
         },
       ),
-   ),
-        ),
-       
+     ),
     );
   }
   Widget formUI() {
-   return new Column(
+   return  Column(
       children: <Widget>[
         _certificateNo(),
         _checkDate(),
@@ -136,7 +131,7 @@ class _LanguagePage extends State<LanguagePage> {
           onSaved: (String val) {
             language.certificateNumber= int.parse(val);
           },
-          onChanged: (String newValue){ language.certificateNumber= int.parse(newValue);},
+          onChanged: (String Value){ language.certificateNumber= int.parse(Value);},
         );
   }
   
@@ -155,8 +150,8 @@ class _LanguagePage extends State<LanguagePage> {
               onChanged: (val) => language.supportedLanguageId =  language.supportedLanguageId,
               validator: (value) => value == null ? 'field required' : null,
               items: languagedatalist.map((item) {
-            return new DropdownMenuItem(
-              child: new Text(item['language']),
+            return  DropdownMenuItem(
+              child:  Text(item['language']),
               value: item['language'].toString(),
              onTap: () {
             print( item['id']);
@@ -180,8 +175,8 @@ class _LanguagePage extends State<LanguagePage> {
                     language.niveauLevelId =language.niveauLevelId; },
               validator: (value) => value == null ? 'field required' : null,
               items: niveauleveldatalist.map((item) {
-                    return new DropdownMenuItem(
-                    child: new Text(item['id'].toString()),
+                    return  DropdownMenuItem(
+                    child:  Text(item['id'].toString()),
                     value: item['id'].toString(),
                     onTap: () { language.niveauLevelId = item['id']; },   ); }).toList(),
         );
@@ -200,12 +195,12 @@ class _LanguagePage extends State<LanguagePage> {
       RaisedButton(
             color:Colors.pink,splashColor: Colors.pink[200],
             onPressed:reset,
-            child: new Text('Reset'), ),
+            child:  Text('Reset'), ),
       SizedBox(width:3),
       RaisedButton(
             color:Colors.indigo[400],splashColor: Colors.indigo[200],
             onPressed: _validateInputs,
-            child: new Text('Save'),  )
+            child:  Text('Save'),  )
             ]
         );
   }
@@ -344,7 +339,7 @@ var url = 'http://$ipAddress:8080/dLicence/api/license/v1/$savelicencdId/languag
         .then((response) {
       print("Response status: ${response.statusCode}");
     //  print("Response body: ${response.body}");
-    final String res = response.body;
+    // final String res = response.body;
       final int statusCode = response.statusCode;
 
       if (statusCode < 200 || statusCode > 400 || json == null) {

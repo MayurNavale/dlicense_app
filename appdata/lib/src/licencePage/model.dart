@@ -292,16 +292,15 @@ class LicenseDetail {
     switch (casevalue) {
       case 1:
         {
-      
           int val = a;
           val--;
           if(a==0){return contries;}else{
-          for (int dat = 0; dat <= statedatalist.length; dat++) {
-            if (dat == val) {
-            //  print(countriesdatalist[dat]['countryCode']);
-             return statedatalist[dat]['stateName'];
-            }
-          }
+          // for (int dat = 0; dat <= statedatalist.length; dat++) {
+          //   if (dat == val) {
+          //   //  print(countriesdatalist[dat]['countryCode']);
+             return statedatalist[val]['stateName'];
+          //   }
+          // }
         }
     }
         break;

@@ -1,0 +1,19 @@
+{
+  "tags": [
+    {
+      "id": 1,
+      "placeName": "Boston",
+      "placeCode": "Europe/Zurich"
+    },
+    {
+      "id": 2,
+      "placeName": "India",
+      "placeCode": "America/Detroit"
+    },
+    {
+      "id": 3,
+      "placeName": "London",
+      "placeCode": "Europe/London"
+    }
+]
+}

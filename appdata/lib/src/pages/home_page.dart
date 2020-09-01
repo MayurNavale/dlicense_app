@@ -16,24 +16,17 @@ class _HomePageState extends State<HomePage> {
   var isLoading = false;
   @override
   void initState() {
-   
-    super.initState();
-   
-  
-  checkapi();
+   super.initState();
+   checkapi();
   }
 
- checkapi()async{
-    await Future.delayed(const Duration(seconds: 2));
- if(hasdata==0){_loadFromApi();
-//  if(isLoading=false)
-//  {
-//  DBProvider.db.getAlldata();
-//  }
-// Here you can write your code
- }
- 
- }
+ checkapi(){
+
+ Future.delayed(const Duration(seconds: 2));
+ if(hasdata==0){
+   Future.delayed(const Duration(seconds: 2));
+  //  _loadFromApi();
+}}
    
   
  
@@ -53,16 +46,7 @@ class _HomePageState extends State<HomePage> {
               },
             ),
           ),
-          // Container(
-          //   padding: EdgeInsets.only(right: 10.0),
-          //   child: IconButton(
-          //     icon: Icon(Icons.settings_input_antenna),
-          //      onPressed: () { Navigator.push(
-          //       context,
-          //       MaterialPageRoute(builder: (context) => RegisterUser()),
-          //     );},
-          //   ),
-          // ),
+          
           Container(
             padding: EdgeInsets.only(right: 10.0),
             child: IconButton(

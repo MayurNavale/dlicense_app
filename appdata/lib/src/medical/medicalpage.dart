@@ -14,36 +14,35 @@ class MedicalPage extends StatefulWidget {
   _MedicalPage createState() => new _MedicalPage();
   }
 class _MedicalPage extends State<MedicalPage> {
- final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
- bool _autoValidate = false;
- var initialnum='';
- String languageString;
-var saveFormat = DateFormat('yyyy-MM-dd'); 
-var showformmat = DateFormat("dd-MM-yyyy");
-final dateFormat = DateFormat("dd-MM-yyyy");
-  var dtAudiogram ;  
-  var dtEcg ; 
-  var dtExam ;  
-  var dtExpPrevcert ; 
-  var dtExpiryC1 ;  
-  var dtExpiryC1Sp ; 
-  var dtExpiryC2 ;  
-  var dtExpiryC3 ;
-  var dtExpiryClapl ;  
-  var dtIssue ; 
-  var tpyeOptionDatamed;
+//     TimeOfDay selectedTime =TimeOfDay.now();
+//   Future<Null> _selectTime(BuildContext context) async {
+//     final TimeOfDay picked_s = await showTimePicker(
+//         context: context,
+//         initialTime: selectedTime, builder: (BuildContext context, Widget child) {
+//            return MediaQuery(
+//              data: MediaQuery.of(context).copyWith(alwaysUse24HourFormat: false),
+//             child: child,
+//           );});
 
-  Future<int> futuremedicalclass;
- bool visibilityclass1 = false;
- bool visibilityclass3=false;
-  DateTime date;
-  String niveaulevel=''; 
-  int nilevel;
-  String levelvalueanswer;
-  String fromjsondata;
-  int showdt;
-  
- 
+//     if (picked_s != null && picked_s != selectedTime )
+//       setState(() {
+//         selectedTime = picked_s;
+//       });
+//   }
+final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+bool _autoValidate = false,visibilityclass1 = false, visibilityclass3=false;
+var initialnum='';
+final saveFormat = DateFormat('yyyy-MM-dd'); 
+final showformmat = DateFormat("dd-MM-yyyy");
+final dateFormat = DateFormat("dd-MM-yyyy");
+var dtAudiogram ,dtEcg , dtExam , dtExpPrevcert , dtExpiryC1 , dtExpiryC1Sp , dtExpiryC2 , dtExpiryC3 ,
+dtExpiryClapl , dtIssue , tpyeOptionDatamed;
+Future<int> futuremedicalclass;
+DateTime date;
+String niveaulevel='',levelvalueanswer, fromjsondata,languageString;
+int nilevel,showdt; 
+
+
   Future<void> _selectDate(BuildContext context,var a,TextEditingController datecontroller ) async {
       showDatePicker(
                      context: context,
@@ -71,9 +70,7 @@ final dateFormat = DateFormat("dd-MM-yyyy");
   }
   @override
   Widget build(BuildContext context) {
-    return new MaterialApp(
-        debugShowCheckedModeBanner: false,
-        home: new Scaffold(
+    return  Scaffold(
         appBar: new AppBar( title: new Text('    Medical'), ),
   //        body: Center(
   //         child: FutureBuilder<int>(
@@ -108,10 +105,8 @@ final dateFormat = DateFormat("dd-MM-yyyy");
             child:  formUI(),
      
             ),
-         
-        ),
+          ),
       ),
-        ),
     );
   }
    Widget formUI() {
@@ -177,6 +172,7 @@ final dateFormat = DateFormat("dd-MM-yyyy");
        ),
               value: tpyeOptionDatamed,
               onChanged: (String newValue) {
+           
                _changed(newValue);
                 setState(() => tpyeOptionDatamed = newValue);
               },
@@ -621,25 +617,25 @@ return DateTimeField(
 
 
      Future<int> getlicencddata() async {
-        // return 1;
-  final response = await http.get('http://$ipAddress:8080/dLicence/api/license/v1/$savelicencdId/medicaldata');
+        return 1;
+//   final response = await http.get('http://$ipAddress:8080/dLicence/api/license/v1/$savelicencdId/medicaldata');
 
-  if (response.statusCode == 200) {
-      print(json.decode(response.body));
-       saveMedicalData =Medical.fromJson(json.decode(response.body));
-       //_onSuccessResponse();
-     return 1; } 
-  else if  (response.statusCode == 500){initialnum=''; return 1;}
-  else{
-    initialnum='';
-    return 1;
-    // If th
-//     String emptjson = MedicalToJson(saveMedicalData);
-//  print( emptjson);
-//      return Medical.fromJson(json.decode(emptjson));//e server did not return a 200 OK response,
-    // then throw an exception.
- //throw Exception('check network connecion');
-  }
+//   if (response.statusCode == 200) {
+//       print(json.decode(response.body));
+//        saveMedicalData =Medical.fromJson(json.decode(response.body));
+//        //_onSuccessResponse();
+//      return 1; } 
+//   else if  (response.statusCode == 500){initialnum=''; return 1;}
+//   else{
+//     initialnum='';
+//     return 1;
+//     // If th
+// //     String emptjson = MedicalToJson(saveMedicalData);
+// //  print( emptjson);
+// //      return Medical.fromJson(json.decode(emptjson));//e server did not return a 200 OK response,
+//     // then throw an exception.
+//  //throw Exception('check network connecion');
+  // }
 
      }
 ///////////////////////////////
