@@ -1,8 +1,13 @@
+import 'package:appdata/src/logbook/logbookpage.dart';
 import 'package:appdata/src/logbookModule/model.dart';
+import 'package:appdata/src/loogbooktable/toExcel.dart';
 import 'package:intl/intl.dart';
 import 'package:appdata/src/models/masterdata.dart';
 import 'package:flutter/material.dart';
+import 'package:nice_button/generated/i18n.dart';
 import 'dart:convert';
+import 'modal.dart';
+import 'toExcel.dart';
 import 'package:http/http.dart' as http;
 import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
 class LogbookTable extends StatefulWidget {
@@ -10,6 +15,8 @@ class LogbookTable extends StatefulWidget {
   _LogbookTableState createState() => _LogbookTableState();
 }
 class _LogbookTableState extends State<LogbookTable> {
+  ToExcelPage toexcel=new ToExcelPage();
+ final _scaffoldKey = GlobalKey<ScaffoldState>();
 final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 bool _autoValidate = false;
 List<DataRow> _rowList = []; 
@@ -20,7 +27,7 @@ Future<int>futurelogbookList;
  var showformmat = DateFormat('dd-MM-yyyy');
  final dateFormat = DateFormat("dd-MM-yyyy");
  DateTime startDate,endDate;
- List<Map> resultListMap=[];
+ List<Map> shortedList=[];
 @override
 void initState() {
   super.initState();
@@ -31,17 +38,10 @@ void initState() {
   Widget build(BuildContext context) {
     return  Scaffold(
       appBar:  AppBar(title:  Text('Logbook Table'),
-        actions: <Widget>[
-          FloatingActionButton(
-            tooltip: 'Add LogBook',
-            child: Icon(Icons.add),
-                  onPressed: (){ Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => RowPage(null),
-                  ));} , backgroundColor: Colors.red,
-          ),
-        ]
-      ),
+       
+       actions: <Widget>[_action(context), ]),
+         
+      key:_scaffoldKey ,
         body: Center(
           child: FutureBuilder<int>(
             future: futurelogbookList,
@@ -71,6 +71,18 @@ void initState() {
       children: <Widget>[
              _fromDate(),
              _toDate(),
+             SizedBox(height:6),
+          Row(children: [ 
+            
+             RaisedButton(
+              color:Colors.pink[400],
+              onPressed:(){
+                toexcel.createfile();
+                toexcel.openFile();
+              },
+              child:  Text('Export'),
+            ),
+            SizedBox(width:100),
             RaisedButton(
               color:Colors.blue,
               onPressed:(){ 
@@ -79,8 +91,9 @@ void initState() {
                 _addFilterRow();
               },
               child:  Text('Submit'),
-            ),
-              SingleChildScrollView(
+            ),],),
+            SizedBox(height:6),
+             SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
                 child: FittedBox( fit: BoxFit.fitHeight,
                         child: DataTable(
@@ -91,7 +104,7 @@ void initState() {
                             sortColumnIndex: 2,
                             columns: <DataColumn>[
                               for (var item in tableHeader)
-                               DataColumn( label:Text(item,style:TextStyle( color: Colors.black, fontSize: 16) ), ),
+                               DataColumn( label:Text(item, style: TextStyle(fontWeight: FontWeight.bold),textScaleFactor:1.2 , ), ),
                             ],
                             rows: _rowList,
                         ),
@@ -147,83 +160,63 @@ Widget _toDate  () {
  
   
 
-  onedit(var id){  Navigator.push( context,
-                MaterialPageRoute(builder: (context) =>RowPage(id)));
+  onedit(var id ,String finfnavigationpage){ 
+    var returnval;
+    if(finfnavigationpage!=null)
+    returnval= Navigator.push( context, MaterialPageRoute(builder: (context) =>RowPage(id)));
+    else
+    var returnval= Navigator.push( context, MaterialPageRoute(builder: (context) =>LogBookPage(id)));
+ print(returnval);
+   if(returnval==null){
+    //  futurelogbookList = getlogbookList();
+     print(_rowList.length);
+   }
   }
 
 
   void _addFilterRow() {
-     if(resultListMap.isNotEmpty){  
+     if(shortedList.isNotEmpty){  
         setState(() {
-      for (int b=0;b<resultListMap.length;b++){
+      for (int b=0;b<shortedList.length;b++){
       _rowList.add(
         DataRow( cells: <DataCell>[
-        DataCell(Icon(Icons.edit,color: Colors.deepPurple,),onTap:(){onedit(resultListMap[b]['id']);},showEditIcon: true ),
-        DataCell( 
-              Icon(Icons.delete,color: Colors.red,),
+        // DataCell(Icon(Icons.edit,color: Colors.deepPurple,),onTap:(){onedit(shortedList[b]['id'],shortedList[b]['dtOfFlight']);}, ),
+        DataCell( Row(children:[
+          GestureDetector(child:Icon(Icons.edit,color: Colors.deepPurple,),onTap:(){onedit(shortedList[b]['id'],shortedList[b]['placeOfDeparture']);}, ),
+           SizedBox(width:10),
+           GestureDetector(child:   Icon(Icons.delete,color: Colors.red,),
               onTap:(){  
-                // cleartable();
-                // selectedrow(resultListMap[b]['id']);
-               
-                int _rowlisttobeRemove= selectedrow(logbookAllList[b]['id']);
-              print('$_rowlisttobeRemove _rowlisttobeRemove');
-              if(_rowlisttobeRemove!=null)
-              print(_rowList.length);
-              setState(() {
-              _rowList.removeAt(_rowlisttobeRemove); 
-              _rowList.clear();
-               });
+               deleteselectedInBackend(shortedList[b]['id']);
+              selectedrow(shortedList[b]['id']);
+              setState(() {_rowList.clear(); });
               _addFilterRow();
               // _showAllList();
                 },
-                placeholder: true,
-                showEditIcon: true
-                ), 
-       for (int a=2;a<27;a++)
-         DataCell(Text(resultListMap[b][cellContaintnameToBeInsert[a]])),
-         DataCell(
-            Icon(Icons.delete,color: Colors.red,),
-            onTap:(){// cleartable();
-                // selectedrow(resultListMap[b]['id']);
-               
-                int _rowlisttobeRemove= selectedrow(logbookAllList[b]['id']);
-              print('$_rowlisttobeRemove _rowlisttobeRemove');
-              if(_rowlisttobeRemove!=null)
-              print(_rowList.length);
-              setState(() {
-              _rowList.removeAt(_rowlisttobeRemove); 
-              _rowList.clear();
-               });
-              _addFilterRow();
-              // _showAllList();
-               },
-            placeholder: true,
-            showEditIcon: true
-         ),
-       ]
+           ),  ]
+        ),
+        placeholder: true,
+          ), 
+       for (int a=1;a<cellContaintnameToBeInsert.length;a++)
+       DataCell(Text(shortedList[b][cellContaintnameToBeInsert[a]]==null||shortedList[b][cellContaintnameToBeInsert[a]]==""?'NA':shortedList[b][cellContaintnameToBeInsert[a]].toString())),
+        ]
        ));}});}
   }
 
 cleartable()=>  setState(() =>  _rowList.clear());
 int selectedrow(var id){
-  //  int a;
-  //  for (var item in resultListMap) { print(item['id']);
-  //        a=item['id'];
-  //        if(a==val){
-  //        setState(() { 
-  //         resultListMap.remove(item);
-  //          logbookAllList.remove(item);
-  //          });
-  //       }
-  //     }
+   int a;
+   for (var item in logbookAllList) {
+            a=item['id'];
+         if(a==id){
+         setState(() { logbookAllList.remove(item); });
+        }
+      }
       int x;
-  print ('row to be del $id');
-  print(resultListMap.length); 
-   print(_rowList.length);
- for ( x=0;x<resultListMap.length;x++) {
-   if(id==resultListMap[x]['id']){
-   setState(() {
-     resultListMap.removeAt(x); });
+   print(shortedList.length); 
+   print(id);
+ for ( x=0;x<shortedList.length;x++) {
+   if(id==shortedList[x]['id']){
+   setState(() {  shortedList.removeAt(x); });
    return x;
   }
  }
@@ -231,11 +224,11 @@ int selectedrow(var id){
   /////////////////////////////////////////////////////////////////
 dateRangeCalculation(){  
   var selected ;
-  setState(() { resultListMap.clear();});
+  setState(() { shortedList.clear();});
   for (var item in logbookAllList){
    selected  = DateTime.parse(item['dtOfFlight']);
    if( selected.isAfter(startDate)&& selected.isBefore(endDate)){
-   resultListMap.add(item);
+   shortedList.add(item);
   }
  }
 }
@@ -249,64 +242,47 @@ dateRangeCalculation(){
       for (int b=0;b<logbookAllList.length;b++){
       _rowList.add(
         DataRow( cells: <DataCell>[
-        DataCell(Icon(Icons.edit,color: Colors.deepPurple,),onTap:(){onedit(logbookAllList[b]['id']);},showEditIcon: true ),
-        DataCell( Icon(Icons.delete,color: Colors.red,),
-        onTap:(){
-         int _rowlisttobeRemove= selectedRowId(logbookAllList[b]['id']);
-              print('$_rowlisttobeRemove _rowlisttobeRemove');
-              if(_rowlisttobeRemove!=null)
-              print(_rowList.length);
-              setState(() {
-                 _rowList.removeAt(_rowlisttobeRemove);
-              });
-             setState(() {_rowList.clear(); });
-             _showAllList();
-              // _showAllList();
-               },placeholder: true, showEditIcon: true), 
-       for (int a=2;a<27;a++)
-         DataCell(Text(logbookAllList[b][cellContaintnameToBeInsert[a]])),
-         DataCell( Icon(Icons.delete,color: Colors.red,),
-         onTap:(){
-              // cleartable();
-              // selectedrow(logbookAllList[b]['id']);
+        DataCell( Row(children:[
+          GestureDetector(child:Icon(Icons.edit,color: Colors.deepPurple,),onTap:(){onedit(logbookAllList[b]['id'],logbookAllList[b]['placeOfDeparture']);}, ),
+          SizedBox(width:10),
+          GestureDetector(child:Icon(Icons.delete,color: Colors.red,),
+        onTap:(){ 
+              deleteselectedInBackend(logbookAllList[b]['id']);
+              selectedRowId(logbookAllList[b]['id']);
+              setState(() {_rowList.clear(); });
+              _showAllList();
               // _showAllList();
                },
-        placeholder: true, showEditIcon: true),         
-       ])); }
+             )]
+            ),
+        placeholder: true, ), 
+       for (int a=1;a<cellContaintnameToBeInsert.length;a++)
+         DataCell(Text(logbookAllList[b][cellContaintnameToBeInsert[a]]==null||logbookAllList[b][cellContaintnameToBeInsert[a]]==""?'NA':logbookAllList[b][cellContaintnameToBeInsert[a]].toString())),   
+        ]
+       )
+       ); 
+       }
     });}
   }
 int selectedRowId(var id){
   int x;
-  print ('row to be del $id');
-  print(logbookAllList.length); 
-   print(_rowList.length);
- for ( x=0;x<logbookAllList.length;x++) {
+  for ( x=0;x<logbookAllList.length;x++) {
    if(id==logbookAllList[x]['id']){
-   setState(() {
-      logbookAllList.removeAt(x);
-   });
-
+   setState(() { logbookAllList.removeAt(x); });
    return x;
-   }
- }
+    }
+  }
   return null;
-    // print(item['id']);
-    //     int a=item['id'];
-    //      if(a==id){
-           
-    //        return item.
-//          setState(() { 
-//           resultListMap.remove(item);
-//            logbookAllList.remove(item);
-//           //  print(logbookAllList);
-//             //  _rowList
-//              });
-//         }
-//       }
-  // return 2;
 }
 
-
+_totalRow(){
+  int totallandingday=0,landingNight=0;
+  for (var item in logbookAllList){
+   totallandingday  = totallandingday+item['landingDay'];
+  landingNight = landingNight + item['landingNight'];
+  }
+}
+  // exportpage()=>  Navigator.push( context, MaterialPageRoute(builder: (context) =>ToExcelPage(null)));
 //////////Post////////////////////
 
 
@@ -314,18 +290,47 @@ int selectedRowId(var id){
 void assign(var val){
   logbookAllList=val;
    _showAllList();
+   _totalRow();
 }
 
 ////////////
- Future<List<Null>> deleteloogbooklist() async {
-    final response =await http.delete("http://$ipAddress:8080/dLicence/api/logbookEntry/v1/4",headers: {"Authorization":"$token"});
+ Future<List<Null>> deleteselectedInBackend(int val) async {
+    final response =await http.delete("http://$ipAddress:8080/dLicence/api/logbookEntry/v1/$val",headers: {"Authorization":"$token"});
     print(response.statusCode);
-     if(response.statusCode==200){
-      //  List<dynamic>  logbookList=jsonDecode(response.body);
+     if(response.statusCode==204||response.statusCode==201){
        print('delete id 2 '+response.body.toString());
-        //  assign(logbookList);
+          // onsucesses('Removed entry');
+          // onsucesses('delete');
        }
     } 
+
+Widget _action(BuildContext context) {
+  return PopupMenuButton(
+    icon: Icon(Icons.add),
+    onSelected: (value)async {
+       switch (value){
+        case 0:{
+        Navigator.push( context, MaterialPageRoute(builder: (context) =>RowPage(null)));
+  }break;
+           case 1:{
+          Navigator.push( context, MaterialPageRoute(builder: (context) =>LogBookPage(null)));
+  }
+      break;
+   
+      }// add this property
+    },
+    itemBuilder: (context) => [
+      PopupMenuItem(
+        child: Text("Logbook Entry"),
+        value: 0,
+      ),
+      PopupMenuItem(
+        child: Text("Logbook Total"),
+        value: 1,
+      ), 
+    ],
+  );
+}
 
 ////////////
 ///get
@@ -336,55 +341,28 @@ void assign(var val){
      if(response.statusCode==200){
        List<dynamic>  logbookList=jsonDecode(response.body);
       assign(logbookList);
+      //  onsucesses('Save successfully');
          return 1;
        } 
      else if  (response.statusCode == 500){  return 1;}
-     else{throw Exception('check network connecion');
+     else{return 1;}
      }
-    }
+    
 
 
-List<String>tableHeader=[
-'Action',
-'Delete\nRow',
-'Date of Flight',
-'Place of Departure',
-'Place of Arrival',
-'Make/Model',
-'Name ofPIC',
-'Certificate No',
-'SE/ME',
-'Departure Out',
-'Departure Out UTC',
-'Departure Off',
-'Departure Off UTC',
-'Arrival On',
-'Arrival On UTC',
-'Arrival In',
-'Arrival In UTC',
-'SOLO ','Co-Pilot ','FE','MP','PIC','DUAL','NIGHT','PICUS','FL','IFR','Delete\nRow'];
-   List<String>cellContaintnameToBeInsert=[
-'Action',
-'Delete\nRow',
-'dtOfFlight',
-'placeOfDeparture',
-'placeOfArrival',
-'makemodel',
-'nameOfPic',
-'remarks',
-'seMe',
-'timeOfDepartureOut',
-'timeOfDepartureOutUTC',
-'timeOfDepartureOff',
-'timeOfDepartureOffUTC',
-'timeOfArrivalOn',
-'timeOfArrivalOnUTC',
-'timeOfArrivalIn',
-'timeOfArrivalInUTC',
-'solo','copilot','fe','mp','pic','dual','night','picus','fl','ifr','Delete\nRow'];
- 
+onsucesses(String val){
+   _scaffoldKey.currentState.showSnackBar(
+        SnackBar(elevation: 6.0,
+  backgroundColor: Colors.blue,
+  behavior: SnackBarBehavior.floating,
+        content:
+        Text(val,
+       textAlign: TextAlign.center, style: TextStyle(color: Colors.white, fontSize: 16.0, fontWeight: 
+       FontWeight.bold),),
+        duration: Duration(seconds: 2))
+);
 
-
+}
 ///////////////////////////
 //end
 //////////////////

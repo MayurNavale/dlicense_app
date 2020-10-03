@@ -1,3 +1,5 @@
+import 'package:appdata/examiner/src/dashboard/homepage.dart';
+import 'package:appdata/src/pages/home_page.dart';
 import 'package:appdata/src/pages/signinPage.dart';
 import 'package:flutter/material.dart';
 void  main() => runApp(MyApp());
@@ -7,11 +9,16 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Dlicence',
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(        
-        primaryColor: Color.fromARGB(255, 25,178,238),//Colors.deepPurple,
-        accentColor:Color.fromARGB(255, 25,178,238)
+      theme: ThemeData(                 
+        primaryColor: Colors.blue,//Colors.deepPurple,
+        accentColor:Colors.blue//.fromARGB(255, 25,178,238)
          ),
-      home:LogInPage(),
+          initialRoute: '/login',
+        routes: {
+          '/login': (context) => LogInPage(),
+           '/user': (context) => HomePage(),
+          '/schooladmin': (context) => ExaminerHomeScreen(),
+      },
     );
-  } 
+  }
 }

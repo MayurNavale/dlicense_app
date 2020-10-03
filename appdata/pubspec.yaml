@@ -21,8 +21,9 @@ environment:
   sdk: ">=2.7.0 <3.0.0"
 
 dependencies:
-  json_table: ^1.4.0
+  mask_text_input_formatter: ^1.1.0
   excel: ^1.1.5
+  open_file: ^3.0.1
   timezone:
   flutter_pdfview: ^1.0.3+2
   share_extend:
@@ -36,8 +37,12 @@ dependencies:
   intl: ^0.16.1
   async: ^2.4.1
   lint: ^1.2.0
+  device_info: ^0.4.2+7
   nice_button: ^0.1.7
   date_format: ^1.0.8
+  frideos: ^1.0.1
+  flutter_clean_calendar: ^1.0.2+1
+  horizontal_data_table: ^1.0.6+3
   flutter:
     sdk: flutter
 
@@ -59,7 +64,7 @@ flutter:
     - properties.json
     - 2020a_2015-2025.tzf
     - pplace.json
-    - airline.jpg
+    - airline.png
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   # the material Icons class.

@@ -1,33 +1,30 @@
+// import 'dart:html';
+
 import 'package:appdata/src/models/masterdata.dart';
 import 'package:appdata/src/pages/signinPage.dart';
 import 'package:flutter/cupertino.dart';
+import 'dart:io';
 import 'dart:convert';
 import 'model.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:device_info/device_info.dart';
 
 class RegisterUser extends StatefulWidget {
   @override
   _RegisterUser createState() =>  _RegisterUser();
 }
 class _RegisterUser extends State<RegisterUser> {
-                                bool visibilityTag = false;
-                                 var myFormat = DateFormat('yyyy-MM-dd');
-                                  var myFormadme = DateFormat('dd-MM-yyyy');
-                                final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-                                bool _autoValidate = false;
-                                String languageString;
-                                var dtOfBirth = new TextEditingController();  
-                                bool visibilityclass1 = false;
-                                bool visibilityclass3=false;
+                                bool visibilityTag = false ,_autoValidate = false, visibilityclass1 = false, visibilityclass3=false;
+                                 var myFormat = DateFormat('yyyy-MM-dd'),myFormadme = DateFormat('dd-MM-yyyy');
+                                final GlobalKey<FormState> _formKey = GlobalKey<FormState>();                               
+                                var dtOfBirth = new TextEditingController();                                 
                                 UserClass saveUserData = new UserClass();
                                 UserClass alreadySave = new UserClass();
-                                DateTime date;
-                                String niveaulevel=''; 
+                                DateTime date;                              
                                 int nilevel;
-                                String levelvalueanswer;
-                                String fromjsondata;
+                                String levelvalueanswer ,languageString,uid, fromjsondata , niveaulevel='';                                 
                                 final TextEditingController _controller = new TextEditingController();
                                 Future<void> _selectDate(BuildContext context,var a,TextEditingController datecontroller ) async {
                                     showDatePicker(
@@ -43,7 +40,28 @@ class _RegisterUser extends State<RegisterUser> {
                                 }
 
                                                     String a;
+   
                                                     bool checkboxValue=false;
+Future<String> _getId() async {
+  var deviceInfo = DeviceInfoPlugin();
+  if (Platform.isAndroid) { // import 'dart:io'
+     AndroidDeviceInfo androidDeviceInfo = await deviceInfo.androidInfo;
+   return androidDeviceInfo.androidId; // unique ID on Android
+  } else {
+    IosDeviceInfo iosDeviceInfo = await deviceInfo.iosInfo;
+   return iosDeviceInfo.identifierForVendor; // unique ID on iOS
+   
+  }
+}
+
+  @override
+  void initState() {
+    super.initState();
+    _getId().then((id) {
+  uid = id;
+  print('deviceId$uuid');
+});
+  }                                        
   @override
   Widget build(BuildContext context) {
     return  Scaffold(
@@ -58,7 +76,6 @@ class _RegisterUser extends State<RegisterUser> {
             ),
           ),
         ),
-      
     );
   }
    Widget formUI() {
@@ -101,7 +118,7 @@ class _RegisterUser extends State<RegisterUser> {
   ///////////////
     
   Widget showdata(){
-    return InkWell(onTap: _validateInputs, child:Container(color: CupertinoColors.systemBlue, padding:EdgeInsets.all(10) , height: 60 ,width:  MediaQuery.of(context).size.width, child:Center (child :Text('Register'),)));
+    return InkWell(onTap: _validateInputs, child:Container( color: CupertinoColors.systemBlue, padding:EdgeInsets.all(10) , height: 60 ,width:  MediaQuery.of(context).size.width, child:Center (child :Text('Register'),)));
     
 }
 
@@ -181,10 +198,11 @@ void _validateInputs() {
   ///////////////////
 showuserdata(){
   Role role= Role();
-  role.name='ROLE_APPLICANT';
+  role.name='ROLE_SCHOOL_ADMIN';
   saveUserData.roles=<Role>[role];
-// alreadySave.passportPhoto='photo';
-//   alreadySave.id= '123e4567-e89b-12d3-a456-426655440000';
+  saveUserData.username=uid;
+  saveUserData.createdAt=DateTime.now().toString();
+  saveUserData.updatedAt=DateTime.now().toString();
   String json = userClassToJson(saveUserData);
   print( json);
   sendRequest(json);
@@ -218,24 +236,7 @@ print(url);
               );
   }
 
-
-  var city;
-    var postalcode;
-     var address;
-    var dateOfBirth;
-    var displayName;
-    var email;
-    var firstName;
-    var id;
-    var lastName;
-    var nationality;
-    var passportPhoto;
-    var password;
-    var placeOfBirth;
-    var _status;
-    var telephoneNumber;
-
- ////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////
 }
 ///////////////
 

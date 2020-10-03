@@ -16,7 +16,7 @@ class LanguagePage extends StatefulWidget {
   }
 class _LanguagePage extends State<LanguagePage> {
   LanguageClass language= LanguageClass();
- 
+ final _scaffoldKey = GlobalKey<ScaffoldState>();
   TextEditingController niveaulevelcontroller;
  // TextEditingController _datecontroller =  TextEditingController(); TextEditingController datecontroller =  TextEditingController();
   TextEditingController ba=  TextEditingController();
@@ -32,8 +32,8 @@ class _LanguagePage extends State<LanguagePage> {
   String levelvaluedata="";
   var expirydateofthiscertificate; 
   var dateofthiscertificate;
-  var fouryear;
-  var sixear;
+  DateTime fouryear;
+  DateTime sixear;
   var defauldval;
   
   DateTime date;
@@ -54,28 +54,31 @@ class _LanguagePage extends State<LanguagePage> {
    @override
   Widget build(BuildContext context) {
     return Scaffold(
+          key:_scaffoldKey ,
         appBar:  AppBar( title:  Text('    Language   '), ),
-        body: Center(
-          child: FutureBuilder<int>(
+        body:SingleChildScrollView(child:
+         FutureBuilder<int>(
             future: futurelogbookclass,
             builder: (context, snapshot) {
               if (snapshot.hasData) {
-                return   SingleChildScrollView(
-           child:  Container(
-            margin:  EdgeInsets.all(15.0),
+                return  Container(
+           padding: EdgeInsets.all(3),
+            margin:  EdgeInsets.fromLTRB(10, 7, 10, 0),
             child:  Form(
               key: _formKey,
               autovalidate: _autoValidate,
              child:formUI(),
             ),
-          ),
-        );
+         );
       } else if (snapshot.hasError) { return Text("${snapshot.error}");  }
        // By default, show a loading spinner.
-        return CircularProgressIndicator();
+        return Container(
+          height: 400,
+          alignment: Alignment.center,
+          child:CircularProgressIndicator());
         },
       ),
-     ),
+       )
     );
   }
   Widget formUI() {
@@ -100,7 +103,7 @@ class _LanguagePage extends State<LanguagePage> {
             suffixIcon : Icon(Icons.calendar_today),),
            // hintText: '$dateOfInitialIssue'),
             format: dateFormat,
-            initialValue:checkDate,//DateTime.parse(language.checkDate),
+            initialValue:language.checkDate==null?null:DateTime.parse(language.checkDate),
             onShowPicker: (context, currentValue) {
                           return showDatePicker(
                           context: context,
@@ -108,12 +111,10 @@ class _LanguagePage extends State<LanguagePage> {
                           initialDate:  DateTime.now(),
                           lastDate: DateTime(2100));
                     },
-            validator: (val) {if (val != null) {return null; } else {return 'Date Field is Empty'; }},
-            onChanged: (dt) { setState(() => checkDate = dt);
-                        print('Selected date: $checkDate');
-                         fouryear= dt.add(Duration(days: 1460));
-                         print(fouryear);
-                     sixear= dt.add(Duration(days: 2190));print(sixear);},
+            // validator: (val) {if (val != null) {return null; } else {return 'Date Field is Empty'; }},
+            onChanged: (dt) { setState((){ checkDate = dt;
+                   fouryear= dt.add(Duration(days: 1460));
+                   sixear= dt.add(Duration(days: 2190));print(sixear);});},
             onSaved: (value) {language.checkDate= saveFormat.format(value);value.toString();
               debugPrint(value.toString());},
       );
@@ -124,14 +125,14 @@ class _LanguagePage extends State<LanguagePage> {
   
   Widget _certificateNo() {
    return    TextFormField(
-          initialValue:defaultValue?? language.certificateNumber.toString(),
+          initialValue: language.certificateNumber==null?'':language.certificateNumber.toString(),
           decoration: const InputDecoration(labelText: 'Certificate Number'),
           keyboardType: TextInputType.phone,
           validator: licenseId,
           onSaved: (String val) {
             language.certificateNumber= int.parse(val);
           },
-          onChanged: (String Value){ language.certificateNumber= int.parse(Value);},
+          onChanged: (String value){ language.certificateNumber= int.parse(value);},
         );
   }
   
@@ -146,7 +147,6 @@ class _LanguagePage extends State<LanguagePage> {
    
       ),
               value: findval(language.supportedLanguageId, 1),
-             
               onChanged: (val) => language.supportedLanguageId =  language.supportedLanguageId,
               validator: (value) => value == null ? 'field required' : null,
               items: languagedatalist.map((item) {
@@ -167,8 +167,9 @@ class _LanguagePage extends State<LanguagePage> {
   int nive ;
       Widget _lavels() {
       return DropdownButtonFormField<String>(
+        isDense: true,
               decoration: InputDecoration( labelText:'Lavels  ', hintText:'country Code',),
-              value: findval(language.niveauLevelId, 2).toString(),
+              value: findval(language.niveauLevelId, 2),
               onChanged: (val) {
                     print(val);
                     leveldt( int.parse(val));
@@ -184,19 +185,26 @@ class _LanguagePage extends State<LanguagePage> {
   
       
  Widget _niveaulevel() {
-      return  TextField(
-         decoration: InputDecoration(
-         border: OutlineInputBorder(),
-        labelText: 'Expiry Date :- $levelvaluedata',),);
+      return  Container(
+        alignment: Alignment.centerLeft,  
+            constraints: BoxConstraints.expand(height: 60.0),
+            padding: EdgeInsets.all(10),
+            decoration: BoxDecoration(
+  border: Border.all(
+    color: Colors.black54,
+  ),
+  borderRadius: BorderRadius.circular(10.0),
+),
+       child:Text('Expiry Date :- $levelvaluedata',),);
       }
  Widget showdata(){
     return Row(children: <Widget>[
-      SizedBox(height:100,width:10),
+      SizedBox(height:80,width:90),
       RaisedButton(
             color:Colors.pink,splashColor: Colors.pink[200],
             onPressed:reset,
             child:  Text('Reset'), ),
-      SizedBox(width:3),
+      SizedBox(width:6),
       RaisedButton(
             color:Colors.indigo[400],splashColor: Colors.indigo[200],
             onPressed: _validateInputs,
@@ -228,7 +236,7 @@ void reset() => _formKey.currentState.reset();
   if (_formKey.currentState.validate()) {
 //    If all data are correct then save data to out variables
     _formKey.currentState.save();
-    shoe(language);
+    shoe();
   } else {
 //    If all data are not valid then start auto validation.
     setState(() {
@@ -238,65 +246,39 @@ void reset() => _formKey.currentState.reset();
 }
  ///////////////////////
 leveldt(int a){
+ setState(() {
  switch( a){
    case 1: levelvaluedata=levelvalue(1); break; 
    case 2: levelvaluedata=levelvalue(2);break; 
    case 3: levelvaluedata=levelvalue(3);break; 
-   case 4: levelvaluedata=fouryear.toString();break; 
-   case 5:  levelvaluedata= sixear.toString();break; 
+   case 4: levelvaluedata=showformmat.format(fouryear).toString();break; 
+   case 5:  levelvaluedata=showformmat.format( sixear).toString();break; 
    case 6: levelvaluedata= levelvalue(6); break; 
    default: { } break; 
-  }  
+  } 
+    
+ }); 
 }
  String levelvalue(int a){
-  a--;
-  for(int dat=0;dat<=niveauleveldatalist.length;dat++){
-      if (dat==a){levelvalueanswer= niveauleveldatalist[dat]['level'];
-      break; }} 
-  return levelvalueanswer;  
+  a--; 
+ return niveauleveldatalist[a]['level']; 
 }
 
-
+int val;
   String findval(int a, int casevalue) {
+    if(casevalue==null)return defauldval;
     switch (casevalue) {
-      case 1:{int val = a;val--;
-            if(a==0){return defauldval;}else{
-            for (int dat = 0; dat <= languagedatalist.length; dat++) {
-              if (dat == val) {return languagedatalist[dat]['language'];
-              }
-            }
-          }
-        } break;
-      case 2:
-        {
-          int val = a;val--;
-          if(a==0){return defauldval;}else{
-          for (int dat = 0; dat <= niveauleveldatalist.length; dat++) {
-            if (dat == val) {
-              String level= niveauleveldatalist[dat]['id'].toString();
-             return level;
-            }
-          }
-           } //  iions= countriesdatalist[dat]['code'];
+      case 1:{ val = a;val--;
+            if(a==0)return defauldval;
+            else return languagedatalist[val]['language'];
+            } break;
+      case 2: {
+         val = a;val--;
+          if(a==0)  return defauldval;
+          else return niveauleveldatalist[val]['id'].toString();
         }
         break;
-
-        //  levelvaluedata=levelvalue(2);
-
         
-      case 3:
-        {
-          // int val = a;
-          // val--;
-          //  if(a==0){return contries;}else{
-          // for (int dat = 0; dat <= languagedatalist.length; dat++) {
-          //   if (dat == val) {
-          //     print(languagedatalist[dat]['countryName']);
-          //    return languagedatalist[dat]['countryName'];
-          //   }}
-          // } // levelvaluedata=levelvalue(3);
-        }
-    break;
       default:
         {
          return null; //statements;
@@ -306,11 +288,10 @@ leveldt(int a){
     return defauldval;
   }
 
-shoe(
- LanguageClass postLanguagedata)
-{
- String json = welcomeToJson(postLanguagedata);
- print( json);
+shoe(){
+  language.id=1;
+ String json = jsonEncode(language);
+ sendRequest( json);
 
 }
   ////////////////////
@@ -318,50 +299,77 @@ shoe(
 /////////////////
 
 Future<int> getlicencddata() async {
-      
-  final response = await http.get('http://$ipAddress:8080/dLicence/api/license/v1/$savelicencdId/languagedata');
-
-  if (response.statusCode == 200) {
+  var url='http://$ipAddress:8080/dLicence/api/license/v1/$savelicencdId/languagedata';
+  // print(url);      
+  final response = await http.get(url, headers: {"Authorization":"$token"},);
+ if (response.statusCode == 200) {
+   print(response.statusCode);
       print(json.decode(response.body));
        language =LanguageClass.fromJson(json.decode(response.body));
-       //_onSuccessResponse();
-     return 1; } 
-     else if  (response.statusCode == 500){defaultValue=''; return 1;}
-    else throw Exception('check network connecion');
+       fordatecalcilation(language.checkDate);
+         leveldt(language.niveauLevelId);
+     return 1; 
+     } else{
+    //  else if  (response.statusCode == 500,){
+       
+       defaultValue=''; return 1;}
+    // else {defaultValue=''; return 1;}
  }
 
-void assign(String checkdata){
-   checkDate= DateTime.parse(checkdata);}
+
+
+void fordatecalcilation(String checkdata){
+   checkDate= DateTime.parse(checkdata);
+   fouryear= checkDate.add(Duration(days: 1460));
+   sixear= checkDate.add(Duration(days: 2190));
+ 
+   }
 sendRequest( String data) async {
   ///////////////////////////////post////////////
 var url = 'http://$ipAddress:8080/dLicence/api/license/v1/$savelicencdId/languagedata';
-    http.post(url, headers: {"Content-Type": "application/json"}, body: data)
+    http.post(url,headers: {"Content-Type": "application/json","Authorization":"$token"}, body: data)
         .then((response) {
       print("Response status: ${response.statusCode}");
-    //  print("Response body: ${response.body}");
+     print("Response body: ${response.body}");
     // final String res = response.body;
       final int statusCode = response.statusCode;
 
-      if (statusCode < 200 || statusCode > 400 || json == null) {
-        throw Exception("Error while fetching data");
+      if (statusCode == 200 || statusCode == 201 ) {
+        onsucesses('Save successfully'); 
       } else {
-        
+         
 // Find the Scaffold in the widget tree and use it to show a SnackBar.
-Scaffold.of(context).showSnackBar(snackBar);
+// Scaffold.of(context).showSnackBar(snackBar);
         //  print(json.decode(res));
         // Map data=json.decode(res);
         //  language=LanguageClass.fromJson(data);
-      }
-    });
+      
+         } });
 
    
   }
   final snackBar = SnackBar(content: Text('Save Sucessefull'));
+    
+onsucesses(String val){
+   _scaffoldKey.currentState.showSnackBar(
+        SnackBar(elevation: 6.0,
+  backgroundColor: Colors.blue,
+  behavior: SnackBarBehavior.floating,
+        content:  Text(val,
+       textAlign: TextAlign.center, style: TextStyle(color: Colors.white, fontSize: 16.0, fontWeight: 
+       FontWeight.bold),),
+        duration: Duration(seconds: 3))
+);
+
+}
 
 
   /////////////////end///////////
      }  
   
+
+
+
 
 
 

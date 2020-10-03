@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 String uuid,savelicencdId,ipAddress,token;
-
+var sizebox=SizedBox(height:2,child:Container(color: Colors.grey[400],));
+var sizeboxblue=SizedBox(height:2,child:Container(color: Colors.blue[400],));
+DateTime dateOfInitial,firstdate=DateTime(1900), lastDate= DateTime(2100);
 
 List<Map<String, dynamic>>  countriesdatalist=[],
                             licenseclassdatalist=[],

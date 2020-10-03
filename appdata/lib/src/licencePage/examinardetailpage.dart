@@ -29,7 +29,19 @@ var examinerType;
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
-          Text('Examiner ${cards.length + 1}'),
+          Stack(
+            alignment:Alignment.center ,
+            children: <Widget>[
+            Container(
+            alignment:Alignment.topRight ,
+             height: 40,
+            color: Colors.grey[300],
+            child:GestureDetector(child: Icon(Icons.delete, color: Colors.black45, size: 30.0,),
+                 onTap:()=> setState(() => cards.remove(--cards.length)), 
+              ), ),
+              Text('Examiner'),
+              ]),
+          
           DropdownButtonFormField<String>(
             decoration: InputDecoration(
               labelText: ' Examiner * ',
@@ -113,8 +125,12 @@ var examinerType;
   Widget build(BuildContext context) {
     return Scaffold(
        appBar: new AppBar(
-          
           title: new Text(' Examiner'),
+           actions: [
+            GestureDetector(child: CircleAvatar( radius: 26.0,  backgroundColor: Colors.red, child: Icon(Icons.plus_one, color: Colors.white),),
+           onTap:  () => setState(() => cards.add(createCard(0,''))),
+            )
+          ],
         ),
       body: Column(
         children: <Widget>[
@@ -126,21 +142,21 @@ var examinerType;
               },
             ),
           ),
-         Row(
-        children: <Widget>[  Padding(
-            padding: const EdgeInsets.all(6.0),
-            child: RaisedButton(
-              child: Text('add new'),
-              onPressed: () => setState(() => cards.add(createCard(0,''))),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(6.0),
-            child: RaisedButton(
-              child: Text('remove '),
-              onPressed: () => setState(() => cards.remove(--cards.length)),
-            ),
-          )]),
+        //  Row(
+        // children: <Widget>[  Padding(
+        //     padding: const EdgeInsets.all(6.0),
+        //     child: RaisedButton(
+        //       child: Text('add new'),
+        //       onPressed: () => setState(() => cards.add(createCard(0,''))),
+        //     ),
+        //   ),
+        //   Padding(
+        //     padding: const EdgeInsets.all(6.0),
+        //     child: RaisedButton(
+        //       child: Text('remove '),
+        //       onPressed: () => setState(() => cards.remove(--cards.length)),
+        //     ),
+        //   )]),
         ],
       ),
       floatingActionButton:

@@ -7,26 +7,33 @@ String userClassToJson(UserClass data) => json.encode(data.toJson());
 
 class UserClass {
     UserClass({
-        this.address='walunj',
-        this.dateOfBirth='2020-01-01',
-        this.displayName='MSN',
-        this.email='mayurnavale97@gmail.com',
-        this.enabled=true,
-        this.firstName='nikhil',
-        this.id='',
-        this.lastName='navale',
-        this.nationality='indian',
-        this.passportPhoto='address',
-        this.password='pass',
-        this.placeOfBirth='saswad',
-        this.roles,
-        this.status='active',
-        this.telephoneNumber=23467,
-        this.token='APPLICANT',
-        this.username='25ef5d3f-84ca-4771-b072-e2d3edbe6963',
+         this.address='walunj',
+         this.city='pune',
+         this.createdAt,
+         this.dateOfBirth='1996-08-02',
+         this.displayName='msn',
+         this.email='tanaka@gmail.com',
+         this.enabled=true,
+         this.firstName='mayur',
+         this.id='',
+         this.lastName='navale',
+         this.nationality='indian',
+         this.passportPhoto='',
+         this.password='password',
+         this.pincode=412303,
+         this.placeOfBirth='saswad',
+         this.roles,
+         this.status='single',
+         this.telephoneNumber=123467,
+         this.token='',
+         this.updatedAt,
+         this.username,
+         this.version=0,
     });
- 
+
     String address;
+    String city;
+    String createdAt;
     String dateOfBirth;
     String displayName;
     String email;
@@ -37,15 +44,20 @@ class UserClass {
     String nationality;
     String passportPhoto;
     String password;
+    int pincode;
     String placeOfBirth;
     List<Role> roles;
     String status;
     int telephoneNumber;
     String token;
+    String updatedAt;
     String username;
+    int version;
 
     factory UserClass.fromJson(Map<String, dynamic> json) => UserClass(
         address: json["address"],
+        city: json["city"],
+        createdAt: json["createdAt"],
         dateOfBirth: json["dateOfBirth"],
         displayName: json["displayName"],
         email: json["email"],
@@ -56,16 +68,21 @@ class UserClass {
         nationality: json["nationality"],
         passportPhoto: json["passportPhoto"],
         password: json["password"],
+        pincode: json["pincode"],
         placeOfBirth: json["placeOfBirth"],
         roles: List<Role>.from(json["roles"].map((x) => Role.fromJson(x))),
         status: json["status"],
         telephoneNumber: json["telephoneNumber"],
         token: json["token"],
+        updatedAt: json["updatedAt"],
         username: json["username"],
+        version: json["version"],
     );
 
     Map<String, dynamic> toJson() => {
         "address": address,
+        "city": city,
+        "createdAt": createdAt,
         "dateOfBirth": dateOfBirth,
         "displayName": displayName,
         "email": email,
@@ -76,19 +93,22 @@ class UserClass {
         "nationality": nationality,
         "passportPhoto": passportPhoto,
         "password": password,
+        "pincode": pincode,
         "placeOfBirth": placeOfBirth,
         "roles": List<dynamic>.from(roles.map((x) => x.toJson())),
         "status": status,
         "telephoneNumber": telephoneNumber,
         "token": token,
+        "updatedAt": updatedAt,
         "username": username,
+        "version": version,
     };
 }
 
 class Role {
     Role({
-        this.id=0,
-        this.name='ROLE_APPLICANT',
+         this.id=0,
+         this.name='ROLE_APPLICANT',
     });
 
     int id;

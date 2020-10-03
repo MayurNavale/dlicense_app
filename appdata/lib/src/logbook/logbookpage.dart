@@ -2,22 +2,35 @@
 
 import 'dart:convert';
 import 'modal.dart';
+
+import 'package:intl/intl.dart';
+import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:appdata/src/models/masterdata.dart';
-//import 'package:flutter/material.dart;
-// import 'package:flutter_validate/flutter_validate.dart';
+import 'package:appdata/src/logbookModule/logbookModulePage.dart';
 
 class LogBookPage extends StatefulWidget {
+  var selected_entryId;
+ LogBookPage( this.selected_entryId);
   @override
-  _LogBookPage createState() =>  _LogBookPage();
+  State<StatefulWidget> createState(){return _LogBookPage( this.selected_entryId);}
   }
 class _LogBookPage extends State<LogBookPage> {
  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+ var selected_entryid;
+_LogBookPage( this.selected_entryid);
  bool _autoValidate = false;
+ 
+final FocusNode _ageFocus = FocusNode();  
+final FocusNode _heightFocus = FocusNode();  
+final FocusNode _weightFocus = FocusNode();
  String languageString;
- Logbook logbookdata= Logbook();
+  var saveformmat = DateFormat("yyyy-MM-dd");
+ LoogBookModuleClass logbookdata=new LoogBookModuleClass();
+//  Logbook logbookdata= Logbook();
  String initialnumdata;
+ final _scaffoldKey = GlobalKey<ScaffoldState>();
 //    final totalLandingNight =  TextEditingController();
 // totalLandingNight.addListener(() {logbookdata.totalLandingNight=totalLandingNight.text});
     bool visibilityTag = false;
@@ -28,9 +41,10 @@ class _LogBookPage extends State<LogBookPage> {
   @override
   void initState() {
     super.initState();
-  futurelogbookclass = getlicencddata();
- //print(apiLicencddata.licenseNumber);
-  }
+    if(selected_entryid!=null)
+  futurelogbookclass = getlicencddata(selected_entryid);
+ else futurelogbookclass= defaultvalue();
+}
  String a;
  bool checkboxValue=false;
   @override
@@ -41,7 +55,9 @@ class _LogBookPage extends State<LogBookPage> {
           
           title:  Text('    Logbook   '),
         ),
-        body: Center(
+         key:_scaffoldKey ,
+        body: SafeArea(
+          child:Center(
           child: FutureBuilder<int>(
             future: futurelogbookclass,
             builder: (context, snapshot) {
@@ -61,9 +77,10 @@ class _LogBookPage extends State<LogBookPage> {
         return CircularProgressIndicator();
         },
       ),
-   ),
-      );
-  }
+    ),
+  ),
+ );
+}
    Widget formUI() {
        return  Column(
       children:[
@@ -100,233 +117,266 @@ class _LogBookPage extends State<LogBookPage> {
  /////////////////////
  
   //////////////////////
-  
+// var new MaskTextInputFormatter(mask: '## : ## : ##', filter: { "#": RegExp(r'[0-9]') }) = new MaskTextInputFormatter(mask: '## : ## : ##', filter: { "#": RegExp(r'[0-9]') });
+  var totalTimeSinglePilotCtr=new TextEditingController();//text: '23:43');
     Widget _totalTimeSinglePilot() { 
       return TextFormField(
-          initialValue:initialnumdata??logbookdata.totalTimeSinglePilot.toString(),
-          decoration: const InputDecoration(labelText: 'Total time single pilot *'),
+        // controller: totalTimeSinglePilotCtr,
+        inputFormatters: [ new MaskTextInputFormatter(mask: '## : ## : ##', filter: { "#": RegExp(r'[0-9]') })],
+          initialValue: logbookdata.sp==null?'':logbookdata.sp.toString(),
+          decoration: const InputDecoration(
+            labelText: 'Total time single pilot (HH:MM:SS ) *',
+            hintText: 'HH:MM:SS '
+            ),
           keyboardType: TextInputType.phone,
-       //  controller:totalTimeSinglePilot,
-         validator: validNumber,
-          onSaved: (val) => logbookdata.totalTimeSinglePilot=int.parse(val),
+       autovalidate: true,
+       onChanged: (val){
+         logbookdata.sp=val.toString();
+         },
+          textInputAction: TextInputAction.next,
+        focusNode: _ageFocus,
+        onFieldSubmitted: (term){
+          _fieldFocusChange(context, _ageFocus, _heightFocus);
+        },
+          onSaved: (val) => logbookdata.sp=val,
         );
 }
-  
+  _fieldFocusChange(BuildContext context, FocusNode currentFocus,FocusNode nextFocus) {
+    currentFocus.unfocus();
+    FocusScope.of(context).requestFocus(nextFocus);  
+}
 
   ///////////////////////////_totalTimeSinglePilot
   
       Widget _totalTimeMultiPilot () { 
       return TextFormField(
-        initialValue:initialnumdata??logbookdata.totalTimeMultiPilot.toString(),
-        decoration: const InputDecoration(labelText: 'Total time multi pilot *'),
-        keyboardType: TextInputType.phone,
-        // controller:totalTimeMultiPilot,
-         validator: validNumber,
-         onSaved: (val) => logbookdata.totalTimeMultiPilot=int.parse(val),
+         initialValue:logbookdata.mp!=null?logbookdata.mp.toString():'',
+         decoration: const InputDecoration(labelText: 'Total time multi pilot (HH:MM:SS ) *',
+         hintText: 'HH:MM:SS '),
+         inputFormatters: [new MaskTextInputFormatter(mask: '## : ## : ##', filter: { "#": RegExp(r'[0-9]') })],
+      // controller:totalTimeMultiPilot,
+          validator: validNumber,
+          keyboardType: TextInputType.phone,
+          onSaved: (val) => logbookdata.mp=val,
         );
 }
   
   ///////////////
     Widget _totalTimeFlights() { 
        return TextFormField(
-        initialValue:initialnumdata??logbookdata.totalTimeFlights.toString(),
-          decoration: const InputDecoration(labelText: 'Total time of flight *'),
+          initialValue:logbookdata.totalTimeFlights!=null?logbookdata.totalTimeFlights.toString():'',
+          decoration: const InputDecoration(labelText: 'Total time of flight (HH:MM:SS ) *'),
           keyboardType: TextInputType.phone,
+          inputFormatters: [ new MaskTextInputFormatter(mask: '## : ## : ##', filter: { "#": RegExp(r'[0-9]') })],
         // controller:totalTimeFlights,
-         validator: validNumber,
-          onSaved: (val) => logbookdata.totalTimeFlights=int.parse(val),
+          validator: validNumber,
+          onSaved: (val) => logbookdata.totalTimeFlights=val,
         );
 }
   
   ///////////////
         Widget _totalTimeairborne() { 
       return TextFormField(
-         initialValue:initialnumdata??logbookdata.totalTimeairborne.toString(),
-          decoration: const InputDecoration(labelText: 'Total time airborne *'),
-          keyboardType: TextInputType.phone,
+         initialValue:logbookdata.totalTimeairborne!=null?logbookdata.totalTimeairborne.toString():'',
+          decoration: const InputDecoration(labelText: 'Total time airborne (HH:MM:SS ) *',
+            hintText: 'HH:MM:SS '),
+          keyboardType: TextInputType.phone,inputFormatters: [ new MaskTextInputFormatter(mask: '## : ## : ##', filter: { "#": RegExp(r'[0-9]') })],
         // controller:totalTimeairborne,
-         validator: validNumber,
-          onSaved: (val) => logbookdata.totalTimeairborne=int.parse(val),
+         //validator: validNumber,
+          onSaved: (val) => logbookdata.totalTimeairborne=val,
         );
 }
   
   ///////////////
         Widget _totalLandingDay() { 
       return TextFormField(
-         initialValue:initialnumdata??logbookdata.totalLandingDay.toString(),
-          decoration: const InputDecoration(labelText: 'Total landings day *'),
-          keyboardType: TextInputType.phone,
+         initialValue:logbookdata.landingDay!=null?logbookdata.landingDay.toString():'',
+          decoration: const InputDecoration(labelText: 'Total landings day *',
+            hintText: 'Total landings day'),
+          keyboardType: TextInputType.phone,//inputFormatters: [ new MaskTextInputFormatter(mask: '## : ## : ##', filter: { "#": RegExp(r'[0-9]') })],
         // controller:totalLandingDay,
          validator: validNumber,
-          onSaved: (val) => logbookdata.totalLandingDay=int.parse(val),
+          onSaved: (val) => logbookdata.landingDay=int.parse(val),
         );
 }
-  
   ///////////////
-        Widget _totalLandingNight() { 
+Widget _totalLandingNight() { 
       return TextFormField(
-        initialValue:initialnumdata??logbookdata.totalLandingNight.toString()??"",
-          decoration: const InputDecoration(labelText: 'Total Landing Night *'),
-          keyboardType: TextInputType.phone,
+        initialValue:logbookdata.totalTimeFlights!=null?logbookdata.landingNight.toString():"",
+          decoration: const InputDecoration(labelText: 'Total Landing Night *',
+            hintText: 'Total Landing Night'),
+          keyboardType: TextInputType.phone,//inputFormatters: [ new MaskTextInputFormatter(mask: '## : ## : ##', filter: { "#": RegExp(r'[0-9]') })],
        // controller:totalLandingNight,
          validator: validNumber,
-          onSaved: (val) => logbookdata.totalLandingNight=int.parse(val),
+          onSaved: (val) => logbookdata.landingNight=int.parse(val),
         );
 }
   
   ///////////////
         Widget _totalTakeoffDay() { 
       return TextFormField(
-         initialValue:initialnumdata??logbookdata.totalTakeoffDay.toString(),
-          decoration: const InputDecoration(labelText: 'Total Take off Day *'),
-          keyboardType: TextInputType.phone,
+         initialValue:logbookdata.takeOffDay!=null?logbookdata.takeOffDay.toString():'',
+          decoration: const InputDecoration(labelText: 'Total Take off Day *',
+            hintText: 'Total Take off Day'),
+          keyboardType: TextInputType.phone,//inputFormatters: [ new MaskTextInputFormatter(mask: '## : ## : ##', filter: { "#": RegExp(r'[0-9]') })],
          //controller:totalTakeoffDay,
          validator: validNumber,
-          onSaved: (val) => logbookdata.totalTakeoffDay=int.parse(val),
+          onSaved: (val) => logbookdata.takeOffDay=int.parse(val),
         );
 }
   /////////////  ///////////////
         Widget _totalTakeoffNight() { 
       return TextFormField(
-         initialValue:initialnumdata??logbookdata.totalTakeoffNight.toString(),
-          decoration: const InputDecoration(labelText: 'Total Take off Night *'),
-          keyboardType: TextInputType.phone,
+         initialValue:logbookdata.takeOffNight!=null?logbookdata.takeOffNight.toString():'',
+          decoration: const InputDecoration(labelText: 'Total Take off Night *',
+            hintText: 'HH:MM:SS '),
+          keyboardType: TextInputType.phone,//inputFormatters: [ new MaskTextInputFormatter(mask: '## : ## : ##', filter: { "#": RegExp(r'[0-9]') })],
         // controller:totalTakeoffNight,
          validator: validNumber,
-          onSaved: (val) => logbookdata.totalTakeoffNight=int.parse(val),
+          onSaved: (val) => logbookdata.takeOffNight=int.parse(val),
         );
 }
   
   ///////////////
         Widget _totalTimePic() { 
       return TextFormField(
-         initialValue:initialnumdata??logbookdata.totalTimePic.toString(),
-          decoration: const InputDecoration(labelText: 'Total Time Single PIC*'),
-          keyboardType: TextInputType.phone,
+         initialValue:logbookdata.pic!=null?logbookdata.pic.toString():'',
+          decoration: const InputDecoration(labelText: 'Total Time Single PIC(HH:MM:SS ) *',
+            hintText: 'HH:MM:SS '),
+          keyboardType: TextInputType.phone,inputFormatters: [ new MaskTextInputFormatter(mask: '## : ## : ##', filter: { "#": RegExp(r'[0-9]') })],
        //  controller:totalTimePic,
-         validator: validNumber,
-          onSaved: (val) => logbookdata.totalTimePic=int.parse(val),
+         //validator: validNumber,
+          onSaved: (val) => logbookdata.pic=val,
         );
 }
     ///////////////
         Widget _totalTimeSolo() { 
       return TextFormField(
-         initialValue:initialnumdata??logbookdata.totalTimeSolo.toString(),
-          decoration: const InputDecoration(labelText: 'Total Time SOLO *'),
-          keyboardType: TextInputType.phone,
+         initialValue:logbookdata.solo!=null?logbookdata.solo.toString():'',
+          decoration: const InputDecoration(labelText: 'Total Time SOLO (HH:MM:SS ) *',
+            hintText: 'HH:MM:SS '),
+          keyboardType: TextInputType.phone,inputFormatters: [ new MaskTextInputFormatter(mask: '## : ## : ##', filter: { "#": RegExp(r'[0-9]') })],
     //     controller:totalTimeSolo,
-         validator: validNumber,
-          onSaved: (val) => logbookdata.totalTimeSolo=int.parse(val),
+         //validator: validNumber,
+          onSaved: (val) => logbookdata.solo=val,
         );
 }
   ///////////////
         Widget  _totalTimeSpic(){ 
       return TextFormField(
-         initialValue:initialnumdata??logbookdata.totalTimeSpic.toString(),
-          decoration: const InputDecoration(labelText: 'Total Time SPIC *'),
-          keyboardType: TextInputType.phone,
+         initialValue:logbookdata.spic!=null?logbookdata.spic.toString():'',
+          decoration: const InputDecoration(labelText: 'Total Time SPIC (HH:MM:SS ) *',
+            hintText: 'HH:MM:SS '),
+          keyboardType: TextInputType.phone,inputFormatters: [ new MaskTextInputFormatter(mask: '## : ## : ##', filter: { "#": RegExp(r'[0-9]') })],
         // controller:totalTimeSpic,
-         validator: validNumber,
-          onSaved: (val) => logbookdata.totalTimeSpic=int.parse(val),
+         //validator: validNumber,
+          onSaved: (val) => logbookdata.spic=val,
         );
 }
   
   ///////////////
         Widget  _totalTimePicus () { 
       return TextFormField(
-         initialValue:initialnumdata??logbookdata.totalTimePicus.toString(),
-          decoration: const InputDecoration(labelText: 'Total Time PICUS *'),
-          keyboardType: TextInputType.phone,
+         initialValue:logbookdata.picus!=null?logbookdata.picus.toString():'',
+          decoration: const InputDecoration(labelText: 'Total Time PICUS (HH:MM:SS ) *',
+            hintText: 'HH:MM:SS '),
+          keyboardType: TextInputType.phone,inputFormatters: [ new MaskTextInputFormatter(mask: '## : ## : ##', filter: { "#": RegExp(r'[0-9]') })],
        //  controller:totalTimePicus,
-         validator: validNumber,
-          onSaved: (val) => logbookdata.totalTimePicus=int.parse(val),
+         //validator: validNumber,
+          onSaved: (val) => logbookdata.picus=val,
         );
 }
   
   ///////////////
         Widget  _totalTimeCoPilot() { 
       return TextFormField(
-         initialValue:initialnumdata??logbookdata.totalTimeCoPilot.toString(),
-          decoration: const InputDecoration(labelText: 'Total Time CO-PILOT *'),
-          keyboardType: TextInputType.phone,
+         initialValue:logbookdata.copilot!=null?logbookdata.copilot.toString():'',
+          decoration: const InputDecoration(labelText: 'Total Time CO-PILOT(HH:MM:SS ) *',
+            hintText: 'HH:MM:SS '),
+          keyboardType: TextInputType.phone,inputFormatters: [ new MaskTextInputFormatter(mask: '## : ## : ##', filter: { "#": RegExp(r'[0-9]') })],
        //  controller:totalTimeCoPilot,
-         validator: validNumber,
-          onSaved: (val) => logbookdata.totalTimeCoPilot=int.parse(val),
+         //validator: validNumber,
+          onSaved: (val) => logbookdata.copilot=val,
         );
 }
   
   ///////////////
         Widget  _totalTimeDual() { 
       return TextFormField(
-         initialValue:initialnumdata??logbookdata.totalTimeDual.toString(),
-          decoration: const InputDecoration(labelText: 'Total Time DUAL *'),
-          keyboardType: TextInputType.phone,
+         initialValue:logbookdata.duall!=null?logbookdata.duall.toString():'',
+          decoration: const InputDecoration(labelText: 'Total Time DUAL(HH:MM:SS ) *',
+            hintText: 'HH:MM:SS '),
+          keyboardType: TextInputType.phone,inputFormatters: [ new MaskTextInputFormatter(mask: '## : ## : ##', filter: { "#": RegExp(r'[0-9]') })],
       //   controller:totalTimeDual,
-         validator: validNumber,
-          onSaved: (val) => logbookdata.totalTimeDual=int.parse(val),
+         //validator: validNumber,
+          onSaved: (val) => logbookdata.duall=val,
         );
 }
   
   ///////////////
         Widget _totalTimeFI() { 
       return TextFormField(
-         initialValue:initialnumdata??logbookdata.totalTimeFi.toString(),
-          decoration: const InputDecoration(labelText: 'Total Time FI *'),
-          keyboardType: TextInputType.phone,
+         initialValue:logbookdata.fl!=null?logbookdata.fl.toString():'',
+          decoration: const InputDecoration(labelText: 'Total Time FL (HH:MM:SS ) *',
+            hintText: 'HH:MM:SS '),
+          keyboardType: TextInputType.phone,inputFormatters: [ new MaskTextInputFormatter(mask: '## : ## : ##', filter: { "#": RegExp(r'[0-9]') })],
         // controller:totalTimeFI,
-        validator: validNumber,
-          onSaved: (val) => logbookdata.totalTimeFi=int.parse(val),
+        //validator: validNumber,
+          onSaved: (val) => logbookdata.fl=val,
         );
 }
   
   ///////////////
         Widget  _totalTimeFE() { 
       return TextFormField(
-         initialValue:initialnumdata??logbookdata.totalTimeFe.toString(),
-          decoration: const InputDecoration(labelText: ' Total Time FE *'),
-          keyboardType: TextInputType.phone,
+         initialValue:logbookdata.fe!=null?logbookdata.fe.toString():'',
+          decoration: const InputDecoration(labelText: ' Total Time FE (HH:MM:SS ) *',
+            hintText: 'HH:MM:SS '),
+          keyboardType: TextInputType.phone,inputFormatters: [ new MaskTextInputFormatter(mask: '## : ## : ##', filter: { "#": RegExp(r'[0-9]') })],
         // controller:totalTimeFE,
-         validator: validNumber,
-          onSaved: (val) => logbookdata.totalTimeFe=int.parse(val),
+         //validator: validNumber,
+          onSaved: (val) => logbookdata.fe=val,
         );
 }
 
   ///////////////
         Widget  _totalTimeNight() { 
       return TextFormField(
-         initialValue:initialnumdata??logbookdata.totalTimeNight.toString(),
-          decoration: const InputDecoration(labelText: 'Total Time NIGHT *'),
-          keyboardType: TextInputType.phone,
-       //  controller:totalTimeNight,
-         validator: validNumber,
-          onSaved: (val) => logbookdata.totalTimeNight=int.parse(val),
+         initialValue:logbookdata.night!=null?logbookdata.night.toString():'',
+          decoration: const InputDecoration(labelText: 'Total Time NIGHT (HH:MM:SS ) *',
+            hintText: 'HH:MM:SS '),
+          keyboardType: TextInputType.phone,inputFormatters: [ new MaskTextInputFormatter(mask: '## : ## : ##', filter: { "#": RegExp(r'[0-9]') })],
+       //controller:totalTimeNight,
+         //validator: validNumber,
+          onSaved: (val) => logbookdata.night=val,
         );
 }
-  
   ///////////////
         Widget _totalTimeIFR(){ 
       return TextFormField(
-         initialValue:initialnumdata??logbookdata.totalTimeIfr.toString(),
-          decoration: const InputDecoration(labelText: 'Total Time IFR *'),
-          keyboardType: TextInputType.phone,
+         initialValue:logbookdata.ifr!=null?logbookdata.ifr.toString():'',
+          decoration: const InputDecoration(labelText: 'Total Time IFR (HH:MM:SS ) *',
+            hintText: 'HH:MM:SS '),
+          keyboardType: TextInputType.phone,inputFormatters: [ new MaskTextInputFormatter(mask: '## : ## : ##', filter: { "#": RegExp(r'[0-9]') })],
          //controller:totalTimeIFR,
-         validator: validNumber,
-          onSaved: (val) => logbookdata.totalTimeIfr=int.parse(val),
+         //validator: validNumber,
+          onSaved: (val) => logbookdata.ifr=val,
         );
 }
-  
-    
   ///////////////
         Widget  _totalTimeFSTD() { 
       return TextFormField(
-         initialValue:initialnumdata??logbookdata.totalTimeFstd.toString(),
-          decoration: const InputDecoration(labelText: 'Total Time FSTD *'),
-          keyboardType: TextInputType.phone,
+         initialValue:logbookdata.totalTimeFstd!=null?logbookdata.totalTimeFstd.toString():'',
+          decoration: const InputDecoration(labelText: 'Total Time FSTD (HH:MM:SS ) *',
+            hintText: 'HH:MM:SS '),
+          keyboardType: TextInputType.phone,inputFormatters: [ new MaskTextInputFormatter(mask: '## : ## : ##', filter: { "#": RegExp(r'[0-9]') })],
        //  controller:totalTimeFSTD,
-         validator: validNumber,
-          onSaved: (val) => logbookdata.totalTimeFstd=int.parse(val),
+         //validator: validNumber,
+          onSaved: (val) => logbookdata.totalTimeFstd=val,
         );
 }
+  
+  /////////
   
   /////////////
   
@@ -338,7 +388,7 @@ class _LogBookPage extends State<LogBookPage> {
           SizedBox(height:100,width:20),
       RaisedButton(
           color:Colors.pink,
-          onPressed:reset,
+          onPressed:shoe,//reset,
           child:  Text('Reset'),
           ),
      SizedBox(width:10),
@@ -354,21 +404,11 @@ class _LogBookPage extends State<LogBookPage> {
   ////////////////////////////
   
   String  validNumber(String value) {
-
   if(value == null) 
-    return null;
- 
-  final n = num.tryParse(value);
-  if(n == null) 
-  return '"$value" is not a valid number';
- 
-  return null;
+  return 'Field Required';
 }
-  
-
   /////////////////////////////////////////////////////////////////
    void reset() {
-
    _formKey.currentState.reset();
 }
   void _validateInputs() {
@@ -387,8 +427,12 @@ class _LogBookPage extends State<LogBookPage> {
    
 
 shoe(){
-
- String json = logbookToJson(logbookdata);
+// logbookdata.id=1;
+logbookdata.dtOfFlight=saveformmat.format(DateTime.now());
+// Logbookdemo a=new Logbookdemo();
+// a.id=1;
+logbookdata.userId=uuid;
+ String json = jsonEncode(logbookdata);
  print( json);
 sendRequest(json);
 }
@@ -396,35 +440,46 @@ sendRequest(json);
 /////get
 /////////////////
 
-     Future<int> getlicencddata() async {
-        // return 1;
-  final response = await http.get('http://$ipAddress:8080/dLicence/api/license/v1/$savelicencdId/logBookdata');
-  if (response.statusCode == 200) {
+Future<int> defaultvalue()async{ return 1;}
+
+Future<int> getlicencddata(var id) async {
+  final response = await http.get('http://$ipAddress:8080/dLicence/api/logbookEntry/v1/$id/logBookEntryData',
+   headers: {"Authorization":"$token"},);
+  if (response.statusCode == 200||response.statusCode == 201) {
       print(json.decode(response.body));
-      logbookdata =Logbook.fromJson(json.decode(response.body));
+      logbookdata =LoogBookModuleClass .fromJson(json.decode(response.body));
   return 1; } 
   else if  (response.statusCode == 500){initialnumdata=''; return 1;}
-  else{ throw Exception('check network connecion');}
-
+  else{ initialnumdata=''; return 1;}
+// return 1;
      }
 ///////////////////////////////
-// /post
-  
-sendRequest( String data) async {
-  
-var url = 'http://$ipAddress:8080/dLicence/api/license/v1/$savelicencdId/logBookdata';
-    http.post(url, headers: {"Content-Type": "application/json"}, body: data)
+///post
+ 
+sendRequest( String data) async {  
+var url = 'http://$ipAddress:8080/dLicence/api/logbookEntry/v1/$uuid';print(url);
+    http.post(url, headers: {"Content-Type": "application/json","Authorization":"$token"}, body: data)
         .then((response) {
       print("Response status: ${response.statusCode}");
       final String res = response.body;
       final int statusCode = response.statusCode;
-      if (statusCode < 200 || statusCode > 400 || json == null) {
-        throw Exception("Error while fetching data");
-      } else { print(json.decode(res)); }
-    });
-
-   
+      if (statusCode == 200 || statusCode == 201) 
+       onsucesses('Save successfully');       
+       else  onsucesses('Check Network Connection');
+          }
+     );
   }
+
+  onsucesses(String val){
+   _scaffoldKey.currentState.showSnackBar(
+        SnackBar(elevation: 6.0,
+        backgroundColor: Colors.blue,
+        behavior: SnackBarBehavior.floating, content:
+        Text(val, textAlign: TextAlign.center, style: TextStyle(color: Colors.white, fontSize: 16.0, fontWeight: 
+        FontWeight.bold),),
+        duration: Duration(seconds: 2))
+   );
+ }
  ////////////////////////////////////////////////////////////////////////
 }
 /////////////

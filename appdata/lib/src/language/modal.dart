@@ -7,7 +7,7 @@ class LanguageClass {
     LanguageClass({
         this.certificateNumber,
         this.checkDate,
-        this.id,
+        this.id=0,
         this.licenseId=0,
         this.niveauLevelId=0,
         this.supportedLanguageId=0,

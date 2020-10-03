@@ -4,6 +4,7 @@ import 'package:appdata/src/logbookModule/model.dart';
 import 'package:appdata/src/applyEnroll/applyEnroll.dart';
 import 'package:appdata/src/loogbooktable/loogbooktabelpage.dart';
 import 'package:appdata/src/radiotelephone/radioTelephonePage.dart';
+import 'package:appdata/src/trainingList/trainingListPage.dart';
 import 'package:flutter/material.dart';
 import 'package:appdata/src/medical/medicalpage.dart';
 import 'package:appdata/src/licencePage/licencdhomepage.dart';
@@ -11,10 +12,10 @@ import 'package:appdata/src/language/languagepage.dart';
 
 class NavDrawer extends StatelessWidget {
   var sizebox=SizedBox(width: 40, height:2,child:Container(color: Colors.grey[400],));
-  var textStyle = TextStyle( color: Colors.black, fontSize: 23);
-  List <dynamic>location=[ Licencepagehome(), LanguagePage(),MedicalPage(),RadiotelephonePage(),LogBookPage(),PreviewPageFinal(),RowPage(null),LogbookTable(),CustomDataTable()];
-  List <String> listitems=['Licence','Language','Medical','Radiotelephone','Logbook','Preview','Logbook Entry','Loogbook Table','Apply & Enroll'];
-  List<IconData> icon=[Icons.contact_phone,Icons.language,Icons.plus_one,Icons.ring_volume,Icons.book,Icons.image,Icons.library_books,Icons.table_chart,Icons.table_chart];
+  var textStyle = TextStyle( color: Colors.white, fontWeight: FontWeight.w400, fontSize: 23,letterSpacing:0.9);
+  List <dynamic>location=[ Licencepagehome(), LanguagePage(),MedicalPage(),RadiotelephonePage(),PreviewPageFinal(),RowPage(null),LogbookTable(),LogBookPage(null),ApplyEnrollPage(),TrainingListPage()];
+  List <String> listitems=['Licence','Language','Medical','Radiotelephone','Preview','Logbook Entry','Loogbook Table','Logbook Total','Apply & Enroll','Training'];
+  List<IconData> icon=[Icons.contact_phone,Icons.language,Icons.plus_one,Icons.ring_volume,Icons.image,Icons.library_books,Icons.table_chart,Icons.book,Icons.table_chart,Icons.today];
   @override
   Widget build(BuildContext context) {
     return Drawer(
@@ -27,9 +28,9 @@ class NavDrawer extends StatelessWidget {
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
                   colors: [
-                    Color.fromARGB(255, 25,178,238),
-                    Color.fromARGB(255, 21,236,229),
-                    // Colors.blue[300]
+                    // Color.fromARGB(255, 25,178,238),
+                    // Color.fromARGB(255, 21,236,229),
+                    Colors.blue , Colors.blue
                   ],
                 )
               ),child: ListView(
@@ -44,29 +45,36 @@ class NavDrawer extends StatelessWidget {
       //     color: Colors.blue,
       //   ),
       // ),
-                  SizedBox(height:20,width: 10),
-                 Container(
-                   height: 90, 
-                   color: Color.fromARGB(255, 25,178,238), 
+                  SizedBox(height:30,width: 10),
+                  Container(
+                  //    CircleAvatar(
+                  //    radius: 14.0, 
+                  //  backgroundColor: Colors.grey,
+                  //  child: Icon(Icons.contact_phone, color: Colors.white),),
+                
+                   alignment: Alignment.center,
+                   height: 40, 
+                   color:Colors.blue,// Color.fromARGB(255, 25,178,238), 
                    child: Center(
                      child: Text("  DLICENCE ", 
-                      style: TextStyle( color: Colors.black, 
+                      style: TextStyle( color: Colors.white, 
                       fontSize: 37), ),
                     ),
                  ),
-                  SizedBox(height:6,width: 10),
+                  SizedBox(height:2,width: 10),
               Container(
          
-                  height: ( MediaQuery.of(context).size.height-130),
+                  height: ( MediaQuery.of(context).size.height-80),
                   child:  ListView.builder(
                   itemCount: listitems.length,
                   itemBuilder: (BuildContext ctxt, int index) {
                   return Column( children: <Widget>[ListTile(
                     // shape: DecoratedBox( radius: 0.15,),
-                      leading:Icon(icon[index],color: Colors.black,),
+                      trailing: Icon(Icons.navigate_next,color: Colors.white,),
+                      leading:Icon(icon[index],color: Colors.white,),
                       title: Text(listitems[index], style:textStyle),
                       onTap:() { Navigator.push(context, MaterialPageRoute(builder: (context) => location[index]), );} , ),
-                      SizedBox(width: MediaQuery.of(context).size.width, height:2,child:Container(color: Colors.grey[400],))
+                      // SizedBox(width: MediaQuery.of(context).size.width, height:2,child:Container(color: Colors.grey[400],))
                     
                      ] 
                   );

@@ -1,6 +1,7 @@
 
 
 
+import 'package:appdata/src/licencePage/demo.dart';
 import 'package:appdata/src/licencePage/endorsementDetailsPage.dart';
 import 'package:appdata/src/licencePage/examinardetailpage.dart';
 import 'package:appdata/src/licencePage/instructorpage.dart';
@@ -48,6 +49,7 @@ class _LicencepagehomeState extends State<Licencepagehome> {
                       String licencenumber='';
                       DateTime initialdateval;
                       Future<int>futureLicenceclass;
+                      final _scaffoldKey = GlobalKey<ScaffoldState>();
                       // Future<Album> futureAlbum;
                       //  Future<void> _selectDate(BuildContext context,var a,TextEditingController datecontroller ) async {
   //                 showDatePicker(
@@ -65,6 +67,11 @@ bool visibilityTag=false;
   @override
   void initState() {
     super.initState();
+      dateOfInitialIssue=null;
+      dateofratingtest=null;
+      dateofIRtest=null;
+      validuntil=null;
+     
   futureLicenceclass = getlicencddata();
  print(saveLicenseData.licenseNumber);
   }
@@ -76,7 +83,7 @@ bool visibilityTag=false;
       appBar:  AppBar(title:  Text('Licence'),
        
        actions: <Widget>[_action(context), ]),
-     
+      key:_scaffoldKey ,
        body: Center(
           child: FutureBuilder<int>(
             future: futureLicenceclass,
@@ -127,32 +134,33 @@ bool visibilityTag=false;
            remarkAndRes(), SizedBox(height: 3, child: Container(color: Colors.grey[200],)),
            _additionalDetails(),
             SizedBox(height: 3, child: Container(color: Colors.grey[200],)),
-           FlatButton(
-                child: Text('Instructor          '),
-                onPressed: () async {
-                String inst = await Navigator.push( 
-                context, MaterialPageRoute( builder: (context) =>Instructorpage(instructorapiplist), ), );
-                if (inst != null) {
-                   instructordatafrompage = jsonDecode(inst) as List;
-                   instructorapiplist = instructordatafrompage.map((i)=>Instructorapi.fromJson(i)).toList();} }),
-          FlatButton(
-               child: Text('Examiner        '),
-               onPressed: () async {
-               String resevedExaminer = await Navigator.push( context, MaterialPageRoute( builder: (context) =>ExaminarPage (examinerapiplist), ),);
-               if (resevedExaminer != null) {
-                examinerdatafrompage = jsonDecode(resevedExaminer) as List;
-                examinerapiplist = examinerdatafrompage.map((i)=>Examinerapi.fromJson(i)).toList();
-              print(examinerapiplist);}}),
-          FlatButton(
-              //color:ment Colors.grey[300],
-              child: Text('Endorsement          '),
-              onPressed: () async {
-              String endorsement = await Navigator.push( context, MaterialPageRoute( builder: (context) =>EndorsementPage(endorsementApipList), ), );
-                if (endorsement != null) {
-                endorsementDataFromPage = jsonDecode(endorsement) as List;
-                endorsementApipList = endorsementDataFromPage.map((i)=>EndorsementAPI.fromJson(i)).toList();
-              print(endorsementApipList);} },  ),
-                visibilityTag ? _onDone():  Container(color: Colors.blue[300],),
+          //  FlatButton(
+          //       child: Text('Instructor          '),
+          //       onPressed: () async {
+          //       String inst = await Navigator.push( 
+          //       context, MaterialPageRoute( builder: (context) =>Instructorpage(instructorapiplist), ), );
+          //       if (inst != null) {
+          //          instructordatafrompage = jsonDecode(inst) as List;
+          //          instructorapiplist = instructordatafrompage.map((i)=>Instructorapi.fromJson(i)).toList();} }),
+          // FlatButton(
+          //      child: Text('Examiner 2       '),
+          //      onPressed: () async {
+          //        await Navigator.push( context, MaterialPageRoute( builder: (context) =>DynamicFieldsPage(), ),);
+              //  if (resevedExaminer != null) {
+              // List<Map>  examinerdatafrompagedemo = jsonDecode(resevedExaminer) as List;
+              //   // examinerapiplist = examinerdatafrompagedemo.map((i)=>Examinerapi.fromJson(i)).toList();
+              // print(examinerdatafrompagedemo);}
+              // }),
+          // FlatButton(
+          //     //color:ment Colors.grey[300],
+          //     child: Text('Endorsement          '),
+          //     onPressed: () async {
+          //     String endorsement = await Navigator.push( context, MaterialPageRoute( builder: (context) =>EndorsementPage(endorsementApipList), ), );
+          //       if (endorsement != null) {
+          //       endorsementDataFromPage = jsonDecode(endorsement) as List;
+          //       endorsementApipList = endorsementDataFromPage.map((i)=>EndorsementAPI.fromJson(i)).toList();
+          //     print(endorsementApipList);} },  ),
+          //       visibilityTag ? _onDone():  Container(color: Colors.blue[300],),
            showdata()
         
          ]
@@ -162,10 +170,8 @@ bool visibilityTag=false;
   
    Widget _contries()  {
     return DropdownButtonFormField<String>(
-      decoration: InputDecoration(
-        labelText: ' State of Issue * ',
-      
-      ),
+      decoration: InputDecoration( labelText: ' State of Issue * ',
+       ),
       value: findval( saveLicenseData.stateId,1), //
        onChanged: (String value){saveLicenseData.countryId=saveLicenseData.stateId;
                saveLicenseData.stateId=saveLicenseData.stateId;
@@ -589,13 +595,13 @@ bool visibilityTag=false;
   
   Widget showdata(){
     return Row(children: <Widget>[
-      SizedBox(  height: 39, width: 3, ),
-      RaisedButton(
-              color:Colors.pink,
-              onPressed:(){    print(endorsementDataFromPage);},//,
-              child:  Text('get'),
-              ),
-      SizedBox( width: 3, ),
+      SizedBox(  height: 39, width: 63, ),
+      // RaisedButton(
+      //         color:Colors.pink,
+      //         onPressed:(){    print(endorsementDataFromPage);},//,
+      //         child:  Text('get'),
+      //         ),
+      SizedBox( width: 31, ),
       RaisedButton(
        color:Colors.pink,
           onPressed:reset,
@@ -615,8 +621,8 @@ bool visibilityTag=false;
   Widget _action(BuildContext context) {
   return PopupMenuButton(
     icon: Icon(Icons.more_vert),
-    onSelected: (Value)async {
-       switch (Value){
+    onSelected: (value)async {
+       switch (value){
         case 0:{
         String resevedExaminer = await Navigator.push( context, MaterialPageRoute( builder: (context) =>ExaminarPage (examinerapiplist), ),);
                if (resevedExaminer != null) {
@@ -763,7 +769,7 @@ void postdata(){
 }
 
 
-forLicenceid(var val)=> savelicencdId=val.toString();
+forLicenceidassign(var val)=>setState(() => savelicencdId=val.toString());
     
  void   _onSuccessResponse(api ){
     endorsementDataFromPage=jsonDecode(api)['endorsementDetails']as List;
@@ -773,7 +779,7 @@ forLicenceid(var val)=> savelicencdId=val.toString();
     examinerdatafrompage=jsonDecode(api)['examinerDetails']as List;
      print(examinerdatafrompage);
   //   examinerapiplist=asdfg.map((i)=>Examinerapi.fromJson(i)).toList();
-     List licenseDetaillist=jsonDecode(api)['licenseDetails']as List;
+    List<dynamic>  licenseDetaillist=jsonDecode(api)['licenseDetails']as List;
     print(licenseDetaillist);// licenceDetaillist(licenseDetaillist);
       dateOfInitialIssue= DateTime.parse(saveLicenseData.dtIssue);
       dateofratingtest= DateTime.parse(saveLicenseData.dtRatingtest);
@@ -822,11 +828,14 @@ sendRequest( String data) async {
  var url = 'http://$ipAddress:8080/dLicence/api/license/v1';
     http.post(url, headers: {"Content-Type": "application/json","Authorization":"$token"}, body: data)
         .then((response) {
+          if(response.statusCode==200||response.statusCode==201){
       print("Response status: ${response.statusCode}");
       print("Response body: ${response.body}");
       final forLicenceid = jsonDecode(response.body);
-          forLicenceid(  forLicenceid['id']);
+          forLicenceidassign(forLicenceid['id']);
        print(savelicencdId);
+       onsucesses('Save successfully');
+          }
     });  
 }
 
@@ -836,7 +845,7 @@ sendRequest( String data) async {
 //////////////////
 
     Future<int> getlicencddata() async {
-      var urlLicence='http://$ipAddress:8080/dLicence/public/license/v1/$uuid';
+      var urlLicence='http://$ipAddress:8080/dLicence/api/license/v1/$uuid';
      print(urlLicence);
      final response = await http.get(urlLicence, headers: {"Authorization":"$token"},);
      print(response.statusCode);
@@ -844,7 +853,7 @@ sendRequest( String data) async {
          print(json.decode(response.body));
          String api=response.body;
          saveLicenseData =Licenceclass.fromJson(json.decode(response.body));
-        forLicenceid(saveLicenseData.id);print(saveLicenseData.id);
+        forLicenceidassign(saveLicenseData.id);print(saveLicenseData.id);
          _onSuccessResponse(api);
          return 1; }  
      else if  (response.statusCode == 500){initialnumber='';return 1;}
@@ -854,8 +863,19 @@ sendRequest( String data) async {
 
 
 
+   
+onsucesses(String val){
+   _scaffoldKey.currentState.showSnackBar(
+        SnackBar(elevation: 6.0,
+  backgroundColor: Colors.blue,
+  behavior: SnackBarBehavior.floating,
+        content:  Text(val,
+       textAlign: TextAlign.center, style: TextStyle(color: Colors.white, fontSize: 16.0, fontWeight: 
+       FontWeight.bold),),
+        duration: Duration(seconds: 3))
+);
 
-
+}
 ///////////////////////////
 //end
 //////////////////

@@ -1,25 +1,23 @@
-import 'logbookModulePage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
 import 'package:http/http.dart' as http;
 import 'package:appdata/src/models/masterdata.dart';
 import 'package:timezone/standalone.dart' as tz;
+import 'package:appdata/src/logbookModule/logbookModulePage.dart';
 
-class RowPage extends StatefulWidget {
-  var selected_entryIid;
- RowPage( this.selected_entryIid);
+class FlightHour extends StatefulWidget {
   @override
-  State<StatefulWidget> createState(){return _RowPage( this.selected_entryIid);}
-  }
-  
-class _RowPage extends State<RowPage> {
+  _FlightHourState createState() => _FlightHourState();
+}
+
+class _FlightHourState extends State<FlightHour> {
+
+
   Future<int >futuregetlogbookIdvalue;
   var selected_entryIid;
-_RowPage( this.selected_entryIid);
 LoogBookModuleClass loogBookModule=new LoogBookModuleClass();
 bool _autoValidate = false,readOnlytrue=false;
  final _scaffoldKey = GlobalKey<ScaffoldState>();
@@ -97,12 +95,9 @@ Future<int> defaultvalue()async{ return 1;}
 //  Medical saveMedicalData=new Medical();
  String a;
  bool checkboxValue=false;
-  @override
+   @override
   Widget build(BuildContext context) {
-    return  Scaffold(
-        key:_scaffoldKey ,
-        appBar: new AppBar( title: new Text(' Loogbook entry'),),
-        body: Center(
+    return Center(
           child: FutureBuilder<int>(
             future: futuregetlogbookIdvalue,
             builder: (context, snapshot) {
@@ -122,26 +117,14 @@ Future<int> defaultvalue()async{ return 1;}
         return CircularProgressIndicator();
         },
       ),
-    ),
       );
   }
    Widget formUI() {
        return  Column(
       children:[
             
-           _dateOfFlight(),
-           sizebox,
-           _placeOfDeparture(),
-           sizebox,
-           _placeOfArival(),
-           sizebox,
-           _makeModel(),
-           sizebox,
+          
            nameOfPIC(),
-           sizebox,
-          registrationofAircraft(),
-          sizebox,
-          seme(),
           sizeboxblue,
           _departureout(),
           _departureoutUTC(),
@@ -181,108 +164,6 @@ Future<int> defaultvalue()async{ return 1;}
    }
   //////////////////
   
-  //////////////////////
-  Widget _dateOfFlight() {
-       return DateTimeField(
-         initialValue:selected_entryIid!=null? DateTime.parse(loogBookModule.dtOfFlight):null,
-        //  controller: dtdepartureout,
-            //  dateOnly: true,
-            decoration: InputDecoration(labelText: 'Date of Flight  *',
-            suffixIcon : Icon(Icons.calendar_today),
-           // hintText: '$dateOfInitialIssue'
-           ),
-            format: dateFormatforcheck,
-            //:dateOfInitialIssue,//DateTime.parse(loogBookModule.dtdepartureout),
-            onShowPicker: (context, currentValue) {
-                          return showDatePicker(
-                          context: context,
-                          firstDate: firstdate,
-                          initialDate:  DateTime.now(),
-                          lastDate: lastDate);
-                    },
-            // validator: (val) {if (val != null) {return null; } else {return 'Date Field is Empty'; }},
-            onChanged: (dt) { setState(() => dateOfInitial = dt);
-                        print('Selected date: $dateOfInitial');},
-            onSaved: (value) {loogBookModule.dtOfFlight= saveFormat.format(value);value.toString();
-              debugPrint(value.toString());},
-       );
-  }
-////////////////// 
-Widget _placeOfDeparture()  {
-    return DropdownButtonFormField<String>(
-      decoration: InputDecoration(
-        labelText: ' Place Of Departure * ',
-      
-      ),
-      // value:defaultval,
-      value:selected_entryIid!=null? loogBookModule.placeOfDeparture:null,
-       onChanged: (String newValue){loogBookModule.placeOfArrival=newValue;
-              //  loogBookModule.placeOfDeparture=loogBookModule.placeOfDeparture;
-       },// => setState(() => contries = newValue),
-      // validator: (value) => value == null ? 'field required' : null,
-      onSaved: (val) => loogBookModule.placeOfArrival = val,
-        items: placesdatalistdemo.map((item) {
-            return new DropdownMenuItem(
-              child: new Text(item['placeName']),
-              value: item['placeName'].toString(),
-               onTap: () {
-            print( item['id']);
-            setState(() {
-              departZone= item['placeCode'].toString();
-            });
-
-            // loogBookModule.placeOfDeparture = item['id'];
-          },
-            );
-          }).toList(),
-    );
-  }
-///////////
-Widget _placeOfArival()  {
-    return DropdownButtonFormField<String>(
-      decoration: InputDecoration(
-        labelText: ' Place Of Arival * ',
-      
-      ),
-       value:selected_entryIid!=null? loogBookModule.placeOfArrival:null,
-      // value: findval( loogBookModule.placeOfDeparture,1), //
-       onChanged: (String newValue){loogBookModule.placeOfDeparture=newValue;
-              //  loogBookModule.placeOfDeparture=loogBookModule.placeOfDeparture;
-       },// => setState(() => contries = newValue),
-      validator: (value) => value == null ? 'field required' : null,
-      onSaved: (val) => loogBookModule.placeOfDeparture = val,
-        items: placesdatalistdemo.map((item) {
-            return new DropdownMenuItem(
-              child: new Text(item['placeName']),
-              value: item['placeName'].toString(),
-               onTap: () {
-            print( item['id']);
-            setState(() {
-               arrivalZone = item['placeCode'].toString();
-            }); }, );
-          }).toList(),
-    );
-  }
-  ///////
-
-Widget _makeModel()  {
-    return DropdownButtonFormField<String>(
-      decoration: InputDecoration( labelText: ' Make/Model * ', ),
-      value:selected_entryIid!=null? loogBookModule.makemodel:null,
-       onChanged: (String newValue){loogBookModule.makemodel=newValue.toString();},
-      // validator: (value) => value == null ? 'field required' : null,
-      onSaved: (val) => loogBookModule.makemodel = val,
-        items: makemodeldatalist.map((item) {
-            return new DropdownMenuItem(
-              child: new Text(item['makeModelName'].toString()),
-              value: item['makeModelName'].toString(),
-               onTap: () {
-            // print( item['id']);
-            // arrivalZone = item['id'];
-          }, );
-          }).toList(),
-    );
-  }
   ////////////
 Widget nameOfPIC(){
 return Container(height:70,
@@ -310,35 +191,6 @@ return Container(height:70,
       );
       }
 ///////////
-// //   ///////////////////
-  Widget registrationofAircraft() { 
-  return  TextFormField(
-  
-    initialValue: selected_entryIid!=null? loogBookModule.registrationOfAircraft:'',
-      decoration: const InputDecoration(labelText: 'Registration of aircraft:'),
-      // keyboardType: TextInputType.phone,
-      // validator: licenceNumber,
-        onChanged: (String newValue) => loogBookModule.registrationOfAircraft=newValue,
-      onSaved: (val) => loogBookModule.registrationOfAircraft=val,
-    );
-}
-String defaultSEME='ME';
-//////////////
-Widget seme() { 
-      return ListTile(
-        trailing: Text(' :   $defaultSEME'),
-        leading: Switch(
-           activeColor:Colors.blueAccent[400],
-              value: selected_entryIid!=null? boolseme= loogBookModule.seMe=='false':boolseme,
-            onChanged: (value) {
-              setState(() {
-                 boolseme=value;
-                 defaultSEME.replaceAll(' :   defaultSEME', '  :SE');
-              });
-               loogBookModule.seMe=value.toString(); },),
-        title: Text('SE/ME'),  // trailing: Icon(Icons.more_vert),
-      );}
-    
 //   ////////////////////////
    Widget _departureout() {
     return    TextFormField(

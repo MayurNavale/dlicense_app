@@ -25,36 +25,30 @@ bool visibilityTag=false;
   @override
   void initState() {
   super.initState();
-  futureLicenceclass = getlicencddata();
-  futureMedicalclass=getMedicadata();
+  init();
   }
-
+  init(){
+    getMedicadata();
+    futureLicenceclass = getlicencddata();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
          // backgroundColor: firstColor,
-      appBar: new AppBar(title: new Text('    Preview',style:TextStyle( fontSize: 20,fontStyle: FontStyle.normal)), ),
+      appBar: new AppBar(centerTitle: true, title: new Text('Preview',style:TextStyle( fontSize: 20,fontStyle: FontStyle.normal)), ),
   
-      body: Center(
+      body:  Center(
           child: FutureBuilder<int>(
             future: futureLicenceclass,
-            builder: (context, snapshot) {
-              if (snapshot.hasData) {
-                return   Center(
-          child: FutureBuilder<int>(
-            future: futureMedicalclass,
             builder: (context, snapshot) {
               if (snapshot.hasData) { return   Container(
             margin: new EdgeInsets.all(1.0),
             child:formUI(),); }
          else if (snapshot.hasError) { return Text("${snapshot.error}");  }
-        return CircularProgressIndicator();  }, ),);} 
-        else if (snapshot.hasError) { return Text("${snapshot.error}");  }
-        return CircularProgressIndicator();
-        },
-        ),
-      ),
-   );
+        return CircularProgressIndicator();  }, ),),
+        
+      
+        );    
  }
 
 
@@ -108,55 +102,49 @@ NiceButton(
     reportdata.userId=uuid;
    reportdata.languageCode=savelicencdId;
  String json = welcomeToJson(reportdata);
- print( json);
-  var url = 'http://$ipAddress:8080/dLicence/api/exportReportDataForType';
-    http.post(url, headers: {"Content-Type": "application/json"}, body: json)
+  var url = 'http://$ipAddress:8080/dLicence/public/exportReportDataForType';
+  await  http.post(url, headers: {"Content-Type": "application/json","Authorization":"$token"}, body: json)
     .then((response)async {
    print(response.body);
    var bytes = response.bodyBytes;
       var dir = await getApplicationDocumentsDirectory();
       File fileMedical = File("${dir.path}/medical.pdf");
       urlMedicalFie = await fileMedical.writeAsBytes(bytes);
-    print(dir);
-    print('urlMedicalFie$urlMedicalFie');
-    print('fileMedical$fileMedical');
     assignMedica(urlMedicalFie); 
-  // return 1;
-  });   return 1;
+  return 1;
   }
+  
+  );   return 1; 
+  }
+
 
    Future<int> getlicencddata() async {
     Report reportLicence=new Report();
     reportLicence.reportType='LICENCE';
-    reportLicence.userId='a92a3003-68fc-4a3a-8ad5-cadf450dbccf';
-   reportLicence.languageCode='481';
+    reportLicence.userId=uuid;
+   reportLicence.languageCode=savelicencdId;
  String json = welcomeToJson(reportLicence);
  print( json);
-  var url = 'http://$ipAddress:8080/dLicence/api/exportReportDataForType';
+  var url = 'http://$ipAddress:8080/dLicence/public/exportReportDataForType';
     final filename = 'exportReportDataForType.pdf';
     print(filename);
-    http.post(url, headers: {"Content-Type": "application/json"}, body: json)
+  await  http.post(url, headers: {"Content-Type": "application/json","Authorization":"$token"}, body: json)
     .then((response)async {
    print(response.body);
    var bytes = response.bodyBytes;
       var dir = await getApplicationDocumentsDirectory();
       File file = File("${dir.path}/licence.pdf");
       urlLicenceFile = await file.writeAsBytes(bytes);
-    print(dir);
-    print(urlLicenceFile);
-    print(file);
-    assignLicence(urlLicenceFile);
-    // return 1; 
-   });
- 
-    return 1;
-  
-
-  
-    }
+     assignLicence(urlLicenceFile);
+    return 1; 
+   }
+   );
+    return 1; 
+  }
 void assignLicence(File recive){
   filepathLicence=recive;
     pathOfPDFLicence=recive.path;
+    
 }
 
 void assignMedica(File recive){
@@ -235,8 +223,3 @@ class Report {
         "userId": userId == null ? null : userId,
     };
 }
-
-
-
-
-

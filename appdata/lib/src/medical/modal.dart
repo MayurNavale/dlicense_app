@@ -3,9 +3,9 @@ import 'package:appdata/src/models/masterdata.dart';
 import 'medicalpage.dart';
 
 
-Medical welcomeFromJson(String str) => Medical.fromJson(json.decode(str));
+Medical MedicalFromJson(String str) => Medical.fromJson(json.decode(str));
 
-String welcomeToJson(Medical data) => json.encode(data.toJson());
+String MedicalToJson(Medical data) => json.encode(data.toJson());
 
 class Medical {
     Medical({
@@ -15,16 +15,17 @@ class Medical {
         this.dtExam,
         this.dtExpPrevcert,
         this.dtExpiryC1,
-        this.dtExpiryC1Sp,
+        this.dtExpiryC1sp,
         this.dtExpiryC2,
         this.dtExpiryC3,
         this.dtExpiryClapl,
         this.dtIssue,
         this.id,
-        this.licenseId=0,
+        this.licenseId,
         this.licenseNumber,
-        this.limitationId=0,
-        this.stateId=0,
+        this.limitationId,
+        this.medicalType,
+        this.stateId,
     });
 
     String comments;
@@ -33,7 +34,7 @@ class Medical {
     String dtExam;
     String dtExpPrevcert;
     String dtExpiryC1;
-    String dtExpiryC1Sp;
+    String dtExpiryC1sp;
     String dtExpiryC2;
     String dtExpiryC3;
     String dtExpiryClapl;
@@ -42,44 +43,47 @@ class Medical {
     int licenseId;
     int licenseNumber;
     int limitationId;
+    String medicalType;
     int stateId;
 
     factory Medical.fromJson(Map<String, dynamic> json) => Medical(
-        comments: json["comments"],
-        dtAudiogram: json["dtAudiogram"],
-        dtEcg: json["dtEcg"],
-        dtExam: json["dtExam"],
-        dtExpPrevcert: json["dtExpPrevcert"],
-        dtExpiryC1: json["dtExpiryC1"],
-        dtExpiryC1Sp: json["dtExpiryC1sp"],
-        dtExpiryC2: json["dtExpiryC2"],
-        dtExpiryC3: json["dtExpiryC3"],
-        dtExpiryClapl: json["dtExpiryClapl"],
-        dtIssue: json["dtIssue"],
-        id: json["id"],
-        licenseId: json["licenseId"],
-        licenseNumber: json["licenseNumber"],
-        limitationId: json["limitationId"],
-        stateId: json["stateId"],
+        comments: json["comments"] == null ? null : json["comments"],
+        dtAudiogram: json["dtAudiogram"] == null ? null : json["dtAudiogram"],
+        dtEcg: json["dtEcg"] == null ? null : json["dtEcg"],
+        dtExam: json["dtExam"] == null ? null : json["dtExam"],
+        dtExpPrevcert: json["dtExpPrevcert"] == null ? null : json["dtExpPrevcert"],
+        dtExpiryC1: json["dtExpiryC1"] == null ? null : json["dtExpiryC1"],
+        dtExpiryC1sp: json["dtExpiryC1sp"] == null ? null : json["dtExpiryC1sp"],
+        dtExpiryC2: json["dtExpiryC2"] == null ? null : json["dtExpiryC2"],
+        dtExpiryC3: json["dtExpiryC3"] == null ? null : json["dtExpiryC3"],
+        dtExpiryClapl: json["dtExpiryClapl"] == null ? null : json["dtExpiryClapl"],
+        dtIssue: json["dtIssue"] == null ? null : json["dtIssue"],
+        id: json["id"] == null ? null : json["id"],
+        licenseId: json["licenseId"] == null ? null : json["licenseId"],
+        licenseNumber: json["licenseNumber"] == null ? null : json["licenseNumber"],
+        limitationId: json["limitationId"] == null ? null : json["limitationId"],
+        medicalType: json["medicalType"] == null ? null : json["medicalType"],
+        stateId: json["stateId"] == null ? null : json["stateId"],
     );
 
     Map<String, dynamic> toJson() => {
-        "comments": comments,
-        "dtAudiogram": dtAudiogram,
-        "dtEcg": dtEcg,
-        "dtExam": dtExam,
-        "dtExpPrevcert": dtExpPrevcert,
-        "dtExpiryC1": dtExpiryC1,
-        "dtExpiryC1sp": dtExpiryC1Sp,
-        "dtExpiryC2": dtExpiryC2,
-        "dtExpiryC3": dtExpiryC3,
-        "dtExpiryClapl": dtExpiryClapl,
-        "dtIssue": dtIssue,
-        "id": id,
-        "licenseId": licenseId,
-        "licenseNumber": licenseNumber,
-        "limitationId": limitationId,
-        "stateId": stateId,
+        "comments": comments == null ? null : comments,
+        "dtAudiogram": dtAudiogram == null ? null : dtAudiogram,
+        "dtEcg": dtEcg == null ? null : dtEcg,
+        "dtExam": dtExam == null ? null : dtExam,
+        "dtExpPrevcert": dtExpPrevcert == null ? '' : dtExpPrevcert,
+        "dtExpiryC1": dtExpiryC1 == null ? '' : dtExpiryC1,
+        "dtExpiryC1sp": dtExpiryC1sp == null ? '' : dtExpiryC1sp,
+        "dtExpiryC2": dtExpiryC2 == null ? '' : dtExpiryC2,
+        "dtExpiryC3": dtExpiryC3 == null ? '' : dtExpiryC3,
+        "dtExpiryClapl": dtExpiryClapl == null ? '' : dtExpiryClapl,
+        "dtIssue": dtIssue == null ? null : dtIssue,
+        "id": id == null ? null : id,
+        "licenseId": licenseId == null ? null : licenseId,
+        "licenseNumber": licenseNumber == null ? null : licenseNumber,
+        "limitationId": limitationId == null ? null : limitationId,
+        "medicalType": medicalType == null ? null : medicalType,
+        "stateId": stateId == null ? null : stateId,
     };
 }
 
@@ -97,144 +101,73 @@ List<Map<String, dynamic>> medicaltpedatalist=[
   },
   
 ];
-var medic;
-
-  String findval(int a, int casevalue) {
-    switch (casevalue) {
-      case 1:
-        {
-      
-          int val = a;
-          val--;
-          if(a==0){return medic;}else{
-          for (int dat = 0; dat <= medicaltpedatalist.length; dat++) {
-            if (dat == val) {
-            //  print(countriesdatalist[dat]['countryCode']);
-             return medicaltpedatalist[dat]['type'];
-            }
-          }
-        }
-    }
-        break;
-
-      case 2:
-          {
-      
-          int val = a;
-          val--;
-          if(a==0){return medic;}else{
-          for (int dat = 0; dat <= statedatalist.length; dat++) {
-            if (dat == val) {
-            //  print(countriesdatalist[dat]['countryCode']);
-             return statedatalist[dat]['stateName'];
-            }
-          }
-        }
-    }
-        break;
-
-      //   //  levelvaluedata=levelvalue(2);
-
-        
-      case 3:
-        {
-          int val = a;
-          val--;
-           if(a==0){return medic;}else{
-          for (int dat = 0; dat <= limitationdatalist.length; dat++) {
-            if (dat == val) {
-            //  print(countriesdatalist[dat]['countryName']);
-             return limitationdatalist[dat]['limitation'];
-            }}
-          } // levelvaluedata=levelvalue(3);
-        }
-        break;
-      // case 4:
-      //   {
-      //      int val = a;
-      //     val--;
-      //      if(a==0){return contries;}else{
-      //     for (int dat = 0; dat <= licenseclassdatalist.length; dat++) {
-      //       if (dat == val) {
-      //       //  print(licenseclassdatalist[dat]['className']);
-      //        return licenseclassdatalist[dat]['className'];
-      //       }
-      //     } 
-      //        }  //  levelvaluedata=fourear.toString();
-
-      //   }
-      //   break;
-      // case 5:
-      //   {
-      //     int val = a;
-      //     val--;
-      //     for (int dat = 0; dat <= examinerdatalist.length; dat++) {
-      //       if (dat == val) {
-      //       //  print(examinerdatalist[dat]['examinerType']);
-      //        return examinerdatalist[dat]['examinerType'];
-      //       } //  levelvaluedata= sixear.toString();
-      //   }
-      //   }
-      //   break;
-      // case 6:
-      //   {
-      //     int val = a;
-      //     val--;
-      //   // return instructordatalist[val]['instructorType'];
-      //     for (int dat = 0; dat <= instructordatalist.length; dat++) {
-      //       if (dat == val) {
-      //       //  print(instructordatalist[dat]['instructorType']);
-      //        return instructordatalist[dat]['instructorType'];
-      //       } //  levelvaluedata= sixear.toString();
-      //   } //  levelvaluedata= levelvalue(6);
-      //   }
-      //   break;
-      //  case 7:
-      //   {
-      //     int val = a;
-      //     val--;
-      //   // return instructordatalist[val]['instructorType'];
-      //     for (int dat = 0; dat <= endorsementdatalist.length; dat++) {
-      //       if (dat == val) {
-      //       //  print(endorsementdatalist[dat]['endorsementType']);
-      //        return endorsementdatalist[dat]['endorsementType'];
-      //       } //  levelvaluedata= sixear.toString();
-      //   } //  levelvaluedata= levelvalue(6);
-      //   }
-      //   break;
-      //   case 8:
-      //   {
-      //     int val = a;
-      //     val--;
-      //    if(a==0){return contries;}else{
-      //     for (int dat = 0; dat <= licensetitlesdatalist.length; dat++) {
-      //       if (dat == val) {
-      //       //  print(licensetitlesdatalist[dat]['title']);
-      //        return licensetitlesdatalist[dat]['title'];
-      //       } //  levelvaluedata= sixear.toString();
-      //   } //  levelvaluedata= levelvalue(6);
-      //   }
-      //   }
-      //   break;
-      //   case 9:
-      //   {
-      //     int val = a;
-      //     val--;
-      //     if(a==0){return contries;}else{
-      //     for (int dat = 0; dat <= licensecodesdatalist.length; dat++) {
-      //       if (dat == val) {
-      //         //print(licensecodesdatalist[dat]['code']);
-      //        return licensecodesdatalist[dat]['code'];
-      //       }
-      //     }
-      //      } //  iions= countriesdatalist[dat]['code'];
-      //   }
-      //   break;
-      default:
-        {
-         return null; //statements;
-        }
-        break;
-    }
-    
-  }
+List<Map>limtationHardcoded= [
+      {
+        "id": 1,
+        "limitation": "TML"
+      },
+      {
+        "id": 16,
+        "limitation": "OML"
+      },
+      {
+        "id": 10,
+        "limitation": "OPL"
+      },
+      {
+        "id": 15,
+        "limitation": "RXO"
+      },
+      {
+        "id": 14,
+        "limitation": "SIC"
+      },
+      {
+        "id": 4,
+        "limitation": "VNL"
+      },
+      {
+        "id": 12,
+        "limitation": "OAL"
+      },
+      {
+        "id": 2,
+        "limitation": "VDL"
+      },
+      {
+        "id": 9,
+        "limitation": "OCL"
+      },
+      {
+        "id": 11,
+        "limitation": "SSL"
+      },
+      {
+        "id": 17,
+        "limitation": "OSL"
+      },
+      {
+        "id": 8,
+        "limitation": "APL"
+      },
+      {
+        "id": 13,
+        "limitation": "AHL"
+      },
+      {
+        "id": 3,
+        "limitation": "VML"
+      },
+      {
+        "id": 7,
+        "limitation": "HAL"
+      },
+      {
+        "id": 5,
+        "limitation": "CCL"
+      },
+      {
+        "id": 6,
+        "limitation": "VCL"
+      }
+    ];

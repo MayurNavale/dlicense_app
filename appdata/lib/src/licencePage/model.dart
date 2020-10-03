@@ -286,38 +286,26 @@ class LicenseDetail {
       };
 }
 
-
+int val;
      
   String findval(int a, int casevalue) {
     switch (casevalue) {
       case 1:
         {
-          int val = a;
+           val = a;
           val--;
-          if(a==0){return contries;}else{
-          // for (int dat = 0; dat <= statedatalist.length; dat++) {
-          //   if (dat == val) {
-          //   //  print(countriesdatalist[dat]['countryCode']);
-             return statedatalist[val]['stateName'];
-          //   }
-          // }
-        }
+          if(a==0)return contries;
+          else return statedatalist[val]['stateName'];
     }
         break;
 
       case 2:
         {
-          int val = a;
+           val = a;
           val--;
-          if(a==0){return contries;}else{
-          for (int dat = 0; dat <= licensecodesdatalist.length; dat++) {
-            if (dat == val) {
-            //  print(licensecodesdatalist[dat]['code']);
-             return licensecodesdatalist[dat]['code'];
-            }
-          }
-           } //  iions= countriesdatalist[dat]['code'];
-        }
+          if(a==0){return contries;}
+          else  return licensecodesdatalist[val]['code'];
+         }
         break;
 
         //  levelvaluedata=levelvalue(2);
@@ -325,31 +313,19 @@ class LicenseDetail {
         
       case 3:
         {
-          int val = a;
+           val = a;
           val--;
-           if(a==0){return contries;}else{
-          for (int dat = 0; dat <= countriesdatalist.length; dat++) {
-            if (dat == val) {
-            //  print(countriesdatalist[dat]['countryName']);
-             return countriesdatalist[dat]['countryName'];
-            }}
-          } // levelvaluedata=levelvalue(3);
-        }
+           if(a==0){return contries;}
+           else return countriesdatalist[val]['countryName'];
+      }
         break;
       case 4:
         {
            int val = a;
           val--;
-           if(a==0){return contries;}else{
-          for (int dat = 0; dat <= licenseclassdatalist.length; dat++) {
-            if (dat == val) {
-            //  print(licenseclassdatalist[dat]['className']);
-             return licenseclassdatalist[dat]['className'];
+           if(a==0){return contries;}
+           else return licenseclassdatalist[val]['className'];
             }
-          } 
-             }  //  levelvaluedata=fourear.toString();
-
-        }
         break;
       case 5:
         {
